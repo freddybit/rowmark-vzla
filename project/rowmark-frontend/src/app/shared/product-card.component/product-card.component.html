@@ -48,6 +48,10 @@
                     <p>{{ material }}</p>
                 </li>
                 <li>
+                    <p class="specification">Grosor Lámina</p>
+                    <p>{{ engravingDepth }}</p>
+                </li>
+                <li>
                     <p class="specification">Finalización</p>
                     <p>{{ finish }}</p>
                 </li>
@@ -63,6 +67,10 @@
                     <p class="specification">Capacidades</p>
                     <p>{{ capabilities }}</p>
                 </li>
+                <li>
+                    <p class="specification">Unidades Disponibles</p>
+                    <p>{{ unitsEnabled }}</p>
+                </li>
             </ol>
         </section>
         
@@ -71,15 +79,15 @@
             <ol>
                 <li>
                     <p class="specification">Neto</p>
-                    <p>{{ price }}</p>
+                    <p>{{ price }} Bs.</p>
                 </li>
                 <li class="border-top">
                     <p class="specification">IVA</p>
-                    <p>{{ iva }}</p>
+                    <p>{{ iva }} Bs.</p>
                 </li>
                 <li class="border-top">
                     <p class="specification">Total</p>
-                    <p>{{ price }} + {{ iva }} = {{ totalPrice }}</p>
+                    <p>{{ price }} + {{ iva }} = {{ totalPrice }} Bs.</p>
                 </li>
             </ol>
         </section>

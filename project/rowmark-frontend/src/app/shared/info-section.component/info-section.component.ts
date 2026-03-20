@@ -13,16 +13,12 @@ export class InfoSectionComponent {
   private dolarService = inject(DolarApi);
   euroBs = signal<string>('Cargando...')
 
-  dataEuro = signal<OficialEuro | null>(null);
-  
   errorLoad = signal<string | null>(null);
 
   ngOnInit(): void {
     this.dolarService.getEuroBcv().subscribe({
       next: (data) => {
-        this.dataEuro.set(data);
         this.euroBs.set(data.promedio.toFixed(4));
-        console.log('Datos recibidos:', data);
       },
       error: (err) => {
         this.errorLoad.set('No se pudo obtener la tasa del BCV');

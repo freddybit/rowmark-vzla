@@ -9,4 +9,11 @@ import { ProductCardComponent } from "../product-card.component/product-card.com
 })
 export class CatalogComponent {
 
+  activeSheet: 'full' | 'medium' | 'quarter' = 'full';
+
+  selectSizeSheet(size: 'full' | 'medium' | 'quarter'): void {
+    this.activeSheet = size;
+  }
+
 }
+

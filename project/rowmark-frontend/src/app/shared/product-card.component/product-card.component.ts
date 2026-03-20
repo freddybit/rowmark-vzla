@@ -27,6 +27,8 @@ export class ProductCardComponent implements OnInit {
   @Input() usage: string = '';
   @Input() capabilities: string = '';
   @Input() colors: Array<string> = [];
+  @Input() unitsEnabled: string = '';
+  @Input() engravingDepth: string = '';
   
   price: number = this.priceOne;
   iva: number = this.price * 0.16;

@@ -1,7 +1,7 @@
 article {
     box-sizing: border-box;
     width: 100%;
-    min-height: 30vh;
+    min-height: 35vh;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -25,7 +25,7 @@ section {
     align-items: center;
     gap: 1.5rem;
     padding: 1rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 300ms ease, box-shadow 0.3s ease;
     position: relative;
     overflow: hidden;
 }

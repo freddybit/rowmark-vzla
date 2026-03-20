@@ -1,60 +1,98 @@
-/* Estilos Base / Desktop */
-section {
-    display: flex;
-    flex-direction: column;
-    padding: 2rem 9%;
-    justify-content: center;
-    min-height: 100vh;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: rgba(0, 51, 160, 0.63); 
-}
 
-article {
+div {
     background-image: url('../../../../public/img/background/rowmark_background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    box-shadow: 0 5px 10px #0002636c;
+}
+
+article {
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh; 
+    background-color: rgba(0, 51, 160, 0.63); 
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 5%; 
+    flex: 1 1 50%;
+    min-width: 0; 
+    box-sizing: border-box;
+}
+
+.left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+section img {
+    width: 100%;      
+    max-width: 500px;   
+    height: auto;     
+    object-fit: contain;
+    margin: 0;
+    transition: transform 0.3s ease;
+}
+
+section img:hover {
+    transform: scale(1.05);
 }
 
 h3 {
-    width: 50%;
-    font-size: clamp(2.5rem, 5vw, 6rem); 
+    width: 100%;
+    max-width: 800px;
+    font-size: clamp(3.5rem, 3vw + 1.5rem, 6.5rem); 
     color: #fff;
     margin: 0;
 }
 
 span {
-    width: 45%;
-    font-size: clamp(1.5rem, 3vw, 3.5rem);
+    width: 100%;
+    font-size: clamp(2rem, 2vw + 1rem, 3.5rem); 
+    font-weight: 450;
     padding: 1rem 0;
     line-height: 1.2;
     color: #FBBF24;
     display: block;
+    margin: 0;
 }
 
 p {
-    width: 45%;
-    font-size: 1.2rem;
+    width: 100%;
+    max-width: 800px;
+    font-size: clamp(1.3rem, 1vw + 0.8rem, 1.6rem); 
+    font-weight: 450;
     padding: 1rem 0;
     line-height: 1.6;
     color: #F1F5F9;
+    margin: 0;
 }
 
 a {
     display: inline-flex;
     width: fit-content;  
-    min-width: 180px;    
+    min-width: 200px; 
     height: auto;
     margin: 1.5rem 0 0 0;
-    padding: 1rem 2.5rem; 
+    padding: 1.2rem 3rem; 
     align-items: center;
     justify-content: center;
     background: #F59E0B;
     border-radius: 0.8rem;
     cursor: pointer;
-    font-size: 1.4rem;
+    font-size: clamp(1.4rem, 1vw + 1rem, 1.8rem); 
     color: #0F172A;
     text-decoration: none;
     font-weight: bold;
@@ -68,40 +106,76 @@ a:hover {
 }
 
 @media (max-width: 1024px) {
-    h3, span, p {
-        width: 70%;
-    }
     section {
-        padding: 2rem 5%;
-    }
-}
-
-@media (max-width: 768px) {
-    section {
-        padding: 2rem;
-        text-align: center;
-        align-items: center;
+        padding: 2rem 4%;
     }
 
-    h3, span, p {
-        width: 100%;
-        text-align: center;
-    }
-
+    /* Intervenimos para subir el límite inferior y el multiplicador vw */
     h3 {
-        font-size: 3rem;
+        font-size: clamp(3rem, 6vw, 4.5rem); 
     }
 
     span {
-        font-size: 1.8rem;
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
     }
 
     p {
-        font-size: 1.1rem;
+        font-size: 1.35rem; /* Aumentamos el tamaño base del párrafo para tablets */
+    }
+}
+
+/* Teléfonos móviles */
+@media (max-width: 768px) {
+    article {
+        flex-direction: column; 
+        justify-content: center; 
+        padding-top: 10vh; 
+        box-sizing: border-box; 
+    }
+
+    section {
+        flex: 0 1 auto; 
+        width: 100%;
+        min-height: auto; 
+    }
+
+    .left {
+        padding: 0 2rem 1rem 2rem; 
+        justify-content: center; 
+    }
+
+    .right {
+        padding: 1rem 2rem 2rem 2rem; 
+        align-items: center; 
+        justify-content: center;
+    }
+
+    section img {
+        max-width: 50%; 
+    }
+
+    h3, span, p {
+        text-align: center;
+    }
+
+    /* Restauramos la fluidez pero con límites drásticamente mayores para móvil */
+    h3 {
+        font-size: clamp(2.8rem, 8vw, 3.8rem); 
+    }
+
+    span {
+        font-size: clamp(1.6rem, 6vw, 2.2rem);
+    }
+
+    p {
+        font-size: 1.25rem; 
+        padding: 1.5rem 0; /* Aumentar el padding vertical mejora el ritmo de lectura */
     }
 
     a {
         width: 80%;
+        max-width: 300px;
         font-size: 1.3rem;
+        margin: 1.5rem auto 0 auto;
     }
 }
