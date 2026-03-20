@@ -1,6 +1,7 @@
 {
   "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "destination": "/" }
+    { "src": "/index.html", "dest": "/index.html" },
+    { "src": "/home", "dest": "/" },
+    { "src": "/(.*)", "dest": "/" }
   ]
 }
