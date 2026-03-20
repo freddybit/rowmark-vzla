@@ -1,7 +1,13 @@
 {
-  "routes": [
-    { "src": "/index.html", "dest": "/index.html" },
-    { "src": "/home", "dest": "/" },
-    { "src": "/(.*)", "dest": "/" }
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/(index.html|main-.*.js|styles-.*.css|polyfills-.*.js|.*.png|.*.jpg|.*.svg|.*.ico)",
+      "destination": "/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
