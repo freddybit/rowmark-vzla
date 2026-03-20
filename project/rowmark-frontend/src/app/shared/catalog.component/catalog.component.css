@@ -1,0 +1,87 @@
+article {
+    padding: 10rem 3rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    box-sizing: border-box; /* Previene desbordamientos laterales por el padding de 3rem */
+}
+
+h2 {
+    font-size: 6rem;
+    color: var(--main-color, #000263);
+    text-align: center;
+    margin-bottom: 10rem; /* Separación explícita en lugar de depender del margin-top de section */
+}
+
+section {
+    width: 100%;
+    max-width: 1600px; /* Limita el ancho máximo en monitores ultrawide para no dispersar demasiado las tarjetas */
+    
+    /* CAMBIO CLAVE: De Flexbox a Grid */
+    display: grid;
+    
+    /* Esta línea es "magia responsive". 
+      auto-fit: Crea tantas columnas como quepan.
+      minmax(35rem, 1fr): Cada columna debe medir al menos 35rem (el tamaño de tu tarjeta), 
+      pero si hay espacio extra, se estira equitativamente (1fr).
+    */
+    grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr));
+    
+    /* Controla la separación entre las tarjetas */
+    gap: 8rem; 
+    
+    /* Centra el grid completo si la pantalla es muy grande */
+    justify-content: center;
+    
+    /* Asegura que las tarjetas se centren dentro de sus propias celdas de grid */
+    justify-items: center; 
+}
+
+/* --- MEDIA QUERIES PARA RESPONSIVE --- */
+
+@media screen and (max-width: 1200px) {
+    section {
+        /* En pantallas medianas (laptops pequeñas/tablets horizontales), reducimos un poco el gap */
+        gap: 5rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    article {
+        /* Reducimos el padding general en pantallas más pequeñas */
+        padding: 6rem 2rem;
+    }
+
+    h2 {
+        font-size: 4rem; /* Reducimos el título principal */
+        margin-bottom: 3rem;
+    }
+
+    section {
+        /* Como tu tarjeta baja a width: 100% en el CSS de la propia tarjeta (app-product-card) 
+          durante pantallas pequeñas, aquí le decimos al Grid que permita columnas más pequeñas 
+          que los 35rem originales.
+        */
+        grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+        gap: 4rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    article {
+        padding: 4rem 1.5rem;
+    }
+
+    h2 {
+        font-size: 3rem;
+    }
+
+    section {
+        /* En móviles, forzamos una sola columna que ocupe el 100% del espacio disponible */
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+}

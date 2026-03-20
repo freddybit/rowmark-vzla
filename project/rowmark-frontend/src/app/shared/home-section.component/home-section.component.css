@@ -1,0 +1,107 @@
+/* Estilos Base / Desktop */
+section {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 9%;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: rgba(0, 51, 160, 0.63); 
+}
+
+article {
+    background-image: url('../../../../public/img/background/rowmark_background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+}
+
+h3 {
+    width: 50%;
+    font-size: clamp(2.5rem, 5vw, 6rem); 
+    color: #fff;
+    margin: 0;
+}
+
+span {
+    width: 45%;
+    font-size: clamp(1.5rem, 3vw, 3.5rem);
+    padding: 1rem 0;
+    line-height: 1.2;
+    color: #FBBF24;
+    display: block;
+}
+
+p {
+    width: 45%;
+    font-size: 1.2rem;
+    padding: 1rem 0;
+    line-height: 1.6;
+    color: #F1F5F9;
+}
+
+a {
+    display: inline-flex;
+    width: fit-content;  
+    min-width: 180px;    
+    height: auto;
+    margin: 1.5rem 0 0 0;
+    padding: 1rem 2.5rem; 
+    align-items: center;
+    justify-content: center;
+    background: #F59E0B;
+    border-radius: 0.8rem;
+    cursor: pointer;
+    font-size: 1.4rem;
+    color: #0F172A;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 200ms ease;
+}
+
+a:hover {
+    background-color: #D97706;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+@media (max-width: 1024px) {
+    h3, span, p {
+        width: 70%;
+    }
+    section {
+        padding: 2rem 5%;
+    }
+}
+
+@media (max-width: 768px) {
+    section {
+        padding: 2rem;
+        text-align: center;
+        align-items: center;
+    }
+
+    h3, span, p {
+        width: 100%;
+        text-align: center;
+    }
+
+    h3 {
+        font-size: 3rem;
+    }
+
+    span {
+        font-size: 1.8rem;
+    }
+
+    p {
+        font-size: 1.1rem;
+    }
+
+    a {
+        width: 80%;
+        font-size: 1.3rem;
+    }
+}

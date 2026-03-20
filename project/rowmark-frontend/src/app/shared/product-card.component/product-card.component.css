@@ -1,0 +1,405 @@
+
+article {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 35rem;
+    min-height: 490px; 
+    box-shadow: 1rem 1.5rem 5rem #00026365;
+    border-radius: 3rem;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 1);
+    gap: 15px;
+    box-sizing: border-box; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+article:hover {
+    transform: translateY(-10px); 
+    box-shadow: 0rem 2rem 5rem #000263a1;
+}
+
+.img-area {
+    width: 100%;
+    aspect-ratio: 16 / 9; 
+    border-radius: 2.5rem;
+    overflow: hidden; 
+}
+
+.img-area img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info-area {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+h3 {
+    width: 100%;
+    font-size: 2.2rem;
+    color: var(--main-color);
+}
+
+.description-card  {
+    width: 100%;
+    font-size: 1.3rem; 
+    font-weight: 500;
+    margin-top: 3%;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.usability {
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    padding: 1rem 0;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    font-style: italic;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.info-svg {
+    width: 15px;
+    height: 15px;
+    fill: var(--main-color);
+}
+
+.size-btn-area {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem; 
+    justify-content: center;
+}
+
+.size-btn-area button {
+    flex: 1 1 auto; 
+    min-width: 25%;
+    padding: 0.8rem 1rem; 
+    border-radius: 2rem;
+    background-color: var(--main-color, #000263); 
+    color: #FFFFFF;
+    font-weight: 500;
+    border: none; 
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.size-btn-area button:hover {
+    background-color: #050785;
+    box-shadow: 0 4px 12px rgba(0, 1, 99, 0.2);
+}
+
+.price-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 1.5rem; 
+    margin-top: 1rem;
+    background-color: #a3a3a348;
+    border-radius: 1.5rem;
+    font-weight: 500;
+    box-sizing: border-box;
+}
+
+.price-area p {
+    font-size: 1.7rem;
+    margin: 0;
+    color: var(--main-color);
+}
+
+.footer-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    margin-top: 1rem;
+    padding: 2%;
+    gap: 1rem; 
+}
+
+.footer-area button {
+    width: 4rem;
+    min-height: 4rem;
+    border-radius: 2rem;
+    background-color: var(--main-color, #000263);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-area button svg {
+    width: 24px;
+    height: 24px;
+    fill: #FFFFFF;
+}
+
+.footer-area button:hover {
+    background-color: #050785;
+    box-shadow: 0 4px 12px rgba(0, 1, 99, 0.2);
+}
+
+.footer-area a {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex: 1; /* Para que ocupe todo el espacio sobrante al lado del botón */
+    justify-content: center;
+    align-items: center;
+    background-color: #25D366;
+    border-radius: 1.5rem;
+    transition: 300ms ease;
+    text-decoration: none; 
+    padding: 0.5rem; 
+}
+
+.footer-area a span {
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.footer-area a:hover {
+    background-color: #128C7E;
+}
+
+/* Ventana Modal */
+
+dialog {
+    box-sizing: border-box;
+    margin: auto; 
+    border: none; 
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 700px;
+    max-height: 90vh; 
+    border-radius: 2rem;
+    overflow: hidden; 
+}
+
+dialog[open] {
+    display: flex;
+    flex-direction: column;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5); 
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+dialog .modal-img {
+    flex-shrink: 0; 
+    box-shadow: 0 10px 15px #0002635d;
+    height: 25vh;
+    overflow: hidden;
+}
+
+dialog .modal-img img {
+    width: 100%;
+    /* --- MODIFICADO AQUÍ --- */
+    /* Eliminamos aspect-ratio para que la imagen se adapte a la altura del contenedor padre */
+    height: 100%; 
+    border-radius: 2rem 2rem 0 0; 
+    object-fit: cover; /* Mantiene la proporción de la imagen recortando los lados */
+    display: block; 
+}
+
+dialog > div {
+    padding: 4rem 2rem;
+    overflow-y: auto; 
+}
+
+/* ... (Resto de tus estilos .modal-title, .modal-description, etc., se mantienen IGUAL) ... */
+.modal-title {
+    color: var(--main-color);
+    font-size: 4rem;
+}
+
+.modal-description { 
+    padding: 2rem 0;
+    font-size: 1.5rem;
+    color: rgba(0, 0, 0, 0.6);
+    font-weight: 500; 
+}
+
+.modal-subtitle {
+    font-size: 2.5rem;
+    color: var(--main-color);
+    margin-top: 1rem;
+}
+
+.modal-specifications-list {
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    background-color: #787afd3f;
+    padding: 3rem 2rem;
+    border-radius: 1rem;
+    gap: 5rem;
+}
+
+.modal-specifications-list li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10rem;
+}
+
+.modal-specifications-list li p {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--main-color);
+    text-wrap: unset;
+}
+
+.specification {
+    width: 100%;
+    max-width: 50px;
+}
+
+.modal-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    margin-top: 5rem;
+    gap: 1rem; 
+}
+
+.modal-footer button {
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    border: none; 
+    cursor: pointer;
+    background-color: rgba(216, 0, 0, 0.966);
+    font-weight: 500;
+    color: #FFFFFF;
+}
+
+.modal-footer button svg {
+    fill: #FFFFFF;
+    width: 24px;
+    height: 24px;
+}
+
+.modal-price-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.modal-price-section ol {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    background-color: #a3a3a348;
+    border-radius: 1rem;
+    padding: 2rem;
+    gap: 2rem;
+}
+
+.modal-price-section ol li { 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-price-section ol li p { 
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--main-color);
+}
+
+.modal-price-section ol .border-top { 
+    padding: 1rem 0 0 0;
+    border-top: 1px solid var(--main-color);
+}
+
+.modal-footer a {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: #25D366;
+    border-radius: 1rem;
+    transition: 300ms ease;
+    text-decoration: none; 
+    padding: 0.5rem; 
+    color: #FFFFFF;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+/* --- RESPONSIVE BASICO PARA TU MODAL --- */
+@media screen and (max-width: 480px) {
+    /* --- MODIFICADO AQUÍ --- */
+    dialog .modal-img {
+        height: 20vh; /* Aún más baja en móviles para dejar espacio al texto gigante */
+    }
+
+    dialog > div {
+        padding: 2rem 1.5rem;
+    }
+    .modal-title { font-size: 2.5rem; }
+    .modal-specifications-list { gap: 2.5rem; }
+    .modal-specifications-list li {
+        gap: 2rem;
+        flex-direction: column; 
+        align-items: flex-start;
+    }
+    .modal-footer { flex-direction: column-reverse; }
+}
+
+@media screen and (max-width: 480px) {
+    article {
+        border-radius: 2rem;
+        padding: 15px;
+    }
+
+    h3 {
+        font-size: 1.8rem;
+    }
+
+    .description-card {
+        font-size: 1.1rem;
+    }
+
+    .size-btn-area {
+        flex-direction: column;
+    }
+
+    .size-btn-area button {
+        width: 100%;
+    }
+
+    .price-area p {
+        font-size: 1.4rem;
+    }
+
+    .footer-area {
+        flex-direction: column-reverse; 
+    }
+
+    .footer-area button {
+        width: 100%;
+        border-radius: 1.5rem;
+    }
+}
+
+
