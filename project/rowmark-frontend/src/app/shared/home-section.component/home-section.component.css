@@ -110,7 +110,6 @@ a:hover {
         padding: 2rem 4%;
     }
 
-    /* Intervenimos para subir el límite inferior y el multiplicador vw */
     h3 {
         font-size: clamp(3rem, 6vw, 4.5rem); 
     }
@@ -120,7 +119,7 @@ a:hover {
     }
 
     p {
-        font-size: 1.35rem; /* Aumentamos el tamaño base del párrafo para tablets */
+        font-size: 1.35rem; 
     }
 }
 
@@ -158,7 +157,6 @@ a:hover {
         text-align: center;
     }
 
-    /* Restauramos la fluidez pero con límites drásticamente mayores para móvil */
     h3 {
         font-size: clamp(2.8rem, 8vw, 3.8rem); 
     }
@@ -169,7 +167,7 @@ a:hover {
 
     p {
         font-size: 1.25rem; 
-        padding: 1.5rem 0; /* Aumentar el padding vertical mejora el ritmo de lectura */
+        padding: 1.5rem 0;
     }
 
     a {

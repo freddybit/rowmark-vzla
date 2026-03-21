@@ -76,6 +76,13 @@ export class ProductCardComponent implements OnInit {
     this.totalPrice = Math.round(this.totalPrice * 10000) / 10000;
   }
 
+  sendWhatsAppOrder(productName: string, price: number) {
+    const phoneNumber = '584144260603';
+    const message = `Hola, me interesa el material *${productName}* con un grosor de *${this.engravingDepthDialog}*mm de que vi en el catálogo. El precio es de ${this.totalPrice} Bs. (Tasa BCV: ${this.euro}).`;
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  }
+
   defaultStateComponent(): void {
     try {
         this.price = (this.prices[0] * this.euro);

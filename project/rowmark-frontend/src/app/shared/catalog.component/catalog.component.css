@@ -87,8 +87,6 @@ article {
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* --- MEDIA QUERIES PARA RESPONSIVE --- */
-
 @media screen and (max-width: 768px) {
     article {
         padding: 5rem 2rem;

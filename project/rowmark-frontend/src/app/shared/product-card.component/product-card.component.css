@@ -161,7 +161,7 @@ h3 {
     display: flex;
     flex-direction: row;
     gap: 10px;
-    flex: 1; /* Para que ocupe todo el espacio sobrante al lado del botón */
+    flex: 1;
     justify-content: center;
     align-items: center;
     background-color: #25D366;
@@ -215,11 +215,9 @@ dialog .modal-img {
 
 dialog .modal-img img {
     width: 100%;
-    /* --- MODIFICADO AQUÍ --- */
-    /* Eliminamos aspect-ratio para que la imagen se adapte a la altura del contenedor padre */
     height: 100%; 
     border-radius: 2rem 2rem 0 0; 
-    object-fit: cover; /* Mantiene la proporción de la imagen recortando los lados */
+    object-fit: cover; 
     display: block; 
 }
 
@@ -228,7 +226,6 @@ dialog > div {
     overflow-y: auto; 
 }
 
-/* ... (Resto de tus estilos .modal-title, .modal-description, etc., se mantienen IGUAL) ... */
 .modal-title {
     color: var(--main-color);
     font-size: 4rem;
@@ -353,11 +350,10 @@ dialog > div {
     font-weight: 500;
 }
 
-/* --- RESPONSIVE BASICO PARA TU MODAL --- */
 @media screen and (max-width: 480px) {
     /* --- MODIFICADO AQUÍ --- */
     dialog .modal-img {
-        height: 20vh; /* Aún más baja en móviles para dejar espacio al texto gigante */
+        height: 20vh;
     }
 
     dialog > div {
