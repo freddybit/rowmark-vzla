@@ -41,7 +41,7 @@ article {
     width: 100%;
     max-width: 1600px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 35rem), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); 
     gap: 5rem; 
     justify-content: center;
     justify-items: center; 
@@ -50,7 +50,7 @@ article {
 
 @media screen and (min-width: 1600px) {
     .sheet, .medium-sheet, .quarter-sheet {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
