@@ -6,7 +6,7 @@
 }
 
 header {
-  height: 100px; 
+  height: 80px; 
   position: fixed;
   top: 0; left: 0; right: 0;
   background-color: #ffffff23;
@@ -20,7 +20,7 @@ header {
 }
 
 .logo img {
-  height: 80px;
+  height: 60px;
   width: auto;
   transition: transform 0.3s ease;
 }
