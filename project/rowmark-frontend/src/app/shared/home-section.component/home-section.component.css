@@ -93,7 +93,7 @@ a {
     border-radius: 0.8rem;
     cursor: pointer;
     font-size: clamp(1.4rem, 1vw + 1rem, 1.8rem); 
-    color: #0F172A;
+    color: var(--main-color);
     text-decoration: none;
     font-weight: bold;
     transition: all 200ms ease;

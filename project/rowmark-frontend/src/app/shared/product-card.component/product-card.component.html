@@ -10,9 +10,15 @@
             {{ usability }}
         </p>
         <div class="size-btn-area">
-            <button #btnOne (click)="updatePrice(btnOne)">Lámina</button>
-            <button #btnTwo (click)="updatePrice(btnTwo)">1/2</button>
-            <button #btnThree (click)="updatePrice(btnThree)">1/4</button>
+            <span>Grosor</span>
+
+            @if (oneEngravingDepth()) {
+                <button>{{ engravingDepth[0] }}</button>
+            }
+            @if (!oneEngravingDepth()) {
+                <button (click)="updatePrice('zero')">{{ engravingDepth[0] }}</button>
+                <button (click)="updatePrice('one')">{{ engravingDepth[1] }}</button>
+            }
         </div>
         <div class="price-area">
             <p>Total</p>
@@ -49,10 +55,10 @@
                 </li>
                 <li>
                     <p class="specification">Grosor Lámina</p>
-                    <p>{{ engravingDepth }}</p>
+                    <p>{{ engravingDepthDialog }}</p>
                 </li>
                 <li>
-                    <p class="specification">Finalización</p>
+                    <p class="specification">Acabado</p>
                     <p>{{ finish }}</p>
                 </li>
                 <li>
