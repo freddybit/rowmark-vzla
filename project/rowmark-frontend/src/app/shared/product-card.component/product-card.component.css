@@ -91,7 +91,7 @@ h3 {
 }
 
 .description-area button:hover {
-    background-color: var(--main-color-hover);
+    background-color: #050785;
     box-shadow: 0 4px 12px rgba(0, 1, 99, 0.2);
 }
 
@@ -120,17 +120,20 @@ h3 {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 0.5rem; 
+    gap: 1rem; 
     justify-content: center;
+    background-color: var(--main-color);
+    border-radius: 1rem;
+    padding: 0.5rem;
 }
 
-.size-btn-area button, .size-btn-area span {
+.size-btn-area button {
     flex: 1 1 auto; 
     min-width: fit-content;
     padding: 0.8rem 1rem; 
     border-radius: 2rem;
-    background-color: var(--main-color); 
-    color: #FFFFFF;
+    background-color: #FFFFFF; 
+    color: var(--main-color);
     font-weight: 500;
     border: none; 
     transition: all 0.3s ease;
@@ -139,15 +142,21 @@ h3 {
 .size-btn-area button { cursor: pointer; }
 
 .size-btn-area span {
+    
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: clamp(1.2rem, 3vw, 1.5rem);
+    color: #FFFFFF;
+    padding: 0.8rem 1rem 0.8rem 2rem; 
+    border: none; 
+    font-weight: 500;
 }
 
 .size-btn-area button:hover {
     background-color: var(--main-color-hover);
     box-shadow: 0 4px 12px rgba(0, 1, 99, 0.2);
+    color: #FFFFFF;
 }
 
 .price-area {
