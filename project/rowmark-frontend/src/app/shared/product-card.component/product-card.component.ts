@@ -46,7 +46,7 @@ export class ProductCardComponent implements OnInit {
   }
 
   getCardDescription(): void {
-    if (this.description.length > 90) this.cardDescription = (this.description.slice(0, 90) + '...');
+    if (this.description.length > 90) this.cardDescription = (this.description.slice(0, 80) + '...');
     else this.cardDescription = this.description;
   }
 
