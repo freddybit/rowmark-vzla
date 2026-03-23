@@ -1,0 +1,6 @@
+@rowmark_HostAddress = http://localhost:5008
+
+GET {{rowmark_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
