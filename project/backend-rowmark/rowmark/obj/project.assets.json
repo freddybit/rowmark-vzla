@@ -644,6 +644,22 @@
           }
         }
       },
+      "Scalar.AspNetCore/2.13.18": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0/Scalar.AspNetCore.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Scalar.AspNetCore.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "System.CodeDom/6.0.0": {
         "type": "package",
         "compile": {
@@ -2315,6 +2331,25 @@
         "packageIcon.png"
       ]
     },
+    "Scalar.AspNetCore/2.13.18": {
+      "sha512": "SOe5I8KspXwmcMbey+6G4drRWhCa/ON/ZjyVKfm5FpXvcsCmb9MfiVcKAiQ8UYV+ki3fAaqcCFc5ahzx/NTXOw==",
+      "type": "package",
+      "path": "scalar.aspnetcore/2.13.18",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "icon.png",
+        "lib/net10.0/Scalar.AspNetCore.dll",
+        "lib/net10.0/Scalar.AspNetCore.xml",
+        "lib/net8.0/Scalar.AspNetCore.dll",
+        "lib/net8.0/Scalar.AspNetCore.xml",
+        "lib/net9.0/Scalar.AspNetCore.dll",
+        "lib/net9.0/Scalar.AspNetCore.xml",
+        "scalar.aspnetcore.2.13.18.nupkg.sha512",
+        "scalar.aspnetcore.nuspec"
+      ]
+    },
     "System.CodeDom/6.0.0": {
       "sha512": "CPc6tWO1LAer3IzfZufDBRL+UZQcj5uS207NHALQzP84Vp/z6wF0Aa0YZImOQY8iStY0A2zI/e3ihKNPfUm8XA==",
       "type": "package",
@@ -2536,23 +2571,24 @@
       "Microsoft.EntityFrameworkCore >= 10.0.5",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.5",
       "Microsoft.EntityFrameworkCore.Tools >= 10.0.5",
+      "Scalar.AspNetCore >= 2.13.18",
       "System.IdentityModel.Tokens.Jwt >= 8.17.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\PC\\.nuget\\packages\\": {}
+    "C:\\Users\\Freddy\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\rowmark-vzla\\project\\backend-rowmark\\rowmark\\rowmark.csproj",
+      "projectUniqueName": "C:\\Users\\Freddy\\Documents\\GitHub\\rowmark-vzla\\project\\backend-rowmark\\rowmark\\rowmark.csproj",
       "projectName": "rowmark",
-      "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\rowmark-vzla\\project\\backend-rowmark\\rowmark\\rowmark.csproj",
-      "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\rowmark-vzla\\project\\backend-rowmark\\rowmark\\obj\\",
+      "projectPath": "C:\\Users\\Freddy\\Documents\\GitHub\\rowmark-vzla\\project\\backend-rowmark\\rowmark\\rowmark.csproj",
+      "packagesPath": "C:\\Users\\Freddy\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Freddy\\Documents\\GitHub\\rowmark-vzla\\project\\backend-rowmark\\rowmark\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Freddy\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -2610,6 +2646,10 @@
             "target": "Package",
             "version": "[10.0.5, )"
           },
+          "Scalar.AspNetCore": {
+            "target": "Package",
+            "version": "[2.13.18, )"
+          },
           "System.IdentityModel.Tokens.Jwt": {
             "target": "Package",
             "version": "[8.17.0, )"
@@ -2634,7 +2674,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Users\\Freddy\\.dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
