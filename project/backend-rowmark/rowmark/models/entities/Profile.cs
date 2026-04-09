@@ -9,15 +9,22 @@ public class Profile {
     private string? _lastName;
     private string? _email;
     private string? _hashPassword;
-    private List<Rol>? _roles;
+    private List<Role>? _roles;
 
     private ProfileAdministrator? _profileAdministrator;
     
     // Constructor #1
-    public Profile() {}
+    public Profile() {
+        this._id = 0;
+        this._firstName = "";
+        this._lastName = "";
+        this._email = "";
+        this._hashPassword = "";
+        this._roles = new List<Role>();
+    }
 
     //Constructor #2
-    public Profile(int? id, string? firstName, string? lastName, string? email, string? hashPassword, List<Rol>? roles, ProfileAdministrator? profileAdministrator) {
+    public Profile(int? id, string? firstName, string? lastName, string? email, string? hashPassword, List<Role>? roles, ProfileAdministrator? profileAdministrator) {
         _id = id;
         _firstName = firstName;
         _lastName = lastName;
@@ -31,17 +38,29 @@ public class Profile {
     
     public int? Id {
         get => _id;
-        set => _id = value;
+        set {
+            if (value < 0 || value > 99999999) 
+                throw new Exception("Error: Inscribe un número de cedúla valido");
+            _id = value;
+        }
     }
 
     public string? FirstName {
         get => _firstName;
-        set => _firstName = value;
+        set {
+            if (value == null || value.Length < 2)
+                throw new Exception("Error: Inscribe un nombre valido");
+            _firstName = value;
+        }
     }
 
     public string? LastName {
         get => _lastName;
-        set => _lastName = value;
+        set {
+            if (value == null || value.Length < 2)
+                throw new Exception("Error: Inscribe un apellido valido");
+            _lastName = value;
+        }
     }
 
     public string? Email {
@@ -54,7 +73,7 @@ public class Profile {
         set => _hashPassword = value;
     }
 
-    public List<Rol>? Roles {
+    public List<Role>? Roles {
         get => _roles;
         set => _roles = value;
     }

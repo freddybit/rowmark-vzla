@@ -1,5 +1,10 @@
-﻿namespace rowmark.interfaces;
+﻿using rowmark.models.entities;
 
-public class IRoleRepository {
-    
+namespace rowmark.interfaces;
+
+public interface IRoleRepository {
+    public bool Create(Role? role);
+    public Role? ReadRole(string roleName);
+    public bool Update(Role role);
+    public bool Delete(Role role);
 }

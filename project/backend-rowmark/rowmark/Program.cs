@@ -15,6 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IPasswordHasher<Profile>, BCryptHasher<Profile>>();
+builder.Services.AddScoped<IRoleRepository, RoleRepositoryJson>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepositoryJson>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();

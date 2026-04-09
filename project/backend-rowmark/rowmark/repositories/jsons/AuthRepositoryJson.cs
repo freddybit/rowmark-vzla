@@ -12,12 +12,12 @@ public class AuthRepositoryJson : IAuthRepository {
 
     public AuthRepositoryJson() {
         if (!File.Exists(jsonPath)) profiles = new List<Profile>();
-        profiles = Load(jsonPath);
+        profiles = Load();
     }
     
-    private List<Profile> Load(string jsonPath) {
+    private List<Profile> Load() {
         try {
-            string json = File.ReadAllText(jsonPath);
+            string json = File.ReadAllText(this.jsonPath);
             List<Profile>? list = JsonSerializer.Deserialize<List<Profile>>(json);
             return  list != null ? list :  new List<Profile>();
         }  
@@ -28,22 +28,23 @@ public class AuthRepositoryJson : IAuthRepository {
         }
     }
 
-    public void Save() {
+    private void Save() {
         var options = new JsonSerializerOptions { WriteIndented = true };
         string json = JsonSerializer.Serialize(profiles, options);
-        File.WriteAllText(jsonPath, json);
+        File.WriteAllText(this.jsonPath, json);
     }
 
-    public bool Exists(int id) {
+    public bool Exists(int? id) {
         return profiles.Find(x => x.Id == id) != null;
     }
     
-    public bool Exists(string email) {
+    public bool Exists(string? email) {
         return profiles.Find(x => x.Email == email) != null;
     }
 
     public Profile Create(Profile profile) {
         profiles.Add(profile);
+        Save();
         return profile;
     }
     
@@ -72,6 +73,7 @@ public class AuthRepositoryJson : IAuthRepository {
             throw new KeyNotFoundException();
         }
         profiles.Remove(profiles.Find(x => x.Id == id));
+        Save();
     }
     
 }

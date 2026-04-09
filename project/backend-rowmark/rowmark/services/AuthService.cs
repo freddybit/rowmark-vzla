@@ -8,14 +8,16 @@ namespace rowmark.services;
 
 public class AuthService : IAuthService {
     
-    private interfaces.IPasswordHasher<Profile> _passwordHasher;
+    private readonly interfaces.IPasswordHasher<Profile> _passwordHasher;
     private readonly IAuthRepository _repository;
-    private ITokenService _tokenService;
+    private readonly ITokenService _tokenService;
+    private readonly IRoleService _roleService;
 
-    public AuthService(interfaces.IPasswordHasher<Profile> passwordHasher,IAuthRepository repository,  ITokenService tokenService) {
+    public AuthService(interfaces.IPasswordHasher<Profile> passwordHasher,IAuthRepository repository,  ITokenService tokenService, IRoleService roleService) {
         this._passwordHasher = passwordHasher;
         this._repository = repository;
         this._tokenService = tokenService;
+        this._roleService = roleService;
     }
     
     public async Task<string?> LoginProfile(ProfileLoginDto request) {
@@ -30,14 +32,26 @@ public class AuthService : IAuthService {
         return _tokenService.CreateToken(profile);
     }
     public async Task<Profile?> RegisterProfile(ProfileRegisterDto request) {
+
+        if (_repository.Exists(request.Id))
+            throw new Exception("Error: Ya existe un usuario con este ID registrado");
+        if (_repository.Exists(request.Email))
+            throw new Exception("Error: Ya existe un usuario con este Email registrado");
         
         Profile profile = new Profile();
-        
-        profile.Email = request.Email;
-        if (request.Password != null) profile.HashPassword = _passwordHasher.HashPassword(profile, request.Password);
 
-        _repository.Create(profile);
+        profile.Id = request.Id;
+        profile.FirstName = request.FirstName;
+        profile.LastName = request.LastName;
+        profile.Email = request.Email;
         
+        foreach (string roleName in request.Roles) {
+            Role? role = _roleService.ReadRole(roleName);
+            profile.Roles?.Add(role);
+        }
+
+        if (request.Password != null) profile.HashPassword = _passwordHasher.HashPassword(profile, request.Password);
+        _repository.Create(profile);
         return profile;
     }
     

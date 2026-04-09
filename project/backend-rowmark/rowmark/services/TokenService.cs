@@ -21,12 +21,13 @@ public class TokenService : ITokenService {
         
         var claims = new List<Claim> {
             new Claim(ClaimTypes.NameIdentifier, profile.Id.ToString()),
+            new Claim(ClaimTypes.Name, profile.FirstName),
+            new Claim(ClaimTypes.Name, profile.LastName),
             new Claim(ClaimTypes.Email, profile.Email),
-            new Claim(ClaimTypes.Role, profile.Roles.ToString())
         };
 
         foreach (var role in profile.Roles) {
-            claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
+            if (role.NameRol != null) claims.Add(new Claim(ClaimTypes.Role, role.NameRol));
         }
         
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("AppSettings:Token")!));
