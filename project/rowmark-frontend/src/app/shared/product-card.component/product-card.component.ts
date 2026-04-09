@@ -1,6 +1,6 @@
 import { Component, ElementRef, inject, Input, OnInit, signal, ViewChild } from '@angular/core';
 import { RouterLink } from "@angular/router";
-import { DolarApi } from '../../services/dolar-api';
+import { DolarApi } from '../../services/dolar-api/dolar-api';
 
 @Component({
   selector: 'app-product-card',
@@ -29,7 +29,7 @@ export class ProductCardComponent implements OnInit {
   @Input() unitsEnabled: string = '';
   @Input() engravingDepth: Array<number> = [0];
   @Input() engravingDepthDialog: number = 0;
-  
+
   price: number = this.prices[0];
   iva: number = this.price * 0.16;
   totalPrice: number = this.price + this.iva;
@@ -97,11 +97,11 @@ export class ProductCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
     this.defaultStateComponent();
     this.getCardDescription();
     this.engravingDepthDialog = this.engravingDepth[0];
 
   }
-  
+
 }

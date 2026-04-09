@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DolarApi, OficialEuro } from '../../services/dolar-api';
+import { DolarApi, OficialEuro } from '../../services/dolar-api/dolar-api';
 
 @Component({
   selector: 'app-info-section',

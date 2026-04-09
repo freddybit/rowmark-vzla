@@ -1,0 +1,152 @@
+/* Mantiene tu lógica de fondo */
+.background-img {
+  background-image: url('../../../../public/img/background/auth_background.jpg');
+  background-position: center;
+  /* Mejor centrado para cover */
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%;
+}
+
+.color-background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(135deg, rgba(1, 1, 207, 0.85), rgba(6, 6, 12, 0.95));
+}
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  /* Eliminamos height: 100% y max-height: 600px para evitar aplastamiento */
+  min-height: 500px;
+  /* Le damos una altura mínima, pero dejamos que crezca si es necesario */
+  max-width: 450px;
+  padding: 3rem 2.5rem;
+  /* Aumentamos el padding interno (antes 2.5 y 2) */
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  gap: 2.5rem;
+  /* SEPARACIÓN PRINCIPAL: Mayor espacio entre el header y el formulario (antes 1.5) */
+}
+
+.form-title {
+  color: #ffffff;
+  font-size: 1.8rem;
+  /* Aumentado (antes 1.5rem) */
+  margin: 0 0 0.8rem 0;
+  /* Un poco más de margen inferior */
+}
+
+.form-description {
+  color: #a0aab2;
+  font-size: 1.05rem;
+  /* Aumentado para mejor lectura (antes 0.9rem) */
+  margin: 0;
+}
+
+.auth-header {
+  text-align: center;
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.form-title {
+  color: #ffffff;
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.form-description {
+  color: #a0aab2;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.form-section,
+form {
+  width: 100%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  /* Separación entre el grupo de correo, contraseña y botón (antes 1.2rem) */
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  /* Separación entre la etiqueta (label) y su propio input (antes 0.5rem) */
+}
+
+label {
+  font-size: 1.05rem;
+  /* Aumentado (antes 0.9rem) */
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+input {
+  padding: 1rem 1.2rem;
+  /* Más espacio interno (crecimiento orgánico) */
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  font-size: 1.1rem;
+  /* Texto que ingresa el usuario más grande */
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+input:focus {
+  border-color: #3b82f6;
+  /* Color de acento */
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+/* 5. BOTÓN: Equilibrado geométricamente con los nuevos inputs */
+.submit-button {
+  margin-top: 1.5rem;
+  /* Lo alejamos un poco más del input de contraseña */
+  padding: 1rem 1.2rem;
+  /* Mismo padding que los inputs para consistencia */
+  border: none;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: white;
+  font-size: 1.15rem;
+  /* Fuente más grande y llamativa */
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.submit-button:hover {
+  background: #2563eb;
+}
+
+.submit-button:active {
+  transform: scale(0.98);
+}
+

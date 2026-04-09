@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal, ChangeDetectorRef } from '@angular/core';
 import { ProductCardComponent } from "../product-card.component/product-card.component";
-import { DolarApi } from '../../services/dolar-api';
+import { DolarApi } from '../../services/dolar-api/dolar-api';
 
 @Component({
   selector: 'app-catalog',
@@ -12,9 +12,9 @@ export class CatalogComponent implements OnInit {
 
   private dolarApi = inject(DolarApi);
   private cdr = inject(ChangeDetectorRef);
-  
+
   errorLoad = signal<string | null>(null);
-  euroBcv: number = 0; 
+  euroBcv: number = 0;
 
   activeSheet: 'full' | 'medium' | 'quarter' = 'full';
 
@@ -26,7 +26,7 @@ export class CatalogComponent implements OnInit {
     this.dolarApi.getEuroBcv().subscribe({
       next: (data) => {
         this.euroBcv = (Math.round(data.promedio * 10000) / 10000);
-        this.cdr.detectChanges(); 
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.errorLoad.set('No se pudo obtener la tasa del BCV');
