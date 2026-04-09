@@ -69,11 +69,11 @@ export class ProductCardComponent implements OnInit {
       this.engravingDepthDialog = this.engravingDepth[1];
     }
 
-    this.price = Math.round(this.price * 10000) / 10000;
+    this.price = Math.round(this.price * 100) / 100;
     this.iva = this.updateIva();
-    this.iva = Math.round(this.iva * 10000) / 10000;
+    this.iva = Math.round(this.iva * 100) / 100;
     this.totalPrice = this.price+this.iva;
-    this.totalPrice = Math.round(this.totalPrice * 10000) / 10000;
+    this.totalPrice = Math.round(this.totalPrice * 100) / 100;
   }
 
   sendWhatsAppOrder(productName: string, price: number) {
@@ -86,11 +86,11 @@ export class ProductCardComponent implements OnInit {
   defaultStateComponent(): void {
     try {
         this.price = (this.prices[0] * this.euro);
-        this.price = Math.round(this.price * 10000) / 10000;
+        this.price = Math.round(this.price * 100) / 100;
         this.iva = this.price * 0.16;
-        this.iva = Math.round(this.iva * 10000) / 10000;
+        this.iva = Math.round(this.iva * 100) / 100;
         this.totalPrice = this.price + this.iva;
-        this.totalPrice = Math.round(this.totalPrice * 10000) / 10000;
+        this.totalPrice = Math.round(this.totalPrice * 100) / 100;
     } catch (e) {
       console.log('Error:', e);
     }

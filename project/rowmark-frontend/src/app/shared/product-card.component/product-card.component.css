@@ -10,26 +10,26 @@ article {
     flex-direction: column;
     width: 100%;
     max-width: 35rem;
-    min-height: 490px; 
+    min-height: 490px;
     box-shadow: 1rem 1.5rem 5rem #00026365;
     border-radius: 3rem;
     padding: 1.5rem; /* Ajustado a rem para consistencia */
     background-color: rgba(255, 255, 255, 1);
     gap: 15px;
-    box-sizing: border-box; 
+    box-sizing: border-box;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 article:hover {
-    transform: translateY(-10px); 
+    transform: translateY(-10px);
     box-shadow: 0rem 2rem 5rem #000263a1;
 }
 
 .img-area {
     width: 100%;
-    aspect-ratio: 16 / 9; 
+    aspect-ratio: 16 / 9;
     border-radius: 2.5rem;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 .img-area img {
@@ -64,7 +64,7 @@ h3 {
 
 .description-card  {
     flex: 1;
-    font-size: clamp(1.1rem, 2vw, 1.3rem); 
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
     font-weight: 500;
     color: rgba(0, 0, 0, 0.6);
     margin: 0;
@@ -98,7 +98,7 @@ h3 {
 .usability {
     display: flex;
     flex-direction: row;
-    align-items: center; 
+    align-items: center;
     padding: 1rem 0;
     gap: 0.5rem;
     font-size: 1.1rem;
@@ -120,7 +120,7 @@ h3 {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 1rem; 
+    gap: 1rem;
     justify-content: center;
     background-color: var(--main-color);
     border-radius: 1rem;
@@ -128,28 +128,28 @@ h3 {
 }
 
 .size-btn-area button {
-    flex: 1 1 auto; 
+    flex: 1 1 auto;
     min-width: fit-content;
-    padding: 0.8rem 1rem; 
+    padding: 0.8rem 1rem;
     border-radius: 2rem;
-    background-color: #FFFFFF; 
+    background-color: #FFFFFF;
     color: var(--main-color);
     font-weight: 500;
-    border: none; 
+    border: none;
     transition: all 0.3s ease;
 }
 
 .size-btn-area button { cursor: pointer; }
 
 .size-btn-area span {
-    
+
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: clamp(1.2rem, 3vw, 1.5rem);
     color: #FFFFFF;
-    padding: 0.8rem 1rem 0.8rem 2rem; 
-    border: none; 
+    padding: 0.8rem 1rem 0.8rem 2rem;
+    border: none;
     font-weight: 500;
 }
 
@@ -165,7 +165,7 @@ h3 {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 1rem 1.5rem; 
+    padding: 1rem 1.5rem;
     margin-top: 1rem;
     background-color: #a3a3a348;
     border-radius: 1.5rem;
@@ -185,7 +185,7 @@ h3 {
     justify-content: space-between;
     align-items: stretch;
     margin-top: 1rem;
-    gap: 1rem; 
+    gap: 1rem;
 }
 
 .footer-area a {
@@ -199,8 +199,8 @@ h3 {
     background-color: #25D366;
     border-radius: 1.5rem;
     transition: background-color 300ms ease;
-    text-decoration: none; 
-    padding: 1rem; 
+    text-decoration: none;
+    padding: 1rem;
     cursor: pointer;
 }
 
@@ -218,14 +218,14 @@ h3 {
 
 dialog {
     box-sizing: border-box;
-    margin: auto; 
-    border: none; 
+    margin: auto;
+    border: none;
     background-color: #ffffff;
     width: 90vw; /* Cambiado de 100% a 90vw para evitar tocar bordes en móviles/tablets */
     max-width: 700px;
-    max-height: 90vh; 
+    max-height: 90vh;
     border-radius: 2rem;
-    overflow: hidden; 
+    overflow: hidden;
     padding: 0; /* Reseteo de padding por defecto de dialog */
 }
 
@@ -235,13 +235,13 @@ dialog[open] {
 }
 
 dialog::backdrop {
-    background-color: rgba(0, 0, 0, 0.5); 
+    background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(8px);
     transition: all 0.3s ease;
 }
 
 dialog .modal-img {
-    flex-shrink: 0; 
+    flex-shrink: 0;
     box-shadow: 0 10px 15px #0002635d;
     width: 100%;
     aspect-ratio: 21 / 9; /* Reemplaza el vh problemático por una proporción fija */
@@ -250,15 +250,15 @@ dialog .modal-img {
 
 dialog .modal-img img {
     width: 100%;
-    height: 100%; 
-    border-radius: 2rem 2rem 0 0; 
-    object-fit: cover; 
-    display: block; 
+    height: 100%;
+    border-radius: 2rem 2rem 0 0;
+    object-fit: cover;
+    display: block;
 }
 
 dialog > .modal-content {
     padding: 3rem 2rem;
-    overflow-y: auto; 
+    overflow-y: auto;
 }
 
 .modal-title {
@@ -267,11 +267,11 @@ dialog > .modal-content {
     margin: 0;
 }
 
-.modal-description { 
+.modal-description {
     padding: 1.5rem 0;
     font-size: clamp(1.2rem, 3vw, 1.5rem);
     color: rgba(0, 0, 0, 0.6);
-    font-weight: 500; 
+    font-weight: 500;
     margin: 0;
 }
 
@@ -310,7 +310,9 @@ dialog > .modal-content {
 }
 
 .specification {
-    min-width: fit-content; /* Permitir que ocupe el espacio necesario sin empujar todo */
+    min-width: 100px;
+    max-width: 500px;
+    width: 100%;
     text-align: left !important;
 }
 
@@ -332,21 +334,21 @@ dialog > .modal-content {
     gap: 1.5rem;
 }
 
-.modal-price-section ol li { 
+.modal-price-section ol li {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
 
-.modal-price-section ol li p { 
+.modal-price-section ol li p {
     font-size: clamp(1.2rem, 3vw, 1.5rem);
     font-weight: 500;
     color: var(--main-color);
     margin: 0;
 }
 
-.modal-price-section ol .border-top { 
+.modal-price-section ol .border-top {
     padding-top: 1rem;
     border-top: 1px solid var(--main-color);
 }
@@ -357,13 +359,13 @@ dialog > .modal-content {
     justify-content: space-between;
     align-items: stretch;
     margin-top: 3rem;
-    gap: 1rem; 
+    gap: 1rem;
 }
 
 .modal-footer button {
     padding: 1rem 1.5rem;
     border-radius: 1rem;
-    border: none; 
+    border: none;
     cursor: pointer;
     background-color: rgba(216, 0, 0, 0.966);
     font-weight: 500;
@@ -388,8 +390,8 @@ dialog > .modal-content {
     background-color: #25D366;
     border-radius: 1rem;
     transition: background-color 300ms ease;
-    text-decoration: none; 
-    padding: 1rem; 
+    text-decoration: none;
+    padding: 1rem;
     color: #FFFFFF;
     font-size: clamp(1.2rem, 3vw, 1.5rem);
     font-weight: 500;
@@ -404,7 +406,7 @@ dialog > .modal-content {
         align-items: flex-start;
         gap: 0.5rem;
     }
-    
+
     .modal-specifications-list li p {
         text-align: left;
     }
@@ -439,7 +441,7 @@ dialog > .modal-content {
     }
 
     .footer-area {
-        flex-direction: column-reverse; 
+        flex-direction: column-reverse;
     }
 
     dialog > .modal-content {
@@ -450,10 +452,10 @@ dialog > .modal-content {
         aspect-ratio: 16 / 9; /* Ajusta la proporción en móvil para ganar espacio vertical */
     }
 
-    .modal-footer { 
-        flex-direction: column-reverse; 
+    .modal-footer {
+        flex-direction: column-reverse;
     }
-    
+
     .modal-footer button {
         width: 100%;
     }
