@@ -1,14 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { ProfileLoginDto } from '../../models/dtos/profile-login.dto';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class RowmarkApi {
   private http = inject(HttpClient);
-  private apiUrl = 'https://ve.dolarapi.com/v1/'; // Cambiar esta URL por la del Rowmark API
+  private apiUrlAuth = 'http://localhost:5008/api/auth/'; // BACKEND LOCAL
 
-  getRowmarkData(): any {
-    return this.http.get(this.apiUrl + 'rowmark'); // Cambiar 'rowmark' por el endpoint correcto
+  login(profileLoginDto: ProfileLoginDto): any {
+    return this.http.post(this.apiUrlAuth + 'login', profileLoginDto);
   }
 }

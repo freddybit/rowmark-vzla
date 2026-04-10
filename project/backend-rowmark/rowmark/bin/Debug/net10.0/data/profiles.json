@@ -1,3 +1,22 @@
 [
-
+  {
+    "Id": 31703150,
+    "FirstName": "Freddy",
+    "LastName": "Fern\u00E1ndez",
+    "Email": "freddyfernandez.at@gmail.com",
+    "HashPassword": "$2a$12$EEbNOzlVE2TqBu/AcmgK4.jdRB131fpNOvb0iC1GkK8ka/zFN09fm",
+    "Roles": [
+      {
+        "IdRol": 0,
+        "NameRol": "Dev",
+        "Permissions": [
+          {
+            "Id": 1,
+            "Name": "Programar"
+          }
+        ]
+      }
+    ],
+    "ProfileAdministrator": null
+  }
 ]
