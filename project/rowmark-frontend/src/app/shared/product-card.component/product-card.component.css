@@ -188,7 +188,7 @@ h3 {
     gap: 1rem;
 }
 
-.footer-area a {
+.footer-area button {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -204,13 +204,13 @@ h3 {
     cursor: pointer;
 }
 
-.footer-area a span {
+.footer-area button span {
     color: #FFFFFF;
     font-size: 1.2rem;
     font-weight: 500;
 }
 
-.footer-area a:hover {
+.footer-area button:hover {
     background-color: #128C7E;
 }
 
@@ -362,7 +362,7 @@ dialog > .modal-content {
     gap: 1rem;
 }
 
-.modal-footer button {
+.modal-footer .close-dialog-btn {
     padding: 1rem 1.5rem;
     border-radius: 1rem;
     border: none;
@@ -374,13 +374,13 @@ dialog > .modal-content {
     justify-content: center;
 }
 
-.modal-footer button svg {
+.modal-footer .close-dialog-btn svg {
     fill: #FFFFFF;
     width: 24px;
     height: 24px;
 }
 
-.modal-footer a {
+.modal-footer .add-to-cart-btn {
     display: flex;
     flex-direction: row;
     gap: 10px;

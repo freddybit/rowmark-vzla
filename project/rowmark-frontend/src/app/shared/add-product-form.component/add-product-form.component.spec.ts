@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminPage } from './admin.page';
+import { AddProductFormComponent } from './add-product-form.component';
 
-describe('AdminPage', () => {
-  let component: AdminPage;
-  let fixture: ComponentFixture<AdminPage>;
+describe('AddProductFormComponent', () => {
+  let component: AddProductFormComponent;
+  let fixture: ComponentFixture<AddProductFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminPage]
+      imports: [AddProductFormComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AdminPage);
+    fixture = TestBed.createComponent(AddProductFormComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -1,0 +1,23 @@
+<article>
+  <section class="header-img-div">
+    <img class="header-img" src="/img/background/rowmark_background.jpg" alt="Profile Header Image" class="profile-header-image">
+  </section>
+
+  <section class="profile-info">
+    <h1>{{ userName }}</h1>
+    <p>
+      <span>
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h404q-4 20-4 40t4 40H160l320 200 146-91q14 13 30.5 22.5T691-572L480-440 160-640v400h640v-324q23-5 43-14t37-22v360q0 33-23.5 56.5T800-160H160Zm0-560v480-480Zm515 45q-35-35-35-85t35-85q35-35 85-35t85 35q35 35 35 85t-35 85q-35 35-85 35t-85-35Z"/></svg>
+      </span>
+      {{ userEmail }}
+    </p>
+    <p>
+      <span>
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M120-200q-33 0-56.5-23.5T40-280v-400q0-33 23.5-56.5T120-760h400q33 0 56.5 23.5T600-680v400q0 33-23.5 56.5T520-200H120Zm0-146q44-26 94-40t106-14q56 0 106 14t94 40v-334H120v334Zm200 26q-41 0-80 10t-74 30h308q-35-20-74-30t-80-10Zm-77.5-142.5Q210-495 210-540t32.5-77.5Q275-650 320-650t77.5 32.5Q430-585 430-540t-32.5 77.5Q365-430 320-430t-77.5-32.5ZM320-504q15 0 25.5-10.5T356-540q0-15-10.5-25.5T320-576q-15 0-25.5 10.5T284-540q0 15 10.5 25.5T320-504Zm360 304v-560h80v560h-80Zm160 0v-560h80v560h-80ZM320-540Zm0 260Z"/></svg>
+      </span>
+      {{ roles.join(', ') }}
+    </p>
+    <p>{{ roleDescription }}</p>
+  </section>
+
+</article>

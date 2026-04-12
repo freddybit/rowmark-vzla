@@ -1,0 +1,52 @@
+<div class="stock-container">
+
+  <header class="stock-header">
+    <div class="header-titles">
+      <h2>Inventario de Láminas</h2>
+      <p>Gestiona y visualiza el stock actual de productos.</p>
+    </div>
+
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Buscar por nombre o material..."
+        (input)="onSearch($event)">
+    </div>
+  </header>
+
+  <div class="stock-grid">
+    @for (sheet of filteredStock; track sheet.id) {
+      <article class="sheet-card">
+
+        <div class="card-image-wrapper">
+          <img [src]="sheet.imgUrl" [alt]="sheet.name" class="card-image">
+          <span class="stock-badge" [class.danger]="sheet.unitsAvailable <= 5">
+            {{ sheet.unitsAvailable }} uds.
+          </span>
+        </div>
+
+        <div class="card-content">
+          <h3 class="sheet-title" [title]="sheet.name">{{ sheet.name }}</h3>
+
+          <div class="sheet-specs">
+            <p><strong>Material:</strong> {{ sheet.material }}</p>
+            <p><strong>Acabado:</strong> {{ sheet.finish }}</p>
+          </div>
+
+          <div class="sheet-sizes">
+            @for (size of sheet.sizes; track size) {
+              <span class="size-pill">{{ size }}</span>
+            }
+          </div>
+        </div>
+
+      </article>
+    } @empty {
+      <div class="empty-state">
+        <h3>No se encontraron resultados</h3>
+        <p>No hay láminas que coincidan con tu búsqueda o el inventario está vacío.</p>
+      </div>
+    }
+  </div>
+
+</div>

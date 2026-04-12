@@ -1,0 +1,52 @@
+<section class="background-img">
+    <h1>Carrito de Compras</h1>
+</section>
+
+<article class="cart-container">
+
+  @if (cartManager.totalItems() === 0) {
+    <section class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" height="80px" viewBox="0 -960 960 960" width="80px" fill="var(--main-color)"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T720-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/></svg>
+      <h2>Tu carrito está vacío</h2>
+      <p>Explora nuestro catálogo para encontrar los mejores materiales termoplásticos.</p>
+      <a routerLink="/home" class="btn-primary">Ver Catálogo</a>
+    </section>
+  }
+  @else {
+    <section class="cart-content">
+
+      <div class="items-list">
+        @for (item of cartManager.getItems(); track item.name) {
+          <app-shopping-cart-card [item]="item"></app-shopping-cart-card>
+        }
+      </div>
+
+      <div class="cart-summary">
+        <h2>Resumen del Pedido</h2>
+        @for (item of cartManager.getItems(); track item.name) {
+          <div class="summary-row">
+            <span>{{ item.name }}</span>
+            <span>{{ item.price}} Bs.</span>
+          </div>
+        }
+        <div class="summary-row">
+          <span>Total de láminas:</span>
+          <span>{{ cartManager.totalItems() }}</span>
+        </div>
+        <div class="summary-row total-row">
+          <span>Total:</span>
+          <span>{{ cartManager.cartTotal() }} Bs.</span>
+        </div>
+
+        <button class="btn-whatsapp" (click)="sendWhatsAppOrder()">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M348.5-531.5Q360-543 360-560t-11.5-28.5Q337-600 320-600t-28.5 11.5Q280-577 280-560t11.5 28.5Q303-520 320-520t28.5-11.5Zm160 0Q520-543 520-560t-11.5-28.5Q497-600 480-600t-28.5 11.5Q440-577 440-560t11.5 28.5Q463-520 480-520t28.5-11.5Zm160 0Q680-543 680-560t-11.5-28.5Q657-600 640-600t-28.5 11.5Q600-577 600-560t11.5 28.5Q623-520 640-520t28.5-11.5ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg>
+          Hacer Pedido por WhatsApp
+        </button>
+        <button class="btn-text" (click)="cartManager.clearCart()">
+          Vaciar Carrito
+        </button>
+      </div>
+
+    </section>
+  }
+</article>

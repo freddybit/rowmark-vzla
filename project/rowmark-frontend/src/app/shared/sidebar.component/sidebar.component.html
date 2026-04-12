@@ -16,37 +16,17 @@
 
         <li>
             <button #btnone class="dropdown-btn" (click)="toggleSubMenu(sidebar, submenuone, btnone)" [class.active-btn]="rla.isActive">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M280-120v-80h160v-124q-49-11-87.5-41.5T296-442q-75-9-125.5-65.5T120-640v-40q0-33 23.5-56.5T200-760h80v-80h400v80h80q33 0 56.5 23.5T840-680v40q0 76-50.5 132.5T664-442q-18 46-56.5 76.5T520-324v124h160v80H280Zm0-408v-152h-80v40q0 38 22 68.5t58 43.5Zm285 93q35-35 35-85v-240H360v240q0 50 35 85t85 35q50 0 85-35Zm115-93q36-13 58-43.5t22-68.5v-40h-80v152Zm-200-52Z"/></svg>
-                <span>Productos en Stock</span>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-80q-33 0-56.5-23.5T120-160v-451q-18-11-29-28.5T80-680v-120q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v120q0 23-11 40.5T840-611v451q0 33-23.5 56.5T760-80H200Zm0-520v440h560v-440H200Zm-40-80h640v-120H160v120Zm200 280h240v-80H360v80Zm120 20Z"/></svg>
+                <span>Productos</span>
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M480-360 280-560h400L480-360Z"/></svg>
             </button>
             <ul #submenuone class="sub-menu" routerLinkActive #rla="routerLinkActive">
                 <div>
-                    <li routerLinkActive="active"><a routerLink="/tournaments" title="Ver Torneos">Ver torneos</a></li>
-                    <li routerLinkActive="active"><a routerLink="/profile/tournament" title="Crear Torneos">Crear torneo</a></li>
+                    <li routerLinkActive="active"><a routerLink="/admin/stock" title="Ver stock">Ver stock</a></li>
+                    <li routerLinkActive="active"><a routerLink="/admin/product" title="Agregar producto">Agregar producto</a></li>
+                    <li routerLinkActive="active"><a routerLink="/profile/tournament" title="Crear Torneos">Modificar producto</a></li>
                 </div>
             </ul>
-        </li>
-
-        <li>
-            <button #btntwo class="dropdown-btn" (click)="toggleSubMenu(sidebar, submenutwo, btntwo)" [class.active-btn]="rlb.isActive">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="m137-160-57-56 164-164q31-31 42.5-77.5T298-600q0-58 26-114t74-104q91-91 201-103t181 61q72 72 60 182T738-478q-48 48-104 74t-114 26q-97 0-142 11t-77 43L137-160Zm275-334q47 46 127 34t143-75q64-64 76.5-143.5T724-803q-48-48-125.5-36T456-763q-63 63-76.5 142.5T412-494ZM607-87q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113T833-87q-47 47-113 47T607-87Zm169.5-56.5Q800-167 800-200t-23.5-56.5Q753-280 720-280t-56.5 23.5Q640-233 640-200t23.5 56.5Q687-120 720-120t56.5-23.5ZM720-200Z"/></svg>
-                <span>Jugadores</span>
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M480-360 280-560h400L480-360Z"/></svg>
-            </button>
-            <ul #submenutwo class="sub-menu" routerLinkActive #rlb="routerLinkActive" >
-                <div>
-                    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/players" title="Ver Jugadores">Ver jugadores</a></li>
-                    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/players/registration" title="Registrar Jugadores">Registrar jugador</a></li>
-                </div>
-            </ul>
-        </li>
-
-        <li routerLinkActive="active">
-            <a routerLink="/calendar">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z"/></svg>
-                <span>Calendario</span>
-            </a>
         </li>
     </ul>
 </aside>

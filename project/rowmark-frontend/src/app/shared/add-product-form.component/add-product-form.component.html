@@ -1,0 +1,144 @@
+<form [formGroup]="sheetForm" (ngSubmit)="onSubmit()" class="sheet-form">
+
+  <fieldset class="form-section">
+    <legend>Datos Principales</legend>
+    <div class="grid-2-col">
+      <div class="form-group">
+        <label for="name">Nombre del Producto</label>
+        <input id="name" type="text" formControlName="name" placeholder="Ej. Lámina de Acero Inoxidable">
+      </div>
+
+      <div class="form-group">
+        <label for="unitsAvailable">Unidades Disponibles</label>
+        <input id="unitsAvailable" type="number" formControlName="unitsAvailable" placeholder="0">
+      </div>
+
+      <div class="form-group">
+        <label for="imageFile">Subir Imagen del Producto</label>
+        <input id="imageFile" type="file" (change)="onFileSelected($event)" accept="image/png, image/jpeg, image/webp">
+      </div>
+
+      <div class="form-group">
+        <label for="imgAlt">Texto Alternativo (Imagen)</label>
+        <input id="imgAlt" type="text" formControlName="imgAlt" placeholder="Descripción de la imagen">
+      </div>
+
+      <div class="form-group full-width">
+        <label>Tamaños Disponibles (cm)</label>
+
+        <div class="checkbox-group">
+          @for (size of availableSizes; track size) {
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                [value]="size"
+                (change)="onSizeChange($event)">
+              {{ size }}
+            </label>
+          }
+        </div>
+
+        @if (sheetForm.get('sizes')?.touched && sheetForm.get('sizes')?.hasError('required')) {
+          <span class="error-message">Debe seleccionar al menos un tamaño.</span>
+        }
+      </div>
+
+      <div class="form-group full-width">
+        <label for="description">Descripción</label>
+        <textarea id="description" formControlName="description" rows="3"></textarea>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="form-section">
+    <legend>Especificaciones Técnicas</legend>
+    <div class="grid-2-col">
+      <div class="form-group">
+        <label for="material">Material</label>
+        <input id="material" type="text" formControlName="material">
+      </div>
+
+      <div class="form-group">
+        <label for="finish">Acabado</label>
+        <input id="finish" type="text" formControlName="finish">
+      </div>
+
+      <div class="form-group full-width">
+        <label for="attributes">Atributos</label>
+        <input id="attributes" type="text" formControlName="attributes">
+      </div>
+
+      <div class="form-group full-width">
+        <label for="usage">Uso Recomendado</label>
+        <input id="usage" type="text" formControlName="usage">
+      </div>
+
+      <div class="form-group full-width">
+        <label for="capabilities">Capacidades</label>
+        <input id="capabilities" type="text" formControlName="capabilities">
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="form-section dynamic-arrays">
+    <legend>Datos Variables</legend>
+
+    <div class="arrays-container">
+      <div class="array-group" formArrayName="prices">
+        <div class="array-header">
+          <h3>Precios</h3>
+          <button type="button" class="btn-add" (click)="addPrice()">+ Añadir Precio</button>
+        </div>
+
+        @for (priceCtrl of prices.controls; let i = $index; track $index) {
+          <div class="array-item">
+            <input type="number" step="0.01" [formControlName]="i" placeholder="0.00">
+            <button type="button" class="btn-remove" (click)="removePrice(i)">X</button>
+          </div>
+        }
+      </div>
+
+      <div class="array-group" formArrayName="engravingDepth">
+        <div class="array-header">
+          <h3>Profundidad de Grabado (mm)</h3>
+          <button type="button" class="btn-add" (click)="addDepth()">+ Añadir Profundidad</button>
+        </div>
+
+        @for (depthCtrl of engravingDepth.controls; let i = $index; track $index) {
+          <div class="array-item">
+            <input type="number" step="0.1" [formControlName]="i" placeholder="0.0">
+            <button type="button" class="btn-remove" (click)="removeDepth(i)">X</button>
+          </div>
+        }
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="form-section dynamic-arrays">
+    <legend>Datos Variables y Multimedia</legend>
+
+    <div class="arrays-container">
+
+      <div class="array-group" formArrayName="videoUrls">
+        <div class="array-header">
+          <h3>Videos de YouTube (Opcional)</h3>
+          <button type="button" class="btn-add" (click)="addVideo()">+ Añadir Video</button>
+        </div>
+
+        @for (videoCtrl of videoUrls.controls; let i = $index; track $index) {
+          <div class="array-item">
+            <input type="url" [formControlName]="i" placeholder="https://www.youtube.com/watch?v=...">
+            <button type="button" class="btn-remove" (click)="removeVideo(i)">X</button>
+          </div>
+        }
+      </div>
+
+    </div>
+  </fieldset>
+
+  <div class="form-actions">
+    <button type="button" class="btn-secondary">Cancelar</button>
+    <button type="submit" class="btn-primary" [disabled]="sheetForm.invalid">Guardar en Stock</button>
+  </div>
+
+</form>

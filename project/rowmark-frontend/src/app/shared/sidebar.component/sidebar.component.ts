@@ -8,6 +8,9 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrls: ['./sidebar.component.css'],
 })
 export class ProfileMenu {
+isClosed: any;
+isResizing: any;
+sidebarWidth: any;
   constructor(private renderer: Renderer2) {}
 
   toggleSubMenu(sidebar: HTMLElement, submenu: HTMLElement, btn: HTMLElement): void {

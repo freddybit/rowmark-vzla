@@ -23,7 +23,7 @@ export class AuthLoginFormComponent {
       next: (token: string) => {
         console.log('¡Login exitoso! Token:', token);
         localStorage.setItem('auth_token', token);
-        this.router.navigate(['/admin/dashboard']);
+        this.router.navigate(['/admin/my-profile']);
       },
       error: (err: any) => {
         console.error('Falló la autenticación', err);

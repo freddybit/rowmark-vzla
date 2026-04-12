@@ -1,14 +1,15 @@
-import { Component, ElementRef, inject, Input, OnInit, signal, ViewChild } from '@angular/core';
-import { RouterLink } from "@angular/router";
-import { DolarApi } from '../../services/dolar-api/dolar-api';
+import { Component, effect, ElementRef, inject, Input, OnChanges, OnInit, signal, SimpleChanges, ViewChild } from '@angular/core';
+import { ShoppingCardSheetDto } from '../../models/dtos/shopping-card-sheet.dto';
+import { CartManager } from '../../managers/cart-manager/cart.manager';
 
 @Component({
   selector: 'app-product-card',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css',
 })
-export class ProductCardComponent implements OnInit {
+export class ProductCardComponent implements OnInit, OnChanges {
+  private cartItems = inject(CartManager);
 
   // Card inputs
   @Input() imgName: string = '';
@@ -37,16 +38,16 @@ export class ProductCardComponent implements OnInit {
 
   @ViewChild('modalWindow') modalWindow!: ElementRef<HTMLDialogElement>;
 
-  openModal():void {
+  openModal(): void {
     this.modalWindow.nativeElement.showModal();
   }
 
-  closeModal():void {
+  closeModal(): void {
     this.modalWindow.nativeElement.close();
   }
 
   getCardDescription(): void {
-    if (this.description.length > 90) this.cardDescription = (this.description.slice(0, 80) + '...');
+    if (this.description.length > 90) this.cardDescription = this.description.slice(0, 80) + '...';
     else this.cardDescription = this.description;
   }
 
@@ -56,23 +57,23 @@ export class ProductCardComponent implements OnInit {
   }
 
   updateIva(): number {
-    return (this.price * 0.16);
+    return this.price * 0.16;
   }
 
   updatePrice(text: string): void {
     if (text === 'zero') {
-      this.price = (this.prices[0]*this.euro);
+      this.price = this.prices[0] * this.euro;
       this.engravingDepthDialog = this.engravingDepth[0];
     }
     if (text === 'one') {
-      this.price = (this.prices[1]*this.euro);
+      this.price = this.prices[1] * this.euro;
       this.engravingDepthDialog = this.engravingDepth[1];
     }
 
     this.price = Math.round(this.price * 100) / 100;
     this.iva = this.updateIva();
     this.iva = Math.round(this.iva * 100) / 100;
-    this.totalPrice = this.price+this.iva;
+    this.totalPrice = this.price + this.iva;
     this.totalPrice = Math.round(this.totalPrice * 100) / 100;
   }
 
@@ -83,25 +84,46 @@ export class ProductCardComponent implements OnInit {
     window.open(url, '_blank');
   }
 
+  addShoppingCartItem() {
+    const newItem: ShoppingCardSheetDto = {
+      name: this.title,
+      material: this.material,
+      finish: this.finish,
+      capability: this.capabilities,
+      unitsAvailable: parseInt(this.unitsEnabled),
+      imgUrl: this.imgName,
+      imgAlt: this.imgAlt,
+      size: this.engravingDepthDialog.toString(),
+      engravingDepth: this.engravingDepthDialog,
+      price: this.totalPrice,
+    };
+
+    this.cartItems.addItem(newItem);
+  }
+
   defaultStateComponent(): void {
     try {
-        this.price = (this.prices[0] * this.euro);
-        this.price = Math.round(this.price * 100) / 100;
-        this.iva = this.price * 0.16;
-        this.iva = Math.round(this.iva * 100) / 100;
-        this.totalPrice = this.price + this.iva;
-        this.totalPrice = Math.round(this.totalPrice * 100) / 100;
+      this.price = this.prices[0] * this.euro;
+      this.price = Math.round(this.price * 100) / 100;
+      this.iva = this.price * 0.16;
+      this.iva = Math.round(this.iva * 100) / 100;
+      this.totalPrice = this.price + this.iva;
+      this.totalPrice = Math.round(this.totalPrice * 100) / 100;
     } catch (e) {
       console.log('Error:', e);
     }
   }
 
   ngOnInit(): void {
-
     this.defaultStateComponent();
     this.getCardDescription();
     this.engravingDepthDialog = this.engravingDepth[0];
-
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    // Si el input 'euro' o 'prices' cambia, recalculamos
+    if (changes['euro'] || changes['prices']) {
+      this.defaultStateComponent();
+    }
+  }
 }
