@@ -6,7 +6,7 @@
         <h3>{{ title }}</h3>
         <div class="description-area">
             <p class="description-card">{{ cardDescription }}</p>
-            <button (click)="openModal()">
+            <button (click)="productDialog.open()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M440-120v-320H120v-80h320v-320h80v320h320v80H520v320h-80Z"/></svg>
             </button>
         </div>
@@ -25,6 +25,17 @@
                 <button (click)="updatePrice('one')">{{ engravingDepth[1] }}</button>
             }
         </div>
+        <div class="size-btn-area">
+            <span>Tamaño</span>
+
+            @if (oneEngravingDepth()) {
+                <button>{{ sizes[0] }}</button>
+            }
+            @if (!oneEngravingDepth()) {
+                <button (click)="updatePrice('zero')">{{ sizes[0] }}</button>
+                <button (click)="updatePrice('one')">{{ sizes[1] }}</button>
+            }
+        </div>
         <div class="price-area">
             <p>Total</p>
             <p>{{ totalPrice }} Bs.</p>
@@ -38,77 +49,7 @@
     </section>
 </article>
 
-<dialog #modalWindow>
-    <section class="modal-img">
-        <img [alt]="imgAlt" [src]="'img/background/' + imgName" />
-    </section>
-    <div class="modal-content">
-        <section class="modal-header">
-            <h2 class="modal-title">{{ title }}</h2>
-            <p class="modal-description">{{ description }}</p>
-        </section>
-
-        <section>
-            <h3 class="modal-subtitle">Especificaciones</h3>
-            <ol class="modal-specifications-list">
-                <li>
-                    <p class="specification">Material</p>
-                    <p>{{ material }}</p>
-                </li>
-                <li>
-                    <p class="specification">Grosor Lámina</p>
-                    <p>{{ engravingDepthDialog }}</p>
-                </li>
-                <li>
-                    <p class="specification">Acabado</p>
-                    <p>{{ finish }}</p>
-                </li>
-                <li>
-                    <p class="specification">Atributos</p>
-                    <p>{{ attributes }}</p>
-                </li>
-                <li>
-                    <p class="specification">Usos</p>
-                    <p>{{ usage }}</p>
-                </li>
-                <li>
-                    <p class="specification">Capacidades</p>
-                    <p>{{ capabilities }}</p>
-                </li>
-                <li>
-                    <p class="specification">Unidades Disponibles</p>
-                    <p>{{ unitsEnabled }}</p>
-                </li>
-            </ol>
-        </section>
-
-        <section class="modal-price-section">
-            <h3 class="modal-subtitle">Precio</h3>
-            <ol>
-                <li>
-                    <p class="specification">Neto</p>
-                    <p>{{ price }} Bs.</p>
-                </li>
-                <li class="border-top">
-                    <p class="specification">IVA</p>
-                    <p>{{ iva }} Bs.</p>
-                </li>
-                <li class="border-top">
-                    <p class="specification">Total</p>
-                    <p>{{ price }} + {{ iva }} = {{ totalPrice }} Bs.</p>
-                </li>
-            </ol>
-        </section>
-
-        <section class="modal-footer">
-            <button class="close-dialog-btn" (click)="closeModal()">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
-            </button>
-            <button class="add-to-cart-btn" (click)="addShoppingCartItem()">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M223.5-103.5Q200-127 200-160t23.5-56.5Q247-240 280-240t56.5 23.5Q360-193 360-160t-23.5 56.5Q313-80 280-80t-56.5-23.5Zm400 0Q600-127 600-160t23.5-56.5Q647-240 680-240t56.5 23.5Q760-193 760-160t-23.5 56.5Q713-80 680-80t-56.5-23.5ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/></svg>
-                <span>Agregar al Carrito</span>
-            </button>
-        </section>
-    </div>
-</dialog>
+<app-product-dialog
+    #productDialog
+/>
 

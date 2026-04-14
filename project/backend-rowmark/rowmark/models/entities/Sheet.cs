@@ -4,6 +4,7 @@ public class Sheet {
     
     // Attributes 
 
+    private int? _id;
     private string? _imgUrl;
     private string? _imgAlt;
     private string? _name;
@@ -18,6 +19,7 @@ public class Sheet {
     private List<float>? _engravingDepth;
     private List<string>? _sizes;
     private List<string>? _urlVideos;
+    private List<string>? _colors;
     
     // Methods
     
@@ -25,7 +27,8 @@ public class Sheet {
     public Sheet() {}
     
     // Constructor #2
-    public Sheet(string? imgUrl, string? imgAlt, string? name, string? description, string? material, string? finish, string? attributes, string? usage, string? capabilities, int? unitsAvailable, List<float>? prices, List<float>? engravingDepth, List<string>? sizes, List<string>? urlVideos) {
+    public Sheet(int? id, string? imgUrl, string? imgAlt, string? name, string? description, string? material, string? finish, string? attributes, string? usage, string? capabilities, int? unitsAvailable, List<float>? prices, List<float>? engravingDepth, List<string>? sizes, List<string>? urlVideos, List<string>? colors) {
+        _id = id;
         _imgUrl = imgUrl;
         _imgAlt = imgAlt;
         _name = name;
@@ -40,9 +43,15 @@ public class Sheet {
         _engravingDepth = engravingDepth;
         _sizes = sizes;
         _urlVideos = urlVideos;
+        _colors = colors;
     }
 
     // Getter and Setter Methods
+
+    public int? Id {
+        get => _id;
+        set => _id = value;
+    }
 
     public string? ImgUrl {
         get => _imgUrl;

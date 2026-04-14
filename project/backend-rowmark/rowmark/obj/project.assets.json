@@ -2576,19 +2576,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\PC\\.nuget\\packages\\": {}
+    "C:\\Users\\Freddy\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\rowmark-vzla\\project\\backend-rowmark\\rowmark\\rowmark.csproj",
+      "projectUniqueName": "C:\\Users\\Freddy\\Documents\\GitHub\\rowmark-vzla\\project\\backend-rowmark\\rowmark\\rowmark.csproj",
       "projectName": "rowmark",
-      "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\rowmark-vzla\\project\\backend-rowmark\\rowmark\\rowmark.csproj",
-      "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\rowmark-vzla\\project\\backend-rowmark\\rowmark\\obj\\",
+      "projectPath": "C:\\Users\\Freddy\\Documents\\GitHub\\rowmark-vzla\\project\\backend-rowmark\\rowmark\\rowmark.csproj",
+      "packagesPath": "C:\\Users\\Freddy\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Freddy\\Documents\\GitHub\\rowmark-vzla\\project\\backend-rowmark\\rowmark\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Freddy\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -2674,7 +2674,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Users\\Freddy\\.dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
@@ -3091,5 +3091,13 @@
         }
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json."
+    }
+  ]
 }

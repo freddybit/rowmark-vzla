@@ -1,10 +1,11 @@
 import { Component, effect, ElementRef, inject, Input, OnChanges, OnInit, signal, SimpleChanges, ViewChild } from '@angular/core';
 import { ShoppingCardSheetDto } from '../../models/dtos/shopping-card-sheet.dto';
 import { CartManager } from '../../managers/cart-manager/cart.manager';
+import { ProductDialogComponent } from '../product-dialog.component/product-dialog.component';
 
 @Component({
   selector: 'app-product-card',
-  imports: [],
+  imports: [ProductDialogComponent],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css',
 })
@@ -15,36 +16,26 @@ export class ProductCardComponent implements OnInit, OnChanges {
   @Input() imgName: string = '';
   @Input() imgAlt: string = '';
   @Input() title: string = '';
-  @Input() usability: string = '';
-  @Input() prices: Array<number> = [0];
-
-  // Model Window inputs
-  @Input() euro: number = 0;
   @Input() description: string = '';
+  @Input() unitsEnabled: string = '';
+  @Input() usability: string = '';
   @Input() material: string = '';
   @Input() finish: string = '';
   @Input() attributes: string = '';
   @Input() usage: string = '';
   @Input() capabilities: string = '';
-  @Input() colors: Array<string> = [];
-  @Input() unitsEnabled: string = '';
+  @Input() prices: Array<Array<number>> = [[0], [0]];
+  @Input() sizes: Array<string> = [''];
   @Input() engravingDepth: Array<number> = [0];
-  @Input() engravingDepthDialog: number = 0;
 
-  price: number = this.prices[0];
+  // Model Window inputs
+  @Input() euro: number = 0;
+  @Input() colors: Array<string> = [];
+
+  price: number = this.prices[0][0];
   iva: number = this.price * 0.16;
   totalPrice: number = this.price + this.iva;
   cardDescription: string = '';
-
-  @ViewChild('modalWindow') modalWindow!: ElementRef<HTMLDialogElement>;
-
-  openModal(): void {
-    this.modalWindow.nativeElement.showModal();
-  }
-
-  closeModal(): void {
-    this.modalWindow.nativeElement.close();
-  }
 
   getCardDescription(): void {
     if (this.description.length > 90) this.cardDescription = this.description.slice(0, 80) + '...';
@@ -62,12 +53,10 @@ export class ProductCardComponent implements OnInit, OnChanges {
 
   updatePrice(text: string): void {
     if (text === 'zero') {
-      this.price = this.prices[0] * this.euro;
-      this.engravingDepthDialog = this.engravingDepth[0];
+      this.price = this.prices[0][0] * this.euro;
     }
     if (text === 'one') {
-      this.price = this.prices[1] * this.euro;
-      this.engravingDepthDialog = this.engravingDepth[1];
+      this.price = this.prices[0][1] * this.euro;
     }
 
     this.price = Math.round(this.price * 100) / 100;
@@ -75,13 +64,6 @@ export class ProductCardComponent implements OnInit, OnChanges {
     this.iva = Math.round(this.iva * 100) / 100;
     this.totalPrice = this.price + this.iva;
     this.totalPrice = Math.round(this.totalPrice * 100) / 100;
-  }
-
-  sendWhatsAppOrder(productName: string, price: number) {
-    const phoneNumber = '584144260603';
-    const message = `Hola, me interesa el material *${productName}* con un grosor de *${this.engravingDepthDialog}*mm de que vi en el catálogo. El precio es de ${this.totalPrice} Bs. (Tasa BCV: ${this.euro}).`;
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
   }
 
   addShoppingCartItem() {
@@ -93,7 +75,7 @@ export class ProductCardComponent implements OnInit, OnChanges {
       unitsAvailable: parseInt(this.unitsEnabled),
       imgUrl: this.imgName,
       imgAlt: this.imgAlt,
-      size: this.engravingDepthDialog.toString(),
+      size: this.sizeDialog,
       engravingDepth: this.engravingDepthDialog,
       price: this.totalPrice,
     };
@@ -103,7 +85,7 @@ export class ProductCardComponent implements OnInit, OnChanges {
 
   defaultStateComponent(): void {
     try {
-      this.price = this.prices[0] * this.euro;
+      this.price = this.prices[0][0] * this.euro;
       this.price = Math.round(this.price * 100) / 100;
       this.iva = this.price * 0.16;
       this.iva = Math.round(this.iva * 100) / 100;
@@ -121,7 +103,6 @@ export class ProductCardComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // Si el input 'euro' o 'prices' cambia, recalculamos
     if (changes['euro'] || changes['prices']) {
       this.defaultStateComponent();
     }

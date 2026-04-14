@@ -263,3 +263,4 @@ C:\Users\Freddy\Documents\GitHub\rowmark-vzla\project\backend-rowmark\rowmark\bi
 C:\Users\PC\Documents\GitHub\rowmark-vzla\project\backend-rowmark\rowmark\bin\Debug\net10.0\data\profiles.json
 C:\Users\PC\Documents\GitHub\rowmark-vzla\project\backend-rowmark\rowmark\bin\Debug\net10.0\Scalar.AspNetCore.dll
 C:\Users\PC\Documents\GitHub\rowmark-vzla\project\backend-rowmark\rowmark\bin\Debug\net10.0\data\roles.json
+C:\Users\Freddy\Documents\GitHub\rowmark-vzla\project\backend-rowmark\rowmark\bin\Debug\net10.0\data\roles.json
