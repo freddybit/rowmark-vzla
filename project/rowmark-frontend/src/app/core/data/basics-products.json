@@ -1,0 +1,33 @@
+[
+  {
+    "id": 1,
+    "name": "FlexiBrass",
+    "description": "Flexible, ligera y resistente. Esta línea de productos combina la definición nítida y clásica del grabado del latón auténtico con todas las ventajas del acrílico fino y flexible. Disponible con o sin adhesivo. Los plásticos blancos y de colores claros no suelen ser adecuados para la fabricación con láser de diodo.",
+    "usability": "Señalización interior, identificación personal, señalización de seguridad, señalización recreativa.",
+    "attributes": "Método de grabado: Carburo rotatorio.",
+    "capabilities": "Allows the use of saws and drills, Allows the use of shears, Can be beveled, Is heat-foldable, Suitable for screen printing, hot stamping, and bonding (gluing), Allows for fine engraving.",
+    "engravingDepths": [1.6, 0.8],
+    "unitsEnabled": true
+  },
+  {
+    "id": 2,
+    "name": "Standard Metal",
+    "description": "Standard Metals tiene el brillo del metal real. Cada color se crea mediante un proceso de huecograbado texturizado para reflejar su propia calidad única. Para obtener protección adicional, se puede solicitar el recubrimiento NoMark Plus, que es una capa dura especial que otorga a los metales una durabilidad superior para evitar rayones y marcas, además de ofrecer el beneficio de una apariencia brillante para lograr un acabado de metal real y lustroso.",
+    "usability": "Señalización, identificación personal.",
+    "price": [59, 55],
+    "material": "ABS con micro-superficie",
+    "finish": "Metal cepillado",
+    "attributes": "Método de grabado: Carburo rotatorio."
+  },
+  {
+    "id": 3,
+    "name": "Standard Metal Plus",
+    "description": "Standard Metals Plus es la opción de metal más duradera que ofrecemos. Cada color se crea mediante un proceso de huecograbado texturizado para reflejar su propia calidad única. Para obtener protección adicional, se puede solicitar el recubrimiento NoMark Plus, que es una capa dura especial que otorga a los metales una durabilidad superior para evitar rayones y marcas, además de ofrecer el beneficio de una apariencia brillante para lograr un acabado de metal real y lustroso.",
+    "usability": "Señalización, identificación personal.",
+    "price": [69, 65],
+    "material": "ABS con micro-superficie",
+    "finish": "Metal cepillado",
+    "attributes": "Método de grabado: Carburo rotatorio."
+  }
+
+]

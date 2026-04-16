@@ -1,6 +1,7 @@
 import { Injectable, signal, effect, computed, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ShoppingCardSheetDto } from '../../models/dtos/shopping-card-sheet.dto';
+import { Product } from '../../models/entities/product';
 
 @Injectable({ providedIn: 'root' })
 export class CartManager {
@@ -44,4 +45,21 @@ export class CartManager {
     const total = this.cartItems().reduce((acc, item) => acc + item.price, 0);
     return Number(total.toFixed(2));
   });
+
+  public addShoppingCartItem(product: Product) {
+    const newItem: ShoppingCardSheetDto = {
+      name: product.name,
+      material: product.material,
+      finish: product.finish,
+      capability: product.capabilities,
+      unitsAvailable: parseInt(product.unitsAvailable.toString()),
+      imgUrl: product.imgUrl,
+      imgAlt: product.imgAlt,
+      size: product.size,
+      engravingDepth: product.engravingDepth,
+      price: product.totalPrice,
+    };
+
+    this.addItem(newItem);
+  }
 }

@@ -1,0 +1,257 @@
+
+/* --- VENTANA MODAL --- */
+
+dialog {
+  box-sizing: border-box;
+  margin: auto;
+  border: none;
+  background-color: #ffffff;
+  width: 90vw;
+  /* Cambiado de 100% a 90vw para evitar tocar bordes en móviles/tablets */
+  max-width: 700px;
+  max-height: 90vh;
+  border-radius: 2rem;
+  overflow: hidden;
+  padding: 0;
+  /* Reseteo de padding por defecto de dialog */
+}
+
+dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+dialog .modal-img {
+  flex-shrink: 0;
+  box-shadow: 0 10px 15px #0002635d;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  /* Reemplaza el vh problemático por una proporción fija */
+  overflow: hidden;
+}
+
+dialog .modal-img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 2rem 2rem 0 0;
+  object-fit: cover;
+  display: block;
+}
+
+dialog>.modal-content {
+  padding: 3rem 2rem;
+  overflow-y: auto;
+}
+
+.modal-title {
+  color: var(--main-color);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  margin: 0;
+}
+
+.modal-description {
+  padding: 1.5rem 0;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: 500;
+  margin: 0;
+}
+
+.modal-subtitle {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  color: var(--main-color);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.modal-specifications-list {
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  background-color: #787afd3f;
+  padding: 2rem;
+  border-radius: 1rem;
+  gap: 1.5rem;
+  /* Reemplazado el gap destructivo de 10rem */
+}
+
+.modal-specifications-list li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  /* Alinear items si el texto se envuelve */
+}
+
+.modal-specifications-list li p {
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  font-weight: 500;
+  color: var(--main-color);
+  margin: 0;
+  text-align: right;
+}
+
+.specification {
+  min-width: 100px;
+  max-width: 500px;
+  width: 100%;
+  text-align: left !important;
+}
+
+.modal-price-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.modal-price-section ol {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  background-color: #a3a3a348;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin: 0;
+  gap: 1.5rem;
+}
+
+.modal-price-section ol li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-price-section ol li p {
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  font-weight: 500;
+  color: var(--main-color);
+  margin: 0;
+}
+
+.modal-price-section ol .border-top {
+  padding-top: 1rem;
+  border-top: 1px solid var(--main-color);
+}
+
+.modal-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  margin-top: 3rem;
+  gap: 1rem;
+}
+
+.modal-footer .close-dialog-btn {
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  border: none;
+  cursor: pointer;
+  background-color: rgba(216, 0, 0, 0.966);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-footer .close-dialog-btn svg {
+  fill: #FFFFFF;
+  width: 24px;
+  height: 24px;
+}
+
+.modal-footer .add-to-cart-btn {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: #25D366;
+  border-radius: 1rem;
+  transition: background-color 300ms ease;
+  text-decoration: none;
+  padding: 1rem;
+  color: #FFFFFF;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  font-weight: 500;
+}
+
+/* --- MEDIA QUERIES --- */
+
+/* Breakpoint para Tablets y pantallas medianas */
+@media screen and (max-width: 768px) {
+  .modal-specifications-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .modal-specifications-list li p {
+    text-align: left;
+  }
+}
+
+/* Breakpoint para Móviles */
+@media screen and (max-width: 480px) {
+  article {
+    border-radius: 2rem;
+    padding: 1rem;
+  }
+
+  .description-area {
+    flex-direction: column;
+    align-items: stretch;
+    /* Estira los elementos hijos para que ocupen todo el ancho */
+    gap: 1rem;
+  }
+
+  .description-area button {
+    width: 100%;
+    height: auto;
+    /* Anula el height: 4rem fijo que le pusimos en desktop */
+    padding: 0.8rem;
+    /* Para darle área táctil sin ser un cuadrado gigante */
+    border-radius: 1.5rem;
+  }
+
+  .size-btn-area {
+    flex-direction: column;
+  }
+
+  .size-btn-area button,
+  .size-btn-area span {
+    width: 100%;
+  }
+
+  .footer-area {
+    flex-direction: column-reverse;
+  }
+
+  dialog>.modal-content {
+    padding: 1.5rem 1.5rem;
+  }
+
+  dialog .modal-img {
+    aspect-ratio: 16 / 9;
+    /* Ajusta la proporción en móvil para ganar espacio vertical */
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+  }
+
+  .modal-footer button {
+    width: 100%;
+  }
+}
