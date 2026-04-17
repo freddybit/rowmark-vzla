@@ -1,6 +1,7 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import { Product } from '../../models/entities/product';
 import { ShoppingCardSheetDto } from '../../models/dtos/shopping-card-sheet.dto';
+import { CartManager } from '../../managers/cart-manager/cart.manager';
 
 @Component({
   selector: 'app-product-dialog',
@@ -10,6 +11,7 @@ import { ShoppingCardSheetDto } from '../../models/dtos/shopping-card-sheet.dto'
 })
 export class ProductDialogComponent {
   @Input() product!: Product;
+  public cartManager = inject(CartManager);
 
   @ViewChild('modalWindow') modalWindow!: ElementRef<HTMLDialogElement>;
 
@@ -21,18 +23,4 @@ export class ProductDialogComponent {
     this.modalWindow.nativeElement.close();
   }
 
-  addShoppingCartItem() {
-    const newItem: ShoppingCardSheetDto = {
-      name: this.product.name,
-      material: this.product.material,
-      finish: this.product.finish,
-      capability: this.product.capabilities,
-      unitsAvailable: parseInt(this.product.unitsAvailable.toString()),
-      imgUrl: this.product.imgUrl,
-      imgAlt: this.product.imgAlt,
-      size: this.product.size,
-      engravingDepth: this.product.engravingDepth,
-      price: this.product.totalPrice,
-    };
-  }
 }

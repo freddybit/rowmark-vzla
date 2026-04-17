@@ -4,7 +4,7 @@
 </div>
 <article>
     <section class="sheet">
-      @for (product of products; track 0) {
+      @for (product of products; track product.name) {
         <app-product-card
           [productCard]="product"
           [euro]="euroBcv"

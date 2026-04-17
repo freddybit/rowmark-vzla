@@ -10,7 +10,6 @@ import { ProductCard } from '../../models/entities/productCard';
   styleUrl: './catalog.component.css',
 })
 export class CatalogComponent implements OnInit {
-
   private dolarApi = inject(DolarApi);
   private cdr = inject(ChangeDetectorRef);
 
@@ -28,42 +27,54 @@ export class CatalogComponent implements OnInit {
       imgName: 'flexibrass.jpg',
       imgAlt: 'FlexiBrass',
       name: 'FlexiBrass',
-      description: 'Flexible, ligera y resistente. Esta línea de productos combina la definición nítida y clásica del grabado del latón auténtico con todas las ventajas del acrílico fino y flexible. Disponible con o sin adhesivo. Los plásticos blancos y de colores claros no suelen ser adecuados para la fabricación con láser de diodo.',
+      description:
+        'Flexible, ligera y resistente. Esta línea de productos combina la definición nítida y clásica del grabado del latón auténtico con todas las ventajas del acrílico fino y flexible. Disponible con o sin adhesivo. Los plásticos blancos y de colores claros no suelen ser adecuados para la fabricación con láser de diodo.',
       unitsAvailable: 10,
       material: 'ABS con micro-superficie',
       finish: 'Metal cepillado',
       usability: 'Señalización, identificación personal.',
-      capabilities: 'Allows the use of saws and drills, Allows the use of shears, Can be beveled, Is heat-foldable, Suitable for screen printing, hot stamping, and bonding (gluing), Allows for fine engraving.',
+      capabilities:
+        'Allows the use of saws and drills, Allows the use of shears, Can be beveled, Is heat-foldable, Suitable for screen printing, hot stamping, and bonding (gluing), Allows for fine engraving.',
       sizes: ['full', 'medium', 'quarter'],
       engravingDepths: [1.6, 0.8],
-      prices: [[59, 55], [39, 35], [19, 15]],
+      prices: [
+        [59, 55],
+        [39, 35],
+        [19, 15],
+      ],
     },
     {
-      imgName: 'standard-metals.jpg',
+      imgName: 'standard_metal.jpg',
       imgAlt: 'Standard Metals',
       name: 'Standard Metals',
-      description: 'Standard Metals tiene el brillo del metal real. Cada color se crea mediante un proceso de huecograbado texturizado para reflejar su propia calidad única. Para obtener protección adicional, se puede solicitar el recubrimiento NoMark Plus, que es una capa dura especial que otorga a los metales una durabilidad superior para evitar rayones y marcas, además de ofrecer el beneficio de una apariencia brillante para lograr un acabado de metal real y lustroso.',
+      description:
+        'Standard Metals tiene el brillo del metal real. Cada color se crea mediante un proceso de huecograbado texturizado para reflejar su propia calidad única. Para obtener protección adicional, se puede solicitar el recubrimiento NoMark Plus, que es una capa dura especial que otorga a los metales una durabilidad superior para evitar rayones y marcas, además de ofrecer el beneficio de una apariencia brillante para lograr un acabado de metal real y lustroso.',
       unitsAvailable: 10,
       material: 'ABS con micro-superficie',
       finish: 'Metal cepillado',
       usability: 'Señalización, identificación personal.',
-      capabilities: 'Allows the use of saws and drills, Allows the use of shears, Can be beveled, Is heat-foldable, Suitable for screen printing, hot stamping, and bonding (gluing), Allows for fine engraving.',
+      capabilities:
+        'Allows the use of saws and drills, Allows the use of shears, Can be beveled, Is heat-foldable, Suitable for screen printing, hot stamping, and bonding (gluing), Allows for fine engraving.',
       sizes: ['full', 'medium', 'quarter'],
       engravingDepths: [1.6, 0.8],
-      prices: [[79, 75], [59, 55], [29, 25]],
-    }
+      prices: [
+        [79, 75],
+        [59, 55],
+        [29, 25],
+      ],
+    },
   ];
 
   ngOnInit(): void {
     this.dolarApi.getEuroBcv().subscribe({
       next: (data) => {
-        this.euroBcv = (Math.round(data.promedio * 10000) / 10000);
+        this.euroBcv = Math.round(data.promedio * 10000) / 10000;
         this.cdr.detectChanges();
       },
       error: (err) => {
         this.errorLoad.set('No se pudo obtener la tasa del BCV');
         console.error(err);
-      }
+      },
     });
   }
 }

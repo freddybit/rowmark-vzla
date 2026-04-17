@@ -1,10 +1,9 @@
-/* --- VARIABLES Y AJUSTES BASE --- */
+
 :root {
     --main-color: #000263;
     --main-color-hover: #050785;
 }
 
-/* --- ARTICLE CARD --- */
 article {
     display: flex;
     flex-direction: column;
@@ -12,8 +11,8 @@ article {
     max-width: 35rem;
     min-height: 490px;
     box-shadow: 1rem 1.5rem 5rem #00026365;
-    border-radius: 3rem;
-    padding: 1.5rem; /* Ajustado a rem para consistencia */
+    border-radius: 1.5rem;
+    padding: 1.5rem;
     background-color: rgba(255, 255, 255, 1);
     gap: 15px;
     box-sizing: border-box;
@@ -28,7 +27,7 @@ article:hover {
 .img-area {
     width: 100%;
     aspect-ratio: 16 / 9;
-    border-radius: 2.5rem;
+    border-radius: 1.5rem;
     overflow: hidden;
 }
 
@@ -46,7 +45,6 @@ article:hover {
 
 h3 {
     width: 100%;
-    /* Tipografía fluida: escala entre 1.8rem y 2.5rem según el ancho del viewport */
     font-size: clamp(1.8rem, 4vw, 2.5rem);
     color: var(--main-color);
     margin: 0;
@@ -55,7 +53,7 @@ h3 {
 .description-area {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap; /* Evitar wrap no deseado, usar gap */
+    flex-wrap: nowrap;
     gap: 1rem;
     justify-content: space-between;
     align-items: center;
@@ -72,8 +70,8 @@ h3 {
 
 .description-area button {
     width: 4rem;
-    height: 4rem; /* Forzar consistencia cuadrada/circular */
-    flex-shrink: 0; /* Evitar que el botón se encoja si el texto es largo */
+    height: 4rem;
+    flex-shrink: 0;
     border-radius: 2rem;
     background-color: var(--main-color);
     border: none;
@@ -118,13 +116,20 @@ h3 {
 .size-btn-area {
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.5rem;
     justify-content: center;
-    background-color: var(--main-color);
     border-radius: 1rem;
     padding: 0.5rem;
+}
+
+.size-btn-area section {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.8rem;
 }
 
 .size-btn-area button {
@@ -132,8 +137,8 @@ h3 {
     min-width: fit-content;
     padding: 0.8rem 1rem;
     border-radius: 2rem;
-    background-color: #FFFFFF;
-    color: var(--main-color);
+    background-color: var(--main-color);
+    color: #FFFFFF;
     font-weight: 500;
     border: none;
     transition: all 0.3s ease;
@@ -142,19 +147,18 @@ h3 {
 .size-btn-area button { cursor: pointer; }
 
 .size-btn-area span {
-
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
     font-size: clamp(1.2rem, 3vw, 1.5rem);
-    color: #FFFFFF;
-    padding: 0.8rem 1rem 0.8rem 2rem;
+    color: var(--main-color);
+    padding: 0.8rem 1rem 0 0;
     border: none;
     font-weight: 500;
 }
 
 .size-btn-area button:hover {
-    background-color: var(--main-color-hover);
+    background-color: #0d0f8b;
     box-shadow: 0 4px 12px rgba(0, 1, 99, 0.2);
     color: #FFFFFF;
 }
@@ -214,203 +218,8 @@ h3 {
     background-color: #128C7E;
 }
 
-/* --- VENTANA MODAL --- */
-
-dialog {
-    box-sizing: border-box;
-    margin: auto;
-    border: none;
-    background-color: #ffffff;
-    width: 90vw; /* Cambiado de 100% a 90vw para evitar tocar bordes en móviles/tablets */
-    max-width: 700px;
-    max-height: 90vh;
-    border-radius: 2rem;
-    overflow: hidden;
-    padding: 0; /* Reseteo de padding por defecto de dialog */
-}
-
-dialog[open] {
-    display: flex;
-    flex-direction: column;
-}
-
-dialog::backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(8px);
-    transition: all 0.3s ease;
-}
-
-dialog .modal-img {
-    flex-shrink: 0;
-    box-shadow: 0 10px 15px #0002635d;
-    width: 100%;
-    aspect-ratio: 21 / 9; /* Reemplaza el vh problemático por una proporción fija */
-    overflow: hidden;
-}
-
-dialog .modal-img img {
-    width: 100%;
-    height: 100%;
-    border-radius: 2rem 2rem 0 0;
-    object-fit: cover;
-    display: block;
-}
-
-dialog > .modal-content {
-    padding: 3rem 2rem;
-    overflow-y: auto;
-}
-
-.modal-title {
-    color: var(--main-color);
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    margin: 0;
-}
-
-.modal-description {
-    padding: 1.5rem 0;
-    font-size: clamp(1.2rem, 3vw, 1.5rem);
-    color: rgba(0, 0, 0, 0.6);
-    font-weight: 500;
-    margin: 0;
-}
-
-.modal-subtitle {
-    font-size: clamp(2rem, 4vw, 2.5rem);
-    color: var(--main-color);
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
-
-.modal-specifications-list {
-    margin: 1.5rem 0;
-    display: flex;
-    flex-direction: column;
-    list-style-type: none;
-    background-color: #787afd3f;
-    padding: 2rem;
-    border-radius: 1rem;
-    gap: 1.5rem; /* Reemplazado el gap destructivo de 10rem */
-}
-
-.modal-specifications-list li {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 1rem;
-    align-items: center; /* Alinear items si el texto se envuelve */
-}
-
-.modal-specifications-list li p {
-    font-size: clamp(1.2rem, 3vw, 1.5rem);
-    font-weight: 500;
-    color: var(--main-color);
-    margin: 0;
-    text-align: right;
-}
-
-.specification {
-    min-width: 100px;
-    max-width: 500px;
-    width: 100%;
-    text-align: left !important;
-}
-
-.modal-price-section {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
-.modal-price-section ol {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    background-color: #a3a3a348;
-    border-radius: 1rem;
-    padding: 2rem;
-    margin: 0;
-    gap: 1.5rem;
-}
-
-.modal-price-section ol li {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.modal-price-section ol li p {
-    font-size: clamp(1.2rem, 3vw, 1.5rem);
-    font-weight: 500;
-    color: var(--main-color);
-    margin: 0;
-}
-
-.modal-price-section ol .border-top {
-    padding-top: 1rem;
-    border-top: 1px solid var(--main-color);
-}
-
-.modal-footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: stretch;
-    margin-top: 3rem;
-    gap: 1rem;
-}
-
-.modal-footer .close-dialog-btn {
-    padding: 1rem 1.5rem;
-    border-radius: 1rem;
-    border: none;
-    cursor: pointer;
-    background-color: rgba(216, 0, 0, 0.966);
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-footer .close-dialog-btn svg {
-    fill: #FFFFFF;
-    width: 24px;
-    height: 24px;
-}
-
-.modal-footer .add-to-cart-btn {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    background-color: #25D366;
-    border-radius: 1rem;
-    transition: background-color 300ms ease;
-    text-decoration: none;
-    padding: 1rem;
-    color: #FFFFFF;
-    font-size: clamp(1.2rem, 3vw, 1.5rem);
-    font-weight: 500;
-}
 
 /* --- MEDIA QUERIES --- */
-
-/* Breakpoint para Tablets y pantallas medianas */
-@media screen and (max-width: 768px) {
-    .modal-specifications-list li {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-
-    .modal-specifications-list li p {
-        text-align: left;
-    }
-}
 
 /* Breakpoint para Móviles */
 @media screen and (max-width: 480px) {
@@ -421,14 +230,14 @@ dialog > .modal-content {
 
     .description-area {
         flex-direction: column;
-        align-items: stretch; /* Estira los elementos hijos para que ocupen todo el ancho */
+        align-items: stretch;
         gap: 1rem;
     }
 
     .description-area button {
         width: 100%;
-        height: auto; /* Anula el height: 4rem fijo que le pusimos en desktop */
-        padding: 0.8rem; /* Para darle área táctil sin ser un cuadrado gigante */
+        height: auto;
+        padding: 0.8rem;
         border-radius: 1.5rem;
     }
 
@@ -442,21 +251,5 @@ dialog > .modal-content {
 
     .footer-area {
         flex-direction: column-reverse;
-    }
-
-    dialog > .modal-content {
-        padding: 1.5rem 1.5rem;
-    }
-
-    dialog .modal-img {
-        aspect-ratio: 16 / 9; /* Ajusta la proporción en móvil para ganar espacio vertical */
-    }
-
-    .modal-footer {
-        flex-direction: column-reverse;
-    }
-
-    .modal-footer button {
-        width: 100%;
     }
 }
