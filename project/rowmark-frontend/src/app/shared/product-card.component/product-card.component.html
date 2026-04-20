@@ -15,32 +15,25 @@
             {{ productCard.usability }}
         </p>
         <div class="size-btn-area">
-            <span>Grosor</span>
-
-            <section>
-              @if (oneEngravingDepth()) {
-                  <button>{{ productCard.engravingDepths[0] }}</button>
-              }
-              @if (!oneEngravingDepth()) {
-                  <button (click)="updatePrice('zero')">{{ productCard.engravingDepths[0] }}</button>
-                  <button (click)="updatePrice('one')">{{ productCard.engravingDepths[1] }}</button>
-              }
-            </section>
+          <span>Tamaño</span>
+          <section>
+            @for (size of productCard.sizes; track size; let x = $index) {
+              <button [class.active]="selectionCoords[0] === x" (click)="updateCoordinate('x', x)">
+                {{ size }}
+              </button>
+            }
+          </section>
         </div>
         <div class="size-btn-area">
-            <span>Tamaño</span>
-
-            <section>
-              @if (oneEngravingDepth()) {
-                  <button>{{ productCard.sizes[0] }}</button>
-              }
-              @if (!oneEngravingDepth()) {
-                  <button (click)="updatePrice('zero')">{{ productCard.sizes[0] }}</button>
-                  <button (click)="updatePrice('one')">{{ productCard.sizes[1] }}</button>
-              }
-            </section>
+          <span>Grosor</span>
+          <section>
+            @for (depth of productCard.engravingDepths; track depth; let y = $index) {
+              <button [class.active]="selectionCoords[1] === y" (click)="updateCoordinate('y', y)">
+                {{ depth }}
+              </button>
+            }
+          </section>
         </div>
-
         <div class="price-area">
             <p>Total</p>
             <p>{{ totalPrice }} Bs.</p>

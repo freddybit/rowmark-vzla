@@ -8,10 +8,12 @@ import { ProductCard } from '../../models/entities/productCard';
 @Component({
   selector: 'app-product-card',
   imports: [ProductDialogComponent],
-  templateUrl: './product-card.component.html',
+  templateUrl: './product-card.component.html',  
   styleUrl: './product-card.component.css',
 })
 export class ProductCardComponent implements OnInit, OnChanges {
+
+  public selectionCoords: [number, number] = [0, 0];
   public cartItems = inject(CartManager);
   public product!: Product;
   @Input() productCard!: ProductCard;
@@ -28,28 +30,30 @@ export class ProductCardComponent implements OnInit, OnChanges {
     else this.cardDescription = this.productCard.description;
   }
 
-  oneEngravingDepth(): boolean {
-    if (this.productCard.engravingDepths.length == 1) return true;
-    return false;
-  }
-
   updateIva(): number {
     return this.price * 0.16;
   }
 
-  updatePrice(text: string): void {
-    if (text === 'zero') {
-      this.price = this.productCard.prices[0][0] * this.euro;
+  updateCoordinate(axis: 'x' | 'y', index: number): void {
+    if (axis === 'x') {
+      this.selectionCoords[0] = index;
+    } else {
+      this.selectionCoords[1] = index;
     }
-    if (text === 'one') {
-      this.price = this.productCard.prices[0][1] * this.euro;
-    }
+
+    this.calculatePrice();
+  }
+
+  private calculatePrice(): void {
+    const [x, y] = this.selectionCoords;
+
+    this.price = this.productCard.prices[x][y] * this.euro;
 
     this.price = Math.round(this.price * 100) / 100;
     this.iva = this.updateIva();
     this.iva = Math.round(this.iva * 100) / 100;
     this.totalPrice = this.price + this.iva;
-    this.totalPrice = Math.round(this.totalPrice * 100) / 100;
+    this.totalPrice  = Math.round(this.totalPrice * 100) / 100;
   }
 
   defaultStateComponent(): void {
