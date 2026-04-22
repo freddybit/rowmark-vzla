@@ -4,11 +4,10 @@ import { ProductDialogComponent } from '../product-dialog.component/product-dial
 import { Product } from '../../models/entities/product';
 import { ProductCard } from '../../models/entities/productCard';
 
-
 @Component({
   selector: 'app-product-card',
   imports: [ProductDialogComponent],
-  templateUrl: './product-card.component.html',  
+  templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css',
 })
 export class ProductCardComponent implements OnInit, OnChanges {
@@ -42,6 +41,7 @@ export class ProductCardComponent implements OnInit, OnChanges {
     }
 
     this.calculatePrice();
+    this.buildProduct();
   }
 
   private calculatePrice(): void {
@@ -56,15 +56,8 @@ export class ProductCardComponent implements OnInit, OnChanges {
     this.totalPrice  = Math.round(this.totalPrice * 100) / 100;
   }
 
-  defaultStateComponent(): void {
+  buildProduct(): void {
     try {
-      this.price = this.productCard.prices[0][0] * this.euro;
-      this.price = Math.round(this.price * 100) / 100;
-      this.iva = this.price * 0.16;
-      this.iva = Math.round(this.iva * 100) / 100;
-      this.totalPrice = this.price + this.iva;
-      this.totalPrice = Math.round(this.totalPrice * 100) / 100;
-
       this.product = {
         id: 0,
         imgUrl: this.productCard.imgName,
@@ -72,14 +65,14 @@ export class ProductCardComponent implements OnInit, OnChanges {
         name: this.productCard.name,
         description: this.productCard.description,
         material: this.productCard.material,
-        engravingDepth: this.productCard.engravingDepths[0],
+        engravingDepth: this.productCard.engravingDepths[this.selectionCoords[1]],
         finish: this.productCard.finish,
         attributes: '',
         usage: this.productCard.usability,
         capabilities: this.productCard.capabilities,
         unitsAvailable: this.productCard.unitsAvailable,
         price: this.price,
-        size: this.productCard.sizes[0],
+        size: this.productCard.sizes[this.selectionCoords[0]],
         urlVideos: [],
         iva: this.iva,
         totalPrice: this.totalPrice,
@@ -90,13 +83,13 @@ export class ProductCardComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.defaultStateComponent();
+    this.updateCoordinate('x', 0);
     this.getCardDescription();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['euro'] || changes['prices']) {
-      this.defaultStateComponent();
+      this.buildProduct();
     }
   }
 }
