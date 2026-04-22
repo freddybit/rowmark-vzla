@@ -198,3 +198,94 @@ h1 {
     padding-top: 1rem;
   }
 }
+
+/* --- ESTILOS DEL FORMULARIO --- */
+form {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+label[for="customerName"] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.input-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-dark, #333);
+}
+
+input[name="customerName"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  /* Hereda la fuente de tu proyecto */
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fafafa;
+}
+
+/* Feedback visual al interactuar */
+input[name="customerName"]:focus {
+  outline: none;
+  border-color: var(--main-color, #000263);
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 2, 99, 0.15);
+  /* Anillo de enfoque suave */
+}
+
+/* --- RESPONSIVE DESIGN --- */
+
+/* Pantallas medianas (Tablets) y móviles */
+@media (max-width: 992px) {
+  .cart-content {
+    grid-template-columns: 1fr;
+    /* Pasa a una sola columna antes de que se rompa el diseño */
+    gap: 1.5rem;
+  }
+
+  .cart-summary {
+    position: static;
+    /* Desactiva el sticky en móviles para evitar problemas de scroll */
+    margin-bottom: 2rem;
+  }
+}
+
+/* Pantallas pequeñas (Móviles) */
+@media (max-width: 600px) {
+  .cart-container {
+    margin: 40px auto;
+    /* Reduce el margen superior excesivo en móviles */
+    padding: 0 1rem;
+  }
+
+  .empty-state h2 {
+    font-size: 2rem;
+  }
+
+  .empty-state p {
+    font-size: 1.1rem;
+  }
+
+  /* Ajustes para los botones en pantallas muy pequeñas */
+  .btn-primary,
+  .btn-whatsapp,
+  .btn-text {
+    font-size: 1.1rem;
+  }
+
+  .btn-whatsapp {
+    flex-direction: column;
+    /* Apila el icono y el texto si no caben */
+    gap: 0.5rem;
+    padding: 15px;
+  }
+}

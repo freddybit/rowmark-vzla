@@ -19,7 +19,7 @@
           <section>
             @for (size of productCard.sizes; track size; let x = $index) {
               <button [class.active]="selectionCoords[0] === x" (click)="updateCoordinate('x', x)">
-                {{ size }}
+                {{ size }} cm
               </button>
             }
           </section>
@@ -29,7 +29,7 @@
           <section>
             @for (depth of productCard.engravingDepths; track depth; let y = $index) {
               <button [class.active]="selectionCoords[1] === y" (click)="updateCoordinate('y', y)">
-                {{ depth }}
+                {{ depth }} mm
               </button>
             }
           </section>

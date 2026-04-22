@@ -16,9 +16,9 @@ export class CatalogComponent implements OnInit {
   errorLoad = signal<string | null>(null);
   euroBcv: number = 0;
 
-  activeSheet: '120x60cm' | '60x30cm' | '30x30cm' = '120x60cm';
+  activeSheet: '120x60' | '60x30' | '30x30' = '120x60';
 
-  selectSizeSheet(size: '120x60cm' | '60x30cm' | '30x30cm'): void {
+  selectSizeSheet(size: '120x60' | '60x30' | '30x30'): void {
     this.activeSheet = size;
   }
 
@@ -35,8 +35,8 @@ export class CatalogComponent implements OnInit {
       usability: 'Señalización, identificación personal.',
       capabilities:
         'Allows the use of saws and drills, Allows the use of shears, Can be beveled, Is heat-foldable, Suitable for screen printing, hot stamping, and bonding (gluing), Allows for fine engraving.',
-      sizes: ['120x60cm', '60x30cm', '30x30cm'],
-      engravingDepths: [1.6, 0.8], 
+      sizes: ['120x60', '60x30', '30x30'],
+      engravingDepths: [1.6, 0.8],
       prices: [
         [59, 55],
         [39, 35],
@@ -55,7 +55,7 @@ export class CatalogComponent implements OnInit {
       usability: 'Señalización, identificación personal.',
       capabilities:
         'Allows the use of saws and drills, Allows the use of shears, Can be beveled, Is heat-foldable, Suitable for screen printing, hot stamping, and bonding (gluing), Allows for fine engraving.',
-      sizes: ['120x60cm', '60x30cm', '30x30cm'],
+      sizes: ['120x60', '60x30', '30x30'],
       engravingDepths: [1.6, 0.8],
       prices: [
         [79, 75],
