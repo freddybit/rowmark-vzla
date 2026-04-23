@@ -67,4 +67,10 @@ export class CartManager {
 
     this.addItem(newItem);
   }
+
+  public getIvaItem(price: number): number {
+    const iva = price * 0.16;
+    return Number(iva.toFixed(2));
+  }
+
 }

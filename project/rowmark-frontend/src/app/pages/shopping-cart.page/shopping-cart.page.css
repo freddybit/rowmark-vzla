@@ -111,6 +111,24 @@ h1 {
   color: var(--main-color);
 }
 
+/* --- IVA DIV --- */
+.iva-section {
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.iva-section .iva-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 0 0 1rem 0;
+  color: var(--main-color);
+}
+
 /* --- BOTONES --- */
 .btn-primary,
 .btn-whatsapp,

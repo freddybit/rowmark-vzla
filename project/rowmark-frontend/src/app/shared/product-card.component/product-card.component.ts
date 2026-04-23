@@ -1,4 +1,4 @@
-import { Component, effect, ElementRef, inject, Input, OnChanges, OnInit, signal, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CartManager } from '../../managers/cart-manager/cart.manager';
 import { ProductDialogComponent } from '../product-dialog.component/product-dialog.component';
 import { Product } from '../../models/entities/product';

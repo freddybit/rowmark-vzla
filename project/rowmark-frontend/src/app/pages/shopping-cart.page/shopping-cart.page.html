@@ -16,14 +16,14 @@
     <section class="cart-content">
 
       <div class="items-list">
-        @for (item of cartManager.getItems(); track item.name) {
+        @for (item of cartManager.getItems(); track $index) {
           <app-shopping-cart-card [item]="item"></app-shopping-cart-card>
         }
       </div>
 
       <div class="cart-summary">
         <h2>Resumen del Pedido</h2>
-        @for (item of cartManager.getItems(); track item.name) {
+        @for (item of cartManager.getItems(); track $index) {
           <div class="summary-row">
             <span>{{ item.name }}</span>
             <span>{{ item.price }} Bs.</span>
@@ -38,6 +38,16 @@
         <div class="summary-row total-row">
           <span>Subtotal:</span>
           <span>{{ cartManager.cartSubtotal() }} Bs.</span>
+        </div>
+
+        <div class="iva-section">
+          <span class="iva-title">IVA: </span>
+          @for (item of cartManager.getItems(); track $index) {
+            <div class="summary-row">
+              <span>{{ item.name }}</span>
+              <span>{{ cartManager.getIvaItem(item.price) }} Bs.</span>
+            </div>
+          }
         </div>
 
         <div class="summary-row total-row">
@@ -65,3 +75,5 @@
     </section>
   }
 </article>
+
+<app-error-dialog #modalError title="Error" message="No se pudo enviar el pedido. Por favor, ingresa tu nombre." />
