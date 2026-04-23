@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { CartManager } from '../../managers/cart-manager/cart.manager';
 import { ShoppingCartCardComponent } from "../../shared/shopping-cart-card.component/shopping-cart-card.component";
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-shopping-cart.page',
-  imports: [ShoppingCartCardComponent, FormsModule],
+  imports: [ShoppingCartCardComponent, FormsModule, RouterLink],
   templateUrl: './shopping-cart.page.html',
   styleUrl: './shopping-cart.page.css',
 })
@@ -13,10 +14,9 @@ export class ShoppingCartPage {
   public cartManager = inject(CartManager);
   public customerName: string = '';
 
-  // Generador dinámico del mensaje para el equipo de ventas
   sendWhatsAppOrder() {
     const items = this.cartManager.getItems();
-    if (items.length === 0) return;
+    if (items.length === 0 || !this.customerName.trim()) return;
 
     const phoneNumber = '584144260603';
     let text = `Hola soy ${this.customerName}, me interesa realizar el siguiente pedido del catálogo de Rowmark:\n\n`;

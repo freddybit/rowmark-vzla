@@ -26,33 +26,40 @@
         @for (item of cartManager.getItems(); track item.name) {
           <div class="summary-row">
             <span>{{ item.name }}</span>
-            <span>{{ item.price}} Bs.</span>
+            <span>{{ item.price }} Bs.</span>
           </div>
         }
+
         <div class="summary-row">
           <span>Total de láminas:</span>
           <span>{{ cartManager.totalItems() }}</span>
         </div>
+
+        <div class="summary-row total-row">
+          <span>Subtotal:</span>
+          <span>{{ cartManager.cartSubtotal() }} Bs.</span>
+        </div>
+
         <div class="summary-row total-row">
           <span>Total:</span>
           <span>{{ cartManager.cartTotal() }} Bs.</span>
         </div>
 
-        <form (ngSubmit)="sendWhatsAppOrder()">
-
+        <form>
           <label for="customerName">
             <span class="input-label">Nombre del cliente:</span>
             <input id="customerName" type="text" name="customerName" [(ngModel)]="customerName" required />
           </label>
 
-          <button class="btn-whatsapp" type="submit">
+          <button class="btn-whatsapp" type="button" (click)="sendWhatsAppOrder()">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M348.5-531.5Q360-543 360-560t-11.5-28.5Q337-600 320-600t-28.5 11.5Q280-577 280-560t11.5 28.5Q303-520 320-520t28.5-11.5Zm160 0Q520-543 520-560t-11.5-28.5Q497-600 480-600t-28.5 11.5Q440-577 440-560t11.5 28.5Q463-520 480-520t28.5-11.5Zm160 0Q680-543 680-560t-11.5-28.5Q657-600 640-600t-28.5 11.5Q600-577 600-560t11.5 28.5Q623-520 640-520t28.5-11.5ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg>
             Hacer Pedido por WhatsApp
           </button>
-          <button class="btn-text" (click)="cartManager.clearCart()">
+          <button class="btn-text" type="button" (click)="cartManager.clearCart()">
             Vaciar Carrito
           </button>
         </form>
+
       </div>
 
     </section>

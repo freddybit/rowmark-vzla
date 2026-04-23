@@ -17,7 +17,7 @@ export class InfoSectionComponent {
   ngOnInit(): void {
     this.dolarService.getEuroBcv().subscribe({
       next: (data) => {
-        this.euroBs.set(data.promedio.toFixed(4));
+        this.euroBs.set(data.promedio.toFixed(2));
       },
       error: (err) => {
         this.errorLoad.set('No se pudo obtener la tasa del BCV');

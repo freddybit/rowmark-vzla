@@ -41,8 +41,13 @@ export class CartManager {
 
   public getItems = this.cartItems.asReadonly();
 
+  public cartSubtotal = computed(() => {
+    const subtotal = this.cartItems().reduce((acc, item) => acc + item.price, 0);
+    return Number(subtotal.toFixed(2));
+  });
+
   public cartTotal = computed(() => {
-    const total = this.cartItems().reduce((acc, item) => acc + item.price, 0);
+    const total = this.cartSubtotal() * 1.16;
     return Number(total.toFixed(2));
   });
 
@@ -57,7 +62,7 @@ export class CartManager {
       imgAlt: product.imgAlt,
       size: product.size,
       engravingDepth: product.engravingDepth,
-      price: product.totalPrice,
+      price: product.price,
     };
 
     this.addItem(newItem);

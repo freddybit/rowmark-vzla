@@ -162,6 +162,11 @@ dialog>.modal-content {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 300ms ease;
+}
+
+.modal-footer .close-dialog-btn:hover {
+  background-color: rgb(148, 3, 3);
 }
 
 .modal-footer .close-dialog-btn svg {
@@ -185,6 +190,11 @@ dialog>.modal-content {
   color: #FFFFFF;
   font-size: clamp(1.2rem, 3vw, 1.5rem);
   font-weight: 500;
+  transition: background-color 300ms ease;
+}
+
+.modal-footer .add-to-cart-btn:hover {
+  background-color: #1DA851;
 }
 
 /* --- MEDIA QUERIES --- */
