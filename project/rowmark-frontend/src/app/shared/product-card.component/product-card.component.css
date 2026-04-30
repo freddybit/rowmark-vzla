@@ -142,9 +142,14 @@ h3 {
     font-weight: 500;
     border: none;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-.size-btn-area button { cursor: pointer; }
+.size-btn-area button.active {
+  background-color: #25D366;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+}
 
 .size-btn-area span {
     display: flex;
@@ -157,10 +162,10 @@ h3 {
     font-weight: 500;
 }
 
-.size-btn-area button:hover {
-    background-color: #0d0f8b;
-    box-shadow: 0 4px 12px rgba(0, 1, 99, 0.2);
-    color: #FFFFFF;
+.size-btn-area button:hover, .size-btn-area button.active:hover {
+  background-color: #0d0f8b;
+  box-shadow: 0 4px 12px rgba(0, 1, 99, 0.2);
+  color: #FFFFFF;
 }
 
 .price-area {

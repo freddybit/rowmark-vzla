@@ -6,31 +6,37 @@ import { ProductCard } from '../../models/entities/productCard';
 
 @Component({
   selector: 'app-product-card',
+  standalone: true,
   imports: [ProductDialogComponent],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css',
 })
 export class ProductCardComponent implements OnInit, OnChanges {
-
+  // Estado
   public selectionCoords: [number, number] = [0, 0];
-  public cartItems = inject(CartManager);
   public product!: Product;
-  @Input() productCard!: ProductCard;
-  @Input() euro!: number;
+  public price: number = 0;
+  public iva: number = 0;
+  public totalPrice: number = 0;
 
-  price: number = 0;
-  iva: number = 0;
-  totalPrice: number = 0;
-  cardDescription: string = '';
+  // Inyecciones
+  public cartItems = inject(CartManager);
 
-  getCardDescription(): void {
-    if (this.productCard.description.length > 90)
-      this.cardDescription = this.productCard.description.slice(0, 80) + '...';
-    else this.cardDescription = this.productCard.description;
+  // Entradas
+  @Input({ required: true }) productCard!: ProductCard;
+  @Input({ required: true }) euro!: number;
+
+  ngOnInit(): void {
+    // Inicializamos con la primera opción marcada
+    this.updateCoordinate('x', 0);
   }
 
-  updateIva(): number {
-    return this.price * 0.16;
+  ngOnChanges(changes: SimpleChanges): void {
+    // Si cambia el euro o el productCard completo, recalculamos todo en el orden correcto
+    if (changes['euro'] || changes['productCard']) {
+      this.calculatePrice();
+      this.buildProduct();
+    }
   }
 
   updateCoordinate(axis: 'x' | 'y', index: number): void {
@@ -45,18 +51,17 @@ export class ProductCardComponent implements OnInit, OnChanges {
   }
 
   private calculatePrice(): void {
+    if (!this.productCard || !this.productCard.prices) return;
+
     const [x, y] = this.selectionCoords;
 
     this.price = this.productCard.prices[x][y] * this.euro;
-
     this.price = Math.round(this.price * 100) / 100;
-    this.iva = this.updateIva();
-    this.iva = Math.round(this.iva * 100) / 100;
-    this.totalPrice = this.price + this.iva;
-    this.totalPrice  = Math.round(this.totalPrice * 100) / 100;
+    this.iva = Math.round(this.price * 0.16 * 100) / 100;
+    this.totalPrice = Math.round((this.price + this.iva) * 100) / 100;
   }
 
-  buildProduct(): void {
+  private buildProduct(): void {
     try {
       this.product = {
         id: 0,
@@ -78,18 +83,7 @@ export class ProductCardComponent implements OnInit, OnChanges {
         totalPrice: this.totalPrice,
       };
     } catch (e) {
-      console.log('Error:', e);
-    }
-  }
-
-  ngOnInit(): void {
-    this.updateCoordinate('x', 0);
-    this.getCardDescription();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['euro'] || changes['prices']) {
-      this.buildProduct();
+      console.error('Error al construir el producto:', e);
     }
   }
 }
