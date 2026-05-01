@@ -7,7 +7,7 @@ namespace rowmark.repositories.jsons;
 
 public class AuthRepositoryJson : IAuthRepository {
     
-    private readonly string jsonPath = @"data/profiles.json";
+    private readonly string jsonPath = Path.Combine("data", "profiles.json");
     private readonly List<Profile> profiles;
 
     public AuthRepositoryJson() {

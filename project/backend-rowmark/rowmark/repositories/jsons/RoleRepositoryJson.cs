@@ -6,7 +6,7 @@ namespace rowmark.repositories.jsons;
 
 public class RoleRepositoryJson : IRoleRepository {
     
-    private readonly string jsonPath = @"data/roles.json";
+    private readonly string jsonPath =  Path.Combine("data", "roles.json");
     private readonly List<Role> roles;
     
     public RoleRepositoryJson() {
