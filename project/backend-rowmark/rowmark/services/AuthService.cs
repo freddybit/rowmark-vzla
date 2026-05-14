@@ -42,7 +42,7 @@ public class AuthService : IAuthService {
 
         profile.Id = request.Id;
         profile.FirstName = request.FirstName;
-        profile.LastName = request.LastName;
+        profile.FirstLastname = request.LastName;
         profile.Email = request.Email;
         
         foreach (string roleName in request.Roles) {

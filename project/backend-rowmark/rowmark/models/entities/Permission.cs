@@ -4,27 +4,19 @@ public class Permission {
     
     // Attributes
     
-    private int? _id;
-    private string? _name;
+    public int PermissionKey { get; set; }
+    public string Name { get; set; }
     
     // Constructor #1
-    public Permission() {}
+    public Permission() {
+        PermissionKey = 0;
+        Name = "";
+    }
 
     // Constructor #2
-    public Permission(int? id, string? name) {
-        _id = id;
-        _name = name;
-    }
-    
-    // Getter and Setter methods 
-
-    public int? Id {
-        get => _id;
-        set => _id = value;
+    public Permission(int permissionKey, string name) {
+        PermissionKey = permissionKey;
+        Name = name;
     }
 
-    public string? Name {
-        get => _name;
-        set => _name = value;
-    }
 }

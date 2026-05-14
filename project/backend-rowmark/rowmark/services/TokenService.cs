@@ -22,7 +22,7 @@ public class TokenService : ITokenService {
         var claims = new List<Claim> {
             new Claim(ClaimTypes.NameIdentifier, profile.Id.ToString()),
             new Claim(ClaimTypes.Name, profile.FirstName),
-            new Claim(ClaimTypes.Name, profile.LastName),
+            new Claim(ClaimTypes.Name, profile.FirstLastname),
             new Claim(ClaimTypes.Email, profile.Email),
         };
 

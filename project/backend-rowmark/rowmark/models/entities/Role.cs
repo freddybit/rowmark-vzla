@@ -1,31 +1,24 @@
 ﻿namespace rowmark.models.entities;
 
 public class Role {
-    private int _idRol;
-    private string? _nameRol;
-    private List<Permission>? _permissions;
-
-    public Role() {}
-
-    public Role(int idRol, string nameRol, List<Permission> permissions) {
-        _idRol = idRol;
-        _nameRol = nameRol;
-        _permissions = permissions;
-    }
-
-    public int IdRol {
-        get => _idRol;
-        set => _idRol = value;
-    }
-
-    public string? NameRol {
-        get => _nameRol;
-        set => _nameRol = value;
-    }
-
-    public List<Permission>? Permissions {
-        get => _permissions;
-        set => _permissions = value;
-    }
     
+    // Attributes
+    
+    public int RoleKey { get; set; }
+    public string Name { get; set; }
+    public string? Description { get; set; }
+
+    // Constructor #1
+    public Role() {
+        RoleKey = 0;
+        Name = "";
+    }
+
+    // Constructor #2
+    public Role(int roleKey, string name, string? description) {
+        RoleKey = roleKey;
+        Name = name;
+        Description = description;
+    }
+
 }
