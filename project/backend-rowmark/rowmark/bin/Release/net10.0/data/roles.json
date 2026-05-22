@@ -1,0 +1,12 @@
+[
+  {
+    "IdRol": 0,
+    "NameRol": "Dev",
+    "Permissions": [
+      {
+        "Id": 1,
+        "Name": "Programar"
+      }
+    ]
+  }
+]
