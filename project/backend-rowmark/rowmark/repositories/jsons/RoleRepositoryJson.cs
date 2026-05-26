@@ -42,7 +42,7 @@ public class RoleRepositoryJson : IRoleRepository {
     }
 
     public Role? ReadRole(string roleName) {
-        Role? role = roles.Find(x => x.NameRol == roleName);
+        Role? role = roles.Find(x => x.Name == roleName);
         return role;
     }
 

@@ -9,15 +9,16 @@ using rowmark.repositories.jsons;
 using rowmark.services;
 using Scalar.AspNetCore;
 using Microsoft.OpenApi;
+using rowmark.repositories.postgres;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IPasswordHasher<Profile>, BCryptHasher<Profile>>();
-builder.Services.AddScoped<IRoleRepository, RoleRepositoryJson>();
+builder.Services.AddScoped<IRoleRepository, RoleRepositoryPostgre>();
 builder.Services.AddScoped<IRoleService, RoleService>();
-builder.Services.AddScoped<IAuthRepository, AuthRepositoryJson>();
+builder.Services.AddScoped<IAuthRepository, AuthRepositoryPostgre>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddControllers();

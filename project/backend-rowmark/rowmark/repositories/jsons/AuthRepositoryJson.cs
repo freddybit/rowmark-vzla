@@ -34,7 +34,7 @@ public class AuthRepositoryJson : IAuthRepository {
         File.WriteAllText(this.jsonPath, json);
     }
 
-    public bool Exists(int? id) {
+    public Task<IEnumerable<Profile>> Exists(int? id) {
         return profiles.Find(x => x.Id == id) != null;
     }
     

@@ -26,9 +26,11 @@ public class TokenService : ITokenService {
             new Claim(ClaimTypes.Email, profile.Email),
         };
 
-        foreach (var role in profile.Roles) {
+        /*
+         foreach (var role in profile.Roles) {
             if (role.NameRol != null) claims.Add(new Claim(ClaimTypes.Role, role.NameRol));
         }
+        */
         
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("AppSettings:Token")!));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);

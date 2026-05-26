@@ -18,8 +18,8 @@ public class RoleService : IRoleService {
 
         Role role = new Role();
         
-        role.NameRol = request.NameRol;
-        role.Permissions = request.Permissions;
+        role.Name= request.NameRol;
+        /*role. = request.Permissions;*/
 
         bool bol = _repository.Create(role);
         return bol;

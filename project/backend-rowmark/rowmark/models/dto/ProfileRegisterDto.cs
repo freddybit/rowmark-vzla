@@ -20,7 +20,7 @@ public class ProfileRegisterDto {
         _roles = roles;
     }
     
-    public int? Id {
+    public int Id {
         get => _id;
         set => _id = value;
     }

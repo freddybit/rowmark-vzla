@@ -41,14 +41,9 @@ public class AuthService : IAuthService {
         Profile profile = new Profile();
 
         profile.Id = request.Id;
-        profile.FirstName = request.FirstName;
-        profile.FirstLastname = request.LastName;
-        profile.Email = request.Email;
-        
-        foreach (string roleName in request.Roles) {
-            Role? role = _roleService.ReadRole(roleName);
-            profile.Roles?.Add(role);
-        }
+        profile.FirstName = request.FirstName!;
+        profile.FirstLastname = request.LastName!;
+        profile.Email = request.Email!;
 
         if (request.Password != null) profile.HashPassword = _passwordHasher.HashPassword(profile, request.Password);
         _repository.Create(profile);
