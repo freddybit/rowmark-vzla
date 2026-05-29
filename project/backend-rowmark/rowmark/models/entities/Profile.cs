@@ -5,7 +5,7 @@ public class Profile {
     // Attributes
 
     public int ProfileKey { get; set; }
-    public int Id { get; set; }
+    public int? Id { get; set; }
     public string FirstName { get; set; }
     public string? SecondName { get; set; }
     public string FirstLastname { get; set; }

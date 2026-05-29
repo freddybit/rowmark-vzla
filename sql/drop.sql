@@ -1,0 +1,47 @@
+
+DROP SEQUENCE IF EXISTS
+    sequenceAttribute,
+    sequenceCapability,
+    sequenceColor,
+    sequenceEngravingdepth,
+    sequenceFinish,
+    sequenceHistoricroles,
+    sequenceMaterial,
+    sequencePermission,
+    sequencePhone,
+    sequencePlace,
+    sequenceProduct,
+    sequenceProductauditlog,
+    sequenceProductdimension,
+    sequenceProfile,
+    sequenceRole,
+    sequenceSheetsize,
+    sequenceUsage
+CASCADE;
+
+DROP TABLE IF EXISTS
+    historicrolepermissions,
+    historicroles,
+    phone,
+    productattribute,
+    productauditlog,
+    productcapabilities,
+    productcolor,
+    productdimension,
+    productfinish,
+    productmaterial,
+    productusage,
+    profile,
+    product,
+    place,
+    role,
+    permission,
+    attribute,
+    capability,
+    color,
+    engravingdepth,
+    finish,
+    material,
+    sheetsize,
+    usage
+CASCADE;

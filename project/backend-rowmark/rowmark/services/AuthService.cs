@@ -21,6 +21,8 @@ public class AuthService : IAuthService {
     }
     
     public async Task<string?> LoginProfile(ProfileLoginDto request) {
+        
+        if (request == null) throw new ArgumentNullException(nameof(request));
 
         Profile profile = _repository.ReadProfile(request.Email);
         
@@ -32,6 +34,10 @@ public class AuthService : IAuthService {
         return _tokenService.CreateToken(profile);
     }
     public async Task<Profile?> RegisterProfile(ProfileRegisterDto request) {
+        
+        if (request.Place_PlaceKey == 0) {
+            throw new Exception("El campo Place_PlaceKey llegó como 0. Revisa el JSON o el DTO.");
+        }
 
         if (_repository.Exists(request.Id))
             throw new Exception("Error: Ya existe un usuario con este ID registrado");
@@ -42,7 +48,7 @@ public class AuthService : IAuthService {
 
         profile.Id = request.Id;
         profile.FirstName = request.FirstName!;
-        profile.FirstLastname = request.LastName!;
+        profile.FirstLastname = request.FirstLastname!;
         profile.Email = request.Email!;
 
         if (request.Password != null) profile.HashPassword = _passwordHasher.HashPassword(profile, request.Password);

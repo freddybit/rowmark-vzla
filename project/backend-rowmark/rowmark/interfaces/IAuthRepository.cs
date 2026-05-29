@@ -4,7 +4,7 @@ namespace rowmark.interfaces;
 
 public interface IAuthRepository {
     
-    public Task<IEnumerable<Profile>> Exists(int? id);
+    public bool Exists(int? id);
     public bool Exists(string? email);
     public Profile Create(Profile profile);
     public List<Profile> ReadProfiles();
