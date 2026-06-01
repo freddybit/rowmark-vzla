@@ -1,0 +1,45 @@
+<article>
+  <section>
+    <h2>LISTA DE MATERIALES</h2>
+
+    <button>
+      <span>Agregar Material</span>
+    </button>
+
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Seleccionar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          @for (material of materials; track material.id) {
+            <th>{{ material.id }}</th>
+            <td>{{ material.name }}</td>
+            <td>
+              @if (selectedMaterial === material) {
+                <span>Seleccionado</span>
+              } @else {
+                <button (click)="selectMaterial(material)">Seleccionar</button>
+              }
+            </td>
+          }
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section>
+    <h2>DETALLES DEL MATERIAL</h2>
+    @if (selectedMaterial.id !== 0) {
+      <p><strong>ID:</strong> {{ selectedMaterial.id }}</p>
+      <p><strong>Nombre:</strong> {{ selectedMaterial.name }}</p>
+      <button (click)="deselectMaterial()">Deseleccionar</button>
+      <button (click)="deleteMaterial(selectedMaterial.id)">Eliminar</button>
+    } @else {
+      <p>Seleccione un material para ver sus detalles.</p>
+    }
+  </section>
+</article>
