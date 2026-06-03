@@ -1,45 +1,45 @@
-<article>
-  <section>
+<article class="material-management">
+  <section class="material-list">
     <h2>LISTA DE MATERIALES</h2>
 
-    <button>
-      <span>Agregar Material</span>
+    <button class="add-material">
+      <span>+ Agregar Material</span>
     </button>
 
     <table>
       <thead>
         <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Nombre</th>
-          <th scope="col">Seleccionar</th>
+          <th scope="col" class="row-id">ID</th>
+          <th scope="col" class="row-name">Nombre</th>
+          <th scope="col" class="row-button">Seleccionar</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          @for (material of materials; track material.id) {
-            <th>{{ material.id }}</th>
-            <td>{{ material.name }}</td>
-            <td>
-              @if (selectedMaterial === material) {
-                <span>Seleccionado</span>
-              } @else {
-                <button (click)="selectMaterial(material)">Seleccionar</button>
-              }
-            </td>
-          }
-        </tr>
+        @for (material of materials; track material.id) {
+          <tr>
+              <th scope="row" class="row-id">{{ material.id }}</th>
+              <td scope="row" class="row-name">{{ material.name }}</td>
+              <td scope="row" class="row-button">
+                @if (selectedMaterial === material) {
+                  <span class="button-active">Seleccionado</span>
+                } @else {
+                  <button (click)="selectMaterial(material)">Seleccionar</button>
+                }
+              </td>
+          </tr>
+        }
       </tbody>
     </table>
   </section>
-  <section>
+  <section class="material-details">
     <h2>DETALLES DEL MATERIAL</h2>
     @if (selectedMaterial.id !== 0) {
-      <p><strong>ID:</strong> {{ selectedMaterial.id }}</p>
-      <p><strong>Nombre:</strong> {{ selectedMaterial.name }}</p>
-      <button (click)="deselectMaterial()">Deseleccionar</button>
-      <button (click)="deleteMaterial(selectedMaterial.id)">Eliminar</button>
+      <p class="detail-name">Nombre: {{ selectedMaterial.name }}</p>
+      <p class="detail-id">ID: {{ selectedMaterial.id }}</p>
+      <button (click)="deselectMaterial()" class="btn-deselect">Deseleccionar</button>
+      <button (click)="deleteMaterial(selectedMaterial.id)" class="btn-delete">Eliminar</button>
     } @else {
-      <p>Seleccione un material para ver sus detalles.</p>
+      <p class="detail-warning">AVISO: Seleccione un material para ver sus detalles.</p>
     }
   </section>
 </article>
