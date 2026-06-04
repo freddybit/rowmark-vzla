@@ -108,13 +108,19 @@ tbody tr:hover {
 }
 
 .row-name {
-  width: 75%;
+  width: 35%;
+  justify-content: flex-start;
+  padding-left: 20px;
+}
+
+.row-category {
+  width: 35%;
   justify-content: flex-start;
   padding-left: 20px;
 }
 
 .row-button {
-  width: 15%;
+  width: 20%;
 }
 
 .row-button button {
@@ -190,17 +196,10 @@ tbody tr:hover {
   background-color: #ac0614 !important;
 }
 
-
-/* ==========================================================================
-   DISEÑO RESPONSIVE CORREGIDO (Evita que se vea apretado)
-   ========================================================================== */
-
 @media (max-width: 1024px) {
   .material-management {
     flex-direction: column;
-    /* Apila lista arriba y detalles abajo */
     height: auto;
-    /* IMPORTANTE: Quita el límite de altura */
     max-height: none;
   }
 
@@ -220,16 +219,12 @@ tbody tr:hover {
 
   table {
     min-width: 600px;
-    /* LA CLAVE: Fuerza a la tabla a no hacerse más pequeña de esto */
     height: 400px;
-    /* Quita el 50% de altura que la colapsaba */
     max-height: 500px;
   }
 }
 
 @media (max-width: 768px) {
-
-  /* En móviles, damos un poco más de tamaño vertical al botón de agregar */
   .add-material {
     max-height: 45px;
     font-size: 1.2rem;

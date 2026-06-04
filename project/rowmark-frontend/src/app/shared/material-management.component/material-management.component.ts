@@ -8,18 +8,21 @@ import { Component } from '@angular/core';
 })
 export class MaterialManagementComponent {
 
-  selectedMaterial: Material = {id: 0, name: ''};
+  selectedMaterial: Material = { id: 0, name: '', imgUrl: '', category: '', description: '' };
 
   materials: Material[] = [
-    { id: 1, name: 'Material 1' },
-    { id: 2, name: 'Material 2' },
-    { id: 3, name: 'Material 3' },
+    { id: 1, name: 'Material 1', category: 'Madera', description: 'Lorem ipsum dolor sit amet', imgUrl: 'https://tse2.mm.bing.net/th/id/OIP.ruDUGqmS0CNXFLH1qRWkYAHaE8?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3' },
+    { id: 2, name: 'Material 2', category: 'Plástico', description: 'Lorem ipsum dolor sit amet', imgUrl: 'https://tse1.mm.bing.net/th/id/OIP.FGaiFYn85RKz39GvDNGyhgHaD3?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3' },
+    { id: 3, name: 'Material 3', category: 'Metal', description: 'Lorem ipsum dolor sit amet', imgUrl: 'https://tse3.mm.bing.net/th/id/OIP.raY1I7m0vPLI3KIRq_3oDwHaEK?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3' },
   ];
 
   addMaterial(name: string): void {
     const newMaterial: Material = {
       id: this.materials.length > 0 ? Math.max(...this.materials.map(m => m.id)) + 1 : 1,
-      name: name
+      name: name,
+      imgUrl: '',
+      category: '',
+      description: ''
     };
     this.materials.push(newMaterial);
   }
@@ -29,7 +32,7 @@ export class MaterialManagementComponent {
   }
 
   deselectMaterial(): void {
-    this.selectedMaterial = {id: 0, name: ''};
+    this.selectedMaterial = { id: 0, name: '', imgUrl: '', category: '', description: '' };
   }
 
   deleteMaterial(id: number): void {
