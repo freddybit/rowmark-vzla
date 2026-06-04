@@ -36,14 +36,24 @@
   <section class="material-details">
     <h2>DETALLES DEL MATERIAL</h2>
     @if (selectedMaterial.id !== 0) {
-      <img [src]="selectedMaterial.imgUrl" alt="Imagen del material" class="detail-image">
-      <p class="detail-name">Nombre: {{ selectedMaterial.name }}</p>
-      <p class="detail-id">ID: {{ selectedMaterial.id }}</p>
-      <p class="detail-category">Categoría: {{ selectedMaterial.category }}</p>
-      <p class="detail-description">Descripción: {{ selectedMaterial.description }}</p>
-      <button (click)="deselectMaterial()" class="btn-deselect">Deseleccionar</button>
-      <button (click)="deleteMaterial(selectedMaterial.id)" class="btn-delete">Eliminar</button>
-      <button (click)="deleteMaterial(selectedMaterial.id)" class="btn-delete">Modificar</button>
+    <div class="details-card">
+      <section class="detail-header">
+        <img [src]="selectedMaterial.imgUrl" alt="Imagen del material" class="detail-image">
+        <p class="detail-name">Nombre: {{ selectedMaterial.name }}</p>
+                <p class="detail-name">Categoría: {{ selectedMaterial.category }}</p>
+        <p class="detail-id">ID: {{ selectedMaterial.id }}</p>
+      </section>
+      <section class="detail-content">
+        <p class="detail-description"><span>Descripción:</span> {{ selectedMaterial.description }}</p>
+      </section>
+      <section class="detail-actions">
+        <button (click)="deselectMaterial()" class="btn-deselect">Deseleccionar</button>
+        <div class="action-buttons">
+          <button (click)="deleteMaterial(selectedMaterial.id)" class="btn-delete">Eliminar</button>
+          <button (click)="deleteMaterial(selectedMaterial.id)" class="btn-edit">Modificar</button>
+        </div>
+      </section>
+    </div>
     } @else {
       <p class="detail-warning">AVISO: Seleccione un material para ver sus detalles.</p>
     }
