@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal, ChangeDetectorRef } from '@angular/core';
 import { ProductCardComponent } from "../product-card.component/product-card.component";
-import { DolarApi } from '../../services/dolar-api/dolar-api';
-import { ProductCard } from '../../models/entities/productCard';
+import { DolarApi } from '../../../services/dolar-api/dolar-api';
+import { ProductCard } from '../../../models/entities/productCard';
 
 @Component({
   selector: 'app-catalog',

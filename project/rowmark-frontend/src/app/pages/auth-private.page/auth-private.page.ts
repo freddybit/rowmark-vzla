@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthLoginFormComponent } from "../../shared/auth-login-form.component/auth-login-form.component";
+import { AuthLoginFormComponent } from "../../shared/admin-layout/auth-login-form.component/auth-login-form.component";
 
 @Component({
   selector: 'app-auth-private.page',

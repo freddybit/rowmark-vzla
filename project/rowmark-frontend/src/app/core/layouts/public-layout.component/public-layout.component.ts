@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavbarComponent } from "../../../shared/navbar.component/navbar.component";
+import { NavbarComponent } from "../../../shared/public-layout/navbar.component/navbar.component";
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from "../../../shared/footer.component/footer.component";
 

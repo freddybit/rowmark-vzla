@@ -1,9 +1,9 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { CartManager } from '../../managers/cart-manager/cart.manager';
-import { ShoppingCartCardComponent } from "../../shared/shopping-cart-card.component/shopping-cart-card.component";
+import { ShoppingCartCardComponent } from "../../shared/public-layout/shopping-cart-card.component/shopping-cart-card.component";
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { ErrorDialogComponent } from "../../shared/error-dialog.component/error-dialog.component";
+import { ErrorDialogComponent } from "../../shared/public-layout/error-dialog.component/error-dialog.component";
 
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
-import { Product } from '../../models/entities/product';
-import { ShoppingCardSheetDto } from '../../models/dtos/shopping-card-sheet.dto';
-import { CartManager } from '../../managers/cart-manager/cart.manager';
+import { Product } from '../../../models/entities/product';
+import { ShoppingCardSheetDto } from '../../../models/dtos/shopping-card-sheet.dto';
+import { CartManager } from '../../../managers/cart-manager/cart.manager';
 
 @Component({
   selector: 'app-product-dialog',

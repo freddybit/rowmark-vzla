@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { DolarApi } from '../../services/dolar-api/dolar-api';
+import { DolarApi } from '../../../services/dolar-api/dolar-api';
 
 @Component({
   selector: 'app-info-section',

@@ -1,8 +1,8 @@
 import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { CartManager } from '../../managers/cart-manager/cart.manager';
+import { CartManager } from '../../../managers/cart-manager/cart.manager';
 import { ProductDialogComponent } from '../product-dialog.component/product-dialog.component';
-import { Product } from '../../models/entities/product';
-import { ProductCard } from '../../models/entities/productCard';
+import { Product } from '../../../models/entities/product';
+import { ProductCard } from '../../../models/entities/productCard';
 
 @Component({
   selector: 'app-product-card',

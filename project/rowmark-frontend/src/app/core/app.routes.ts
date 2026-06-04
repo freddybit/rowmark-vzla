@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { HomeSectionComponent } from '../shared/home-section.component/home-section.component';
+import { HomeSectionComponent } from '../shared/public-layout/home-section.component/home-section.component';
 import { PublicLayoutComponent } from './layouts/public-layout.component/public-layout.component';
 import { HomePublicPage } from '../pages/home-public.page/home-public.page';
 import { AuthLayoutComponent } from './layouts/auth-layout.component/auth-layout.component';
@@ -9,8 +9,8 @@ import { AdminLayoutComponent } from './layouts/admin-layout.component/admin-lay
 import { AddStockPage } from '../pages/add-stock.page/add-stock.page';
 import { LookStockPage } from '../pages/look-stock.page/look-stock.page';
 import { ShoppingCartPage } from '../pages/shopping-cart.page/shopping-cart.page';
-import { MaterialManagementComponent } from '../shared/material-management.component/material-management.component';
-import { ColorManagementComponent } from '../shared/color-management.component/color-management.component';
+import { MaterialManagementComponent } from '../shared/admin-layout/material-management.component/material-management.component';
+import { ColorManagementComponent } from '../shared/admin-layout/color-management.component/color-management.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },

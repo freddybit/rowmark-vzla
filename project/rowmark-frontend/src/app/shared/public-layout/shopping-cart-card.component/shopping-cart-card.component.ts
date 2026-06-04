@@ -1,6 +1,6 @@
 import { Component, inject, Input, input } from '@angular/core';
-import { CartManager } from '../../managers/cart-manager/cart.manager';
-import { ShoppingCardSheetDto } from '../../models/dtos/shopping-card-sheet.dto';
+import { CartManager } from '../../../managers/cart-manager/cart.manager';
+import { ShoppingCardSheetDto } from '../../../models/dtos/shopping-card-sheet.dto';
 
 @Component({
   selector: 'app-shopping-cart-card',

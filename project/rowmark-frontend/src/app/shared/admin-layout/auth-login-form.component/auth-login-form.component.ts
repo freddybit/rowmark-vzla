@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { RowmarkApi } from '../../services/rowmark-api/rowmark-api';
-import { ProfileLoginDto } from '../../models/dtos/profile-login.dto';
+import { RowmarkApi } from '../../../services/rowmark-api/rowmark-api';
+import { ProfileLoginDto } from '../../../models/dtos/profile-login.dto';
 import { FormsModule } from '@angular/forms';
 
 @Component({

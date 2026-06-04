@@ -33,6 +33,7 @@ public class AuthService : IAuthService {
         
         return _tokenService.CreateToken(profile);
     }
+    
     public async Task<Profile?> RegisterProfile(ProfileRegisterDto request) {
         
         if (request.Place_PlaceKey == 0) {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MyProfileHeaderComponent } from "../../shared/my-profile-header.component/my-profile-header.component";
+import { MyProfileHeaderComponent } from "../../shared/admin-layout/my-profile-header.component/my-profile-header.component";
 
 @Component({
   selector: 'app-my-profile',

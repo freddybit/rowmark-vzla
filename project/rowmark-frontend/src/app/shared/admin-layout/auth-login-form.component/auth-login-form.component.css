@@ -1,6 +1,6 @@
 /* Mantiene tu lógica de fondo */
 .background-img {
-  background-image: url('../../../../public/img/background/auth_background.jpg');
+  background-image: url('../../../../../public/img/background/auth_background.jpg');
   background-position: center;
   /* Mejor centrado para cover */
   background-size: cover;

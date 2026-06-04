@@ -1,6 +1,6 @@
 /* Contenedor principal */
 div {
-    background-image: url('../../../../public/img/background/rowmark_background.jpg');
+    background-image: url('../../../../../public/img/background/rowmark_background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

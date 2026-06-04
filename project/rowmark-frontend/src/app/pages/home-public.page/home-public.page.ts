@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { HomeSectionComponent } from "../../shared/home-section.component/home-section.component";
-import { CatalogComponent } from "../../shared/catalog.component/catalog.component";
+import { HomeSectionComponent } from "../../shared/public-layout/home-section.component/home-section.component";
+import { CatalogComponent } from "../../shared/public-layout/catalog.component/catalog.component";
 
 @Component({
   selector: 'app-home-public',
