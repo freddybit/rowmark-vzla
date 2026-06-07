@@ -1,0 +1,30 @@
+<article>
+  <section>
+    <h2>Role Management</h2>
+    <p>This section allows administrators to manage user roles and permissions within the application. You can create new roles, assign permissions to existing roles, and manage user assignments to these roles.</p>
+  </section>
+  <section>
+    <div>
+      <h3>Creating a New Role</h3>
+      <p>To create a new role, click on the "Add Role" button. Fill in the role name and select the appropriate permissions for that role. Once you have configured the role, click "Save" to create it.</p>
+    </div>
+    <button>+ Create Role</button>
+  </section>
+    @if (roleList.length === 0) {
+      <section>
+        <p>No roles available.</p>
+      </section>
+    }@else {
+      @for (role of roleList; track role.id) {
+        <section>
+          <img [src]="role.iconUrl" alt="Role Icon" class="role-icon">
+          <h3>{{ role.name }}</h3>
+          <p>Permissions: {{ role.permissions.join(', ') }}</p>
+          <div class="role-actions">
+            <button>Edit</button>
+            <button>Delete</button>
+          </div>
+        </section>
+      }
+    }
+</article>

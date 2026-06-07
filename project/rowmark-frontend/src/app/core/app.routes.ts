@@ -13,6 +13,10 @@ import { MaterialManagementComponent } from '../shared/admin-layout/material-man
 import { ColorManagementComponent } from '../shared/admin-layout/color-management.component/color-management.component';
 import { FinishManagementComponent } from '../shared/admin-layout/finish-management.component/finish-management.component';
 import { AtributesManagementComponent } from '../shared/admin-layout/atributes-management.component/atributes-management.component';
+import { UsageManagementComponent } from '../shared/admin-layout/usage-management.component/usage-management.component';
+import { CapabilityManagementComponent } from '../shared/admin-layout/capability-management.component/capability-management.component';
+import { DeepthManagementComponent } from '../shared/admin-layout/deepth-management.component/deepth-management.component';
+import { DimensionsManagementComponent } from '../shared/admin-layout/dimensions-management.component/dimensions-management.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -35,7 +39,11 @@ export const routes: Routes = [
         { path: 'attributes/material', component: MaterialManagementComponent },
         { path: 'attributes/color', component: ColorManagementComponent },
         { path: 'attributes/finish', component: FinishManagementComponent },
-        { path: 'attributes', component: AtributesManagementComponent  }
+        { path: 'attributes', component: AtributesManagementComponent  },
+        { path: 'attributes/usage', component: UsageManagementComponent },
+        { path: 'attributes/capability', component: CapabilityManagementComponent },
+        { path: 'attributes/dimension', component: DimensionsManagementComponent },
+        { path: 'attributes/engravingDepth', component: DeepthManagementComponent }
       ]
     },
     {

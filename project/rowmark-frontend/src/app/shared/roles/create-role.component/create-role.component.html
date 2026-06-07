@@ -1,0 +1,35 @@
+<article>
+  <section>
+    <h1>Create Role</h1>
+    <p>
+      This section allows administrators to create new user roles and assign appropriate permissions to them.
+    </p>
+  </section>
+
+  <section>
+    <div>
+      <img src="assets/icons/role-icon.png" alt="Role Icon" class="role-icon">
+      <span>General information</span>
+    </div>
+
+    <form>
+      <label for="roleName">
+        <span>Role Name:</span>
+        <input type="text" id="roleName" name="roleName" placeholder="e.g., Manager, Editor, Viewer">
+      </label>
+      <label for="description">
+        <span>Description:</span>
+        <textarea id="description" name="description" placeholder="Provide a brief description of the role's responsibilities and permissions."></textarea>
+      </label>
+      <label for="permissions">
+        <span>Permissions:</span>
+        <select id="permissions" name="permissions" multiple>
+          <option value="read">Read</option>
+          <option value="write">Write</option>
+          <option value="delete">Delete</option>
+          <option value="manageUsers">Manage Users</option>
+        </select>
+      </label>
+    </form>
+  </section>
+</article>

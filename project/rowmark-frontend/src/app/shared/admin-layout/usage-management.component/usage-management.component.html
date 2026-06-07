@@ -1,1 +1,58 @@
-<p>usage-management.component works!</p>
+<article class="material-management">
+  <section class="material-list">
+    <h2>LISTA DE USOS</h2>
+
+    <button class="add-material">
+      <span>+ Agregar Uso</span>
+    </button>
+
+    <table>
+      <thead>
+        <tr>
+          <th scope="col" class="row-id">ID</th>
+          <th scope="col" class="row-name">Nombre</th>
+          <th scope="col" class="row-button">Seleccionar</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (usage of usages; track usage.id) {
+          <tr>
+              <th scope="row" class="row-id">{{ usage.id }}</th>
+              <td scope="row" class="row-name">{{ usage.name }}</td>
+              <td scope="row" class="row-button">
+                @if (selectedUsage === usage) {
+                  <span class="button-active">Seleccionado</span>
+                } @else {
+                  <button (click)="selectUsage(usage)">Seleccionar</button>
+                }
+              </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+  <section class="material-details">
+    <h2>DETALLES DEL USO</h2>
+    @if (selectedUsage.id !== 0) {
+    <div class="details-card">
+      <section class="detail-header">
+        <img [src]="selectedUsage.imgUrl" alt="Imagen del usage" class="detail-image">
+        <p class="detail-name">Nombre: {{ selectedUsage.name }}</p>
+        <p class="detail-id">ID: {{ selectedUsage.id }}</p>
+      </section>
+      <section class="detail-content">
+        <p class="detail-description"><span>Descripción:</span> {{ selectedUsage.description }}</p>
+      </section>
+      <section class="detail-actions">
+        <button (click)="deselectUsage()" class="btn-deselect">Deseleccionar</button>
+        <div class="action-buttons">
+          <button (click)="deleteUsage(selectedUsage.id)" class="btn-delete">Eliminar</button>
+          <button (click)="deleteUsage(selectedUsage.id)" class="btn-edit">Modificar</button>
+        </div>
+      </section>
+    </div>
+    } @else {
+      <p class="detail-warning">AVISO: Seleccione un uso para ver sus detalles.</p>
+    }
+  </section>
+</article>

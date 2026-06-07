@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-dimensions-management.component',
+  selector: 'app-capability-management.component',
   imports: [],
-  templateUrl: './dimensions-management.component.html',
-  styleUrl: './dimensions-management.component.css',
+  templateUrl: './capability-management.component.html',
+  styleUrl: './capability-management.component.css',
 })
-export class DimensionsManagementComponent {
+export class CapabilityManagementComponent {
   selectedMaterial: Material = { id: 0, name: '', imgUrl: '', category: '', description: '' };
 
   materials: Material[] = [
