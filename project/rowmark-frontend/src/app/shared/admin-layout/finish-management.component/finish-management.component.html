@@ -1,1 +1,58 @@
-<p>finish-management.component works!</p>
+<article class="material-management">
+  <section class="material-list">
+    <h2>LISTA DE ACABADOS</h2>
+
+    <button class="add-material">
+      <span>+ Agregar Acabado</span>
+    </button>
+
+    <table>
+      <thead>
+        <tr>
+          <th scope="col" class="row-id">ID</th>
+          <th scope="col" class="row-name">Nombre</th>
+          <th scope="col" class="row-button">Seleccionar</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (finish of finishes; track finish.id) {
+          <tr>
+              <th scope="row" class="row-id">{{ finish.id }}</th>
+              <td scope="row" class="row-name">{{ finish.name }}</td>
+              <td scope="row" class="row-button">
+                @if (selectedFinish === finish) {
+                  <span class="button-active">Seleccionado</span>
+                } @else {
+                  <button (click)="selectFinish(finish)">Seleccionar</button>
+                }
+              </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+  <section class="material-details">
+    <h2>DETALLES DEL ACABADO</h2>
+    @if (selectedFinish.id !== 0) {
+    <div class="details-card">
+      <section class="detail-header">
+        <img [src]="selectedFinish.imgUrl" alt="Imagen del acabado" class="detail-image">
+        <p class="detail-name">Nombre: {{ selectedFinish.name }}</p>
+        <p class="detail-id">ID: {{ selectedFinish.id }}</p>
+      </section>
+      <section class="detail-content">
+        <p class="detail-description"><span>Descripción:</span> {{ selectedFinish.description }}</p>
+      </section>
+      <section class="detail-actions">
+        <button (click)="deselectFinish()" class="btn-deselect">Deseleccionar</button>
+        <div class="action-buttons">
+          <button (click)="deleteFinish(selectedFinish.id)" class="btn-delete">Eliminar</button>
+          <button (click)="deleteFinish(selectedFinish.id)" class="btn-edit">Modificar</button>
+        </div>
+      </section>
+    </div>
+    } @else {
+      <p class="detail-warning">AVISO: Seleccione un acabado para ver sus detalles.</p>
+    }
+  </section>
+</article>

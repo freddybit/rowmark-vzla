@@ -11,6 +11,8 @@ import { LookStockPage } from '../pages/look-stock.page/look-stock.page';
 import { ShoppingCartPage } from '../pages/shopping-cart.page/shopping-cart.page';
 import { MaterialManagementComponent } from '../shared/admin-layout/material-management.component/material-management.component';
 import { ColorManagementComponent } from '../shared/admin-layout/color-management.component/color-management.component';
+import { FinishManagementComponent } from '../shared/admin-layout/finish-management.component/finish-management.component';
+import { AtributesManagementComponent } from '../shared/admin-layout/atributes-management.component/atributes-management.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -30,8 +32,10 @@ export const routes: Routes = [
         { path: 'my-profile', component: MyProfilePage },
         { path: 'product', component: AddStockPage },
         { path: 'stock', component: LookStockPage },
-        { path: 'atributes/material', component: MaterialManagementComponent },
-        { path: 'atributes/color', component: ColorManagementComponent },
+        { path: 'attributes/material', component: MaterialManagementComponent },
+        { path: 'attributes/color', component: ColorManagementComponent },
+        { path: 'attributes/finish', component: FinishManagementComponent },
+        { path: 'attributes', component: AtributesManagementComponent  }
       ]
     },
     {

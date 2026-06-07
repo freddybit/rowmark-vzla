@@ -1,1 +1,57 @@
-<p>color-management.component works!</p>
+<article class="material-management">
+  <section class="material-list">
+    <h2>LISTA DE COLORES</h2>
+
+    <button class="add-material">
+      <span>+ Agregar Color</span>
+    </button>
+
+    <table>
+      <thead>
+        <tr>
+          <th scope="col" class="row-id">ID</th>
+          <th scope="col" class="row-name">Nombre</th>
+          <th scope="col" class="row-button">Seleccionar</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (color of colors; track color.id) {
+          <tr>
+              <th scope="row" class="row-id">{{ color.id }}</th>
+              <td scope="row" class="row-name">{{ color.name }}</td>
+              <td scope="row" class="row-button">
+                @if (selectedColor === color) {
+                  <span class="button-active">Seleccionado</span>
+                } @else {
+                  <button (click)="selectMaterial(color)">Seleccionar</button>
+                }
+              </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+  <section class="material-details">
+    <h2>DETALLES DEL COLOR</h2>
+    @if (selectedColor.id !== 0) {
+    <div class="details-card">
+      <section class="detail-header">
+        <img [src]="selectedColor.imgUrl" alt="Imagen del color" class="detail-image">
+        <p class="detail-name">Nombre: {{ selectedColor.name }}</p>
+        <p class="detail-name">Hexadecimal de Superficie: {{ selectedColor.surfaceHex }}</p>
+        <p class="detail-name">Hexadecimal del Núcleo: {{ selectedColor.coreHex }}</p>
+        <p class="detail-id">ID: {{ selectedColor.id }}</p>
+      </section>
+      <section class="detail-actions">
+        <button (click)="deselectColor()" class="btn-deselect">Deseleccionar</button>
+        <div class="action-buttons">
+          <button (click)="deleteColor(selectedColor.id)" class="btn-delete">Eliminar</button>
+          <button (click)="deleteColor(selectedColor.id)" class="btn-edit">Modificar</button>
+        </div>
+      </section>
+    </div>
+    } @else {
+      <p class="detail-warning">AVISO: Seleccione un color para ver sus detalles.</p>
+    }
+  </section>
+</article>
