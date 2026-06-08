@@ -1,35 +1,93 @@
 <article>
-  <section>
+  <section class="header-section">
     <h1>Create Role</h1>
-    <p>
-      This section allows administrators to create new user roles and assign appropriate permissions to them.
-    </p>
+    <p>This section allows administrators to create new user roles and assign appropriate permissions to them.</p>
   </section>
 
-  <section>
-    <div>
-      <img src="assets/icons/role-icon.png" alt="Role Icon" class="role-icon">
+  <section class="form-section">
+    <div class="section-title">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24px" height="24px"><path d="M440-280h80v-240h-80v240Zm68.5-331.5Q520-623 520-640t-11.5-28.5Q497-680 480-680t-28.5 11.5Q440-657 440-640t11.5 28.5Q463-600 480-600t28.5-11.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
       <span>General information</span>
     </div>
 
-    <form>
-      <label for="roleName">
-        <span>Role Name:</span>
-        <input type="text" id="roleName" name="roleName" placeholder="e.g., Manager, Editor, Viewer">
-      </label>
-      <label for="description">
-        <span>Description:</span>
-        <textarea id="description" name="description" placeholder="Provide a brief description of the role's responsibilities and permissions."></textarea>
-      </label>
-      <label for="permissions">
-        <span>Permissions:</span>
-        <select id="permissions" name="permissions" multiple>
-          <option value="read">Read</option>
-          <option value="write">Write</option>
-          <option value="delete">Delete</option>
-          <option value="manageUsers">Manage Users</option>
-        </select>
-      </label>
+    <form class="role-form">
+
+      <fieldset class="general-info-container">
+        <label for="roleName">
+          <span>Role Name:</span>
+          <input type="text" id="roleName" name="roleName" placeholder="e.g., Manager, Editor, Viewer">
+        </label>
+
+        <label for="description">
+          <span>Description:</span>
+          <textarea id="description" name="description" placeholder="Provide a brief description of the role's responsibilities and permissions."></textarea>
+        </label>
+      </fieldset>
+
+      <fieldset class="permissions-section-container">
+        <div class="section-title">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M480-80q-139-35-229.5-159.5T160-516v-244l320-120 320 120v244q0 152-90.5 276.5T480-80Zm0-84q97-30 162-118.5T718-480H480v-315l-240 90v207q0 7 2 18h238v316Z"/></svg>
+          <span>Configuración de Permisos</span>
+        </div>
+
+        <div class="permissions-table">
+          <div class="permissions-header">
+            <div class="col-module">MODULE / CATEGORY</div>
+            <div class="col-actions">
+              <span>VIEW</span>
+              <span>CREATE</span>
+              <span>EDIT</span>
+              <span>DELETE / EXPORT</span>
+            </div>
+          </div>
+
+          <div class="permissions-row">
+            <div class="module-info">
+              <h3>Users</h3>
+              <p>Manage system user accounts</p>
+            </div>
+            <div class="module-actions">
+              <div class="action-cell"><input type="checkbox"></div>
+              <div class="action-cell"><input type="checkbox"></div>
+              <div class="action-cell"><input type="checkbox"></div>
+              <div class="action-cell"><input type="checkbox"></div>
+            </div>
+          </div>
+
+          <div class="permissions-row">
+            <div class="module-info">
+              <h3>Roles & Permissions</h3>
+              <p>Define and assign access levels</p>
+            </div>
+            <div class="module-actions">
+              <div class="action-cell"><input type="checkbox"></div>
+              <div class="action-cell"><input type="checkbox"></div>
+              <div class="action-cell"><input type="checkbox"></div>
+              <div class="action-cell"><input type="checkbox"></div>
+            </div>
+          </div>
+
+          <div class="permissions-row">
+            <div class="module-info">
+              <h3>Reports</h3>
+              <p>Access system analytics and logs</p>
+            </div>
+            <div class="module-actions">
+              <div class="action-cell"><input type="checkbox"></div>
+              <div class="action-cell"></div> <div class="action-cell"></div> <div class="action-cell export-cell">
+                <input type="checkbox">
+                <span class="export-text">(Export)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset class="form-actions">
+        <button type="submit" class="save-button">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM565-275q35-35 35-85t-35-85q-35-35-85-35t-85 35q-35 35-35 85t35 85q35 35 85 35t85-35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z"/></svg>
+          <span>Save Role</span>
+        </button>
+      </fieldset>
     </form>
   </section>
 </article>

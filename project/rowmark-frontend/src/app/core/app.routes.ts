@@ -17,41 +17,43 @@ import { UsageManagementComponent } from '../shared/admin-layout/usage-managemen
 import { CapabilityManagementComponent } from '../shared/admin-layout/capability-management.component/capability-management.component';
 import { DeepthManagementComponent } from '../shared/admin-layout/deepth-management.component/deepth-management.component';
 import { DimensionsManagementComponent } from '../shared/admin-layout/dimensions-management.component/dimensions-management.component';
+import { RoleManagementComponent } from '../shared/roles/role-management.component/role-management.component';
+import { CreateRoleComponent } from '../shared/roles/create-role.component/create-role.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: 'auth', redirectTo: 'auth/private', pathMatch: 'full' },
-    { path: 'admin', redirectTo: 'admin/dashboard', pathMatch: 'full' },
-    {
-      path: 'auth',
-      component: AuthLayoutComponent,
-      children: [
-        { path: 'private', component: AuthPrivatePage }
-      ]
-    },
-    {
-      path: 'admin',
-      component: AdminLayoutComponent,
-      children: [
-        { path: 'my-profile', component: MyProfilePage },
-        { path: 'product', component: AddStockPage },
-        { path: 'stock', component: LookStockPage },
-        { path: 'attributes/material', component: MaterialManagementComponent },
-        { path: 'attributes/color', component: ColorManagementComponent },
-        { path: 'attributes/finish', component: FinishManagementComponent },
-        { path: 'attributes', component: AtributesManagementComponent  },
-        { path: 'attributes/usage', component: UsageManagementComponent },
-        { path: 'attributes/capability', component: CapabilityManagementComponent },
-        { path: 'attributes/dimension', component: DimensionsManagementComponent },
-        { path: 'attributes/engravingDepth', component: DeepthManagementComponent }
-      ]
-    },
-    {
-        path: '',
-        component: PublicLayoutComponent,
-        children: [
-            { path: 'home', component: HomePublicPage },
-            { path: 'cart', component: ShoppingCartPage}
-        ]
-    }
-]
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'auth', redirectTo: 'auth/private', pathMatch: 'full' },
+  { path: 'admin', redirectTo: 'admin/dashboard', pathMatch: 'full' },
+  {
+    path: 'auth',
+    component: AuthLayoutComponent,
+    children: [{ path: 'private', component: AuthPrivatePage }],
+  },
+  {
+    path: 'admin',
+    component: AdminLayoutComponent,
+    children: [
+      { path: 'my-profile', component: MyProfilePage },
+      { path: 'roles', component: RoleManagementComponent },
+      { path: 'roles/create', component: CreateRoleComponent },
+      { path: 'product', component: AddStockPage },
+      { path: 'stock', component: LookStockPage },
+      { path: 'attributes/material', component: MaterialManagementComponent },
+      { path: 'attributes/color', component: ColorManagementComponent },
+      { path: 'attributes/finish', component: FinishManagementComponent },
+      { path: 'attributes', component: AtributesManagementComponent },
+      { path: 'attributes/usage', component: UsageManagementComponent },
+      { path: 'attributes/capability', component: CapabilityManagementComponent },
+      { path: 'attributes/dimension', component: DimensionsManagementComponent },
+      { path: 'attributes/engravingDepth', component: DeepthManagementComponent },
+    ],
+  },
+  {
+    path: '',
+    component: PublicLayoutComponent,
+    children: [
+      { path: 'home', component: HomePublicPage },
+      { path: 'cart', component: ShoppingCartPage },
+    ],
+  },
+];
