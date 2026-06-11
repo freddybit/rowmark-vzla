@@ -1,0 +1,32 @@
+<article>
+  <section>
+    <div>
+      <h2>Gestión de Usuarios</h2>
+      <p>En esta sección, los administradores pueden gestionar los usuarios de la aplicación. Esto incluye la creación de nuevos usuarios, la asignación de roles y permisos, y la eliminación de usuarios existentes.</p>
+    </div>
+    <button >+ Crear Usuario</button>
+  </section>
+
+  <section>
+    <h3>Lista de Usuarios</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of users; track user.id) {
+          <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</article>
