@@ -1,32 +1,58 @@
 <article>
-  <section>
+  <section class="header-section">
     <div>
       <h2>Gestión de Usuarios</h2>
       <p>En esta sección, los administradores pueden gestionar los usuarios de la aplicación. Esto incluye la creación de nuevos usuarios, la asignación de roles y permisos, y la eliminación de usuarios existentes.</p>
     </div>
-    <button >+ Crear Usuario</button>
+    <button class="btn-primary" title="Crear nuevo usuario" (click)="abrirModal()">+ Crear Usuario</button>
   </section>
 
-  <section>
+  <section class="table-section">
     <h3>Lista de Usuarios</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Rol</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (user of users; track user.id) {
+
+    <div class="table-responsive">
+      <table>
+        <thead>
           <tr>
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.role }}</td>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th class="actions-col">Acciones</th>
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @for (user of userList; track user.id) {
+            <tr>
+              <td>
+                <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
+              </td>
+              <td class="user-email">{{ user.email }}</td>
+              <td>
+                <span class="badge-rol">{{ user.roles[0].name }}</span>
+              </td>
+
+              <td class="actions-col">
+                <div class="action-buttons">
+                  <button class="action-btn edit-btn" title="Editar usuario">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
+                  </button>
+                  <button class="action-btn delete-btn" title="Eliminar usuario">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </section>
+
 </article>
+
+@if (isModalOpen) {
+  <app-create-user
+    (onClose)="cerrarModal()"
+    (onSave)="guardarNuevoUsuario($event)">
+  </app-create-user>
+}

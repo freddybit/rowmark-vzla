@@ -19,6 +19,7 @@ import { DeepthManagementComponent } from '../shared/admin-layout/deepth-managem
 import { DimensionsManagementComponent } from '../shared/admin-layout/dimensions-management.component/dimensions-management.component';
 import { RoleManagementComponent } from '../shared/roles/role-management.component/role-management.component';
 import { CreateRoleComponent } from '../shared/roles/create-role.component/create-role.component';
+import { UserManagementComponent } from '../shared/roles/user-management.component/user-management.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -34,6 +35,7 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     children: [
       { path: 'my-profile', component: MyProfilePage },
+      { path: 'profiles/all', component: UserManagementComponent },
       { path: 'roles', component: RoleManagementComponent },
       { path: 'roles/create', component: CreateRoleComponent },
       { path: 'product', component: AddStockPage },

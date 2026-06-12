@@ -1,1 +1,22 @@
-<p>create-user.component works!</p>
+<div class="modal-overlay">
+  <div class="modal-card">
+
+    <div class="modal-header">
+      <h2>Nuevo Usuario</h2>
+      <button class="btn-close" (click)="cerrar()" aria-label="Cerrar modal">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="firstName">Nombre</label>
+        <input type="text" id="firstName" [(ngModel)]="nuevoUsuario.firstName" class="form-control">
+      </div>
+      </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="cerrar()">Cancelar</button>
+      <button class="btn-save" (click)="guardar()">Guardar Usuario</button>
+    </div>
+
+  </div>
+</div>
