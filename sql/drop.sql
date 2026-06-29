@@ -1,24 +1,3 @@
-
-DROP SEQUENCE IF EXISTS
-    sequenceAttribute,
-    sequenceCapability,
-    sequenceColor,
-    sequenceEngravingdepth,
-    sequenceFinish,
-    sequenceHistoricroles,
-    sequenceMaterial,
-    sequencePermission,
-    sequencePhone,
-    sequencePlace,
-    sequenceProduct,
-    sequenceProductauditlog,
-    sequenceProductdimension,
-    sequenceProfile,
-    sequenceRole,
-    sequenceSheetsize,
-    sequenceUsage
-CASCADE;
-
 DROP TABLE IF EXISTS
     historicrolepermissions,
     historicroles,

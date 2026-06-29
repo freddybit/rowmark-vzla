@@ -1,5 +1,5 @@
 export interface Finish {
-  id: number;
+  finishKey?: number;
   imgUrl: string;
   name: string;
   description: string;

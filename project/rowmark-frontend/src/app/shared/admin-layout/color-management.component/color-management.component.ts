@@ -1,65 +1,103 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Color } from '../../../models/entities/color';
+// Asegúrate de tener la ruta correcta a tu servicio
+import { ColorService } from '../../../services/rowmark-api/color-service/color.service';
+import {
+  FlexRenderDirective,
+  createAngularTable,
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  getFilteredRowModel,
+} from '@tanstack/angular-table';
 
 @Component({
   selector: 'app-color-management',
-  imports: [],
+  imports: [CommonModule, FlexRenderDirective],
   templateUrl: './color-management.component.html',
   styleUrl: './color-management.component.css',
 })
-export class ColorManagementComponent {
-  selectedColor: Color = { id: 0, name: '', imgUrl: '', surfaceHex: '', coreHex: '' };
+export class ColorManagementComponent implements OnInit {
+  private colorService = inject(ColorService);
+  public colors: Color[] = [];
+  public selectedColor: Color | null = null;
+  public globalFilter: string = '';
 
-  colors: Color[] = [
-    {
-      id: 1,
-      name: 'Rojo',
-      imgUrl:
-        'https://images.unsplash.com/flagged/photo-1593005510509-d05b264f1c9c?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zm9uZG8lMjByb2pvfGVufDB8fDB8fHww',
-      surfaceHex: '#FF0000',
-      coreHex: '#CC0000',
+  // Configuración de TanStack Table
+  table = createAngularTable(() => ({
+    data: this.colors,
+    columns: [
+      { accessorKey: 'colorKey', header: 'ID' },
+      { accessorKey: 'name', header: 'Nombre' },
+      { accessorKey: 'hexadecimalCode', header: 'Color Superficie' },
+      { accessorKey: 'hexadecimalCore', header: 'Color Núcleo' },
+    ],
+    state: {
+      globalFilter: this.globalFilter,
     },
-    {
-      id: 2,
-      name: 'Verde',
-      imgUrl:
-        'https://img.freepik.com/vector-premium/fondo-abstracto-rayos-degradados-colores-verdes_444390-1278.jpg?semt=ais_hybrid&w=740&q=80',
-      surfaceHex: '#00FF00',
-      coreHex: '#00CC00',
+    initialState: {
+      pagination: {
+        pageSize: 10, // Limitado estrictamente a 10 registros
+        pageIndex: 0,
+      },
     },
-    {
-      id: 3,
-      name: 'Azul',
-      imgUrl:
-        'https://img.magnific.com/foto-gratis/fondo-papel-tapiz-artistico-borroso-colorido_58702-8344.jpg?semt=ais_hybrid&w=740&q=80',
-      surfaceHex: '#0000FF',
-      coreHex: '#0000CC',
-    },
-  ];
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+  }));
 
-  addMaterial(name: string): void {
-    const newColor: Color = {
-      id: this.colors.length > 0 ? Math.max(...this.colors.map((m) => m.id)) + 1 : 1,
-      name: name,
-      imgUrl: '',
-      surfaceHex: '',
-      coreHex: '',
-    };
-    this.colors.push(newColor);
+  ngOnInit(): void {
+    this.loadColors();
   }
 
-  selectMaterial(color: Color): void {
+  public loadColors(): void {
+    // Asumiendo que tu ColorService tiene el método getAll()
+    this.colorService.getAll().subscribe({
+      next: (data) => {
+        this.colors = data;
+        this.updateTableData();
+      },
+      error: (err) => console.error('Error:', err),
+    });
+  }
+
+  onSearch(event: Event) {
+    this.globalFilter = (event.target as HTMLInputElement).value;
+    this.table.setOptions((prev) => ({
+      ...prev,
+      state: { ...prev.state, globalFilter: this.globalFilter },
+    }));
+  }
+
+  private updateTableData() {
+    this.table.setOptions((prev) => ({ ...prev, data: [...this.colors] }));
+  }
+
+  selectColor(color: Color): void {
     this.selectedColor = color;
   }
 
   deselectColor(): void {
-    this.selectedColor = { id: 0, name: '', imgUrl: '', surfaceHex: '', coreHex: '' };
+    this.selectedColor = null;
   }
 
-  deleteColor(id: number): void {
-    this.colors = this.colors.filter((colors) => colors.id !== id);
-    if (this.selectedColor.id === id) {
-      this.deselectColor();
+  deleteColor(id: number | undefined): void {
+    if (!id) return;
+
+    if (confirm('¿Estás seguro de que deseas eliminar este color?')) {
+      this.colorService.delete(id).subscribe({
+        next: () => {
+          this.colors = this.colors.filter((c) => c.colorKey !== id);
+          this.updateTableData();
+
+          if (this.selectedColor?.colorKey === id) {
+            this.deselectColor();
+          }
+        },
+        error: (err) => console.error('Error al eliminar:', err),
+      });
     }
   }
 }

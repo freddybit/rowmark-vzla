@@ -1,51 +1,74 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Finish } from '../../../models/entities/finish';
+import { FinishService } from '../../../services/rowmark-api/finish-service/finish.service';
+import {
+  FlexRenderDirective,
+  createAngularTable,
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  getFilteredRowModel,
+} from '@tanstack/angular-table';
 
 @Component({
-  selector: 'app-finish-management.component',
-  imports: [],
+  selector: 'app-finish-management',
+  imports: [CommonModule, FlexRenderDirective],
   templateUrl: './finish-management.component.html',
   styleUrl: './finish-management.component.css',
 })
-export class FinishManagementComponent {
+export class FinishManagementComponent implements OnInit {
+  private finishService = inject(FinishService);
+  public finishes: Finish[] = [];
+  public selectedFinish: Finish | null = null;
+  public globalFilter: string = '';
 
-  selectedFinish: Finish = { id: 0, name: '', imgUrl: '', description: '' };
+  // Configuración de TanStack Table
+  table = createAngularTable(() => ({
+    data: this.finishes,
+    columns: [
+      { accessorKey: 'finishKey', header: 'ID' },
+      { accessorKey: 'name', header: 'Nombre' },
+    ],
+    state: {
+      globalFilter: this.globalFilter,
+    },
+    initialState: {
+      pagination: {
+        pageSize: 10, // Limitado estrictamente a 10 registros
+        pageIndex: 0,
+      },
+    },
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+  }));
 
-  finishes: Finish[] = [
-    {
-      id: 1,
-      name: 'Fibra de Densidad Media (MDF)',
-      description:
-        'La fibra de densidad media (MDF) es un material compuesto hecho de fibras de madera comprimidas y unido con adhesivos.',
-      imgUrl:
-        'https://tse2.mm.bing.net/th/id/OIP.ruDUGqmS0CNXFLH1qRWkYAHaE8?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3',
-    },
-    {
-      id: 2,
-      name: 'Material 2',
-      description:
-        'El plástico es un material sintético ampliamente utilizado en la industria y el consumo diario, conocido por su ligereza, durabilidad y versatilidad en la fabricación de diversos productos.',
-      imgUrl:
-        'https://tse1.mm.bing.net/th/id/OIP.FGaiFYn85RKz39GvDNGyhgHaD3?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3',
-    },
-    {
-      id: 3,
-      name: 'Material 3',
-      description:
-        'El metal es un material natural, ampliamente utilizado en la industria y la construcción, conocido por su resistencia, durabilidad y capacidad de conductividad térmica y eléctrica.',
-      imgUrl:
-        'https://tse3.mm.bing.net/th/id/OIP.raY1I7m0vPLI3KIRq_3oDwHaEK?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3',
-    },
-  ];
+  ngOnInit(): void {
+    this.loadFinishes();
+  }
 
-  addFinish(name: string): void {
-    const newFinish: Finish = {
-      id: this.finishes.length > 0 ? Math.max(...this.finishes.map((f) => f.id)) + 1 : 1,
-      name: name,
-      imgUrl: '',
-      description: '',
-    };
-    this.finishes.push(newFinish);
+  public loadFinishes(): void {
+    this.finishService.getAll().subscribe({
+      next: (data) => {
+        this.finishes = data;
+        this.updateTableData();
+      },
+      error: (err) => console.error('Error al cargar acabados:', err),
+    });
+  }
+
+  onSearch(event: Event) {
+    this.globalFilter = (event.target as HTMLInputElement).value;
+    this.table.setOptions((prev) => ({
+      ...prev,
+      state: { ...prev.state, globalFilter: this.globalFilter },
+    }));
+  }
+
+  private updateTableData() {
+    this.table.setOptions((prev) => ({ ...prev, data: [...this.finishes] }));
   }
 
   selectFinish(finish: Finish): void {
@@ -53,14 +76,24 @@ export class FinishManagementComponent {
   }
 
   deselectFinish(): void {
-    this.selectedFinish = { id: 0, name: '', imgUrl: '', description: '' };
+    this.selectedFinish = null;
   }
 
-  deleteFinish(id: number): void {
-    this.finishes = this.finishes.filter((finish) => finish.id !== id);
-    if (this.selectedFinish.id === id) {
-      this.deselectFinish();
+  deleteFinish(finishKey: number | undefined): void {
+    if (!finishKey) return;
+
+    if (confirm('¿Estás seguro de que deseas eliminar este acabado?')) {
+      this.finishService.delete(finishKey).subscribe({
+        next: () => {
+          this.finishes = this.finishes.filter((f) => f.finishKey !== finishKey);
+          this.updateTableData();
+
+          if (this.selectedFinish?.finishKey === finishKey) {
+            this.deselectFinish();
+          }
+        },
+        error: (err) => console.error('Error al eliminar:', err),
+      });
     }
   }
-
 }

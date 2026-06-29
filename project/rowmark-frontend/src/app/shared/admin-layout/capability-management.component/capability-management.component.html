@@ -1,61 +1,106 @@
 <article class="material-management">
-  <section class="material-list">
-    <h2>LISTA DE MATERIALES TO DO</h2>
+    <section class="material-list">
+        <h2>LISTA DE MATERIALES TO DO</h2>
 
-    <button class="add-material">
-      <span>+ Agregar Material</span>
-    </button>
+        <button class="add-material">
+            <span>+ Agregar Material</span>
+        </button>
 
-    <table>
-      <thead>
-        <tr>
-          <th scope="col" class="row-id">ID</th>
-          <th scope="col" class="row-name">Nombre</th>
-          <th scope="col" class="row-name">Categoría</th>
-          <th scope="col" class="row-button">Seleccionar</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (material of materials; track material.id) {
-          <tr>
-              <th scope="row" class="row-id">{{ material.id }}</th>
-              <td scope="row" class="row-name">{{ material.name }}</td>
-              <td scope="row" class="row-category">{{ material.category }}</td>
-              <td scope="row" class="row-button">
-                @if (selectedMaterial === material) {
+        <table>
+          <thead>
+            @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
+            <tr>
+              @for (header of headerGroup.headers; track header.id) {
+                <th scope="col" class="row-name" (click)="header.column.getToggleSortingHandler()?.($event)" [style.cursor]="header.column.getCanSort() ? 'pointer' : 'default'">
+                  <div style="display: flex; align-items: center; gap: 5px;">
+                    <ng-container *flexRender="header.column.columnDef.header; props: header.getContext(); let headerValue">
+                      {{ headerValue }}
+                    </ng-container>
+                    @if (header.column.getIsSorted() === 'asc') {
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="18 15 12 9 6 15"></polyline>
+                      </svg>
+                    } @else if (header.column.getIsSorted() === 'desc') {
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    } @else if (header.column.getCanSort()) {
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#b0b0b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="7 15 12 20 17 15"></polyline>
+                      <polyline points="7 9 12 4 17 9"></polyline>
+                    </svg>
+                    }
+                  </div>
+                </th>
+              }
+              <th scope="col" class="row-button">Seleccionar</th>
+            </tr>
+          }
+        </thead>
+        <tbody>
+          @for (row of table.getRowModel().rows; track row.id) {
+            <tr>
+              @for (cell of row.getVisibleCells(); track cell.id) {
+                <td class="row-name">
+                  <ng-container *flexRender="cell.column.columnDef.cell; props: cell.getContext(); let cellValue">
+                    {{ cellValue }}
+                  </ng-container>
+                </td>
+              }
+              <td class="row-button">
+                @if (selectedMaterial === row.original) {
                   <span class="button-active">Seleccionado</span>
                 } @else {
-                  <button (click)="selectMaterial(material)">Seleccionar</button>
+                  <button (click)="selectMaterial(row.original)">Seleccionar</button>
                 }
               </td>
-          </tr>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <div class="pagination-controls">
+        <button
+          (click)="table.previousPage()"
+          [disabled]="!table.getCanPreviousPage()">
+          Anterior
+        </button>
+
+        <span>
+          Página <strong>{{ table.getState().pagination.pageIndex + 1 }}</strong> de {{ table.getPageCount() }}
+        </span>
+
+        <button
+          (click)="table.nextPage()"
+          [disabled]="!table.getCanNextPage()">
+          Siguiente
+        </button>
+      </div>
+    </section>
+
+    <section class="material-details">
+        <h2>DETALLES DEL MATERIAL</h2>
+        @if (selectedMaterial && selectedMaterial.materialKey) {
+            <div class="details-card">
+                <section class="detail-header">
+                    <img [src]="selectedMaterial.imgUrl" alt="Imagen del material" class="detail-image">
+                    <p class="detail-name">Nombre: {{ selectedMaterial.name }}</p>
+                    <p class="detail-name">Categoría: {{ selectedMaterial.category }}</p>
+                    <p class="detail-id">ID: {{ selectedMaterial.materialKey }}</p>
+                </section>
+                <section class="detail-content">
+                    <p class="detail-description"><span>Descripción:</span> {{ selectedMaterial.description }}</p>
+                </section>
+                <section class="detail-actions">
+                    <button (click)="deselectMaterial()" class="btn-deselect">Deseleccionar</button>
+                    <div class="action-buttons">
+                        <button (click)="deleteMaterial(selectedMaterial.materialKey)" class="btn-delete">Eliminar</button>
+                        <button class="btn-edit">Modificar</button>
+                    </div>
+                </section>
+            </div>
+        } @else {
+            <p class="detail-warning">AVISO: Seleccione un material para ver sus detalles.</p>
         }
-      </tbody>
-    </table>
-  </section>
-  <section class="material-details">
-    <h2>DETALLES DEL MATERIAL</h2>
-    @if (selectedMaterial.id !== 0) {
-    <div class="details-card">
-      <section class="detail-header">
-        <img [src]="selectedMaterial.imgUrl" alt="Imagen del material" class="detail-image">
-        <p class="detail-name">Nombre: {{ selectedMaterial.name }}</p>
-        <p class="detail-name">Categoría: {{ selectedMaterial.category }}</p>
-        <p class="detail-id">ID: {{ selectedMaterial.id }}</p>
-      </section>
-      <section class="detail-content">
-        <p class="detail-description"><span>Descripción:</span> {{ selectedMaterial.description }}</p>
-      </section>
-      <section class="detail-actions">
-        <button (click)="deselectMaterial()" class="btn-deselect">Deseleccionar</button>
-        <div class="action-buttons">
-          <button (click)="deleteMaterial(selectedMaterial.id)" class="btn-delete">Eliminar</button>
-          <button (click)="deleteMaterial(selectedMaterial.id)" class="btn-edit">Modificar</button>
-        </div>
-      </section>
-    </div>
-    } @else {
-      <p class="detail-warning">AVISO: Seleccione un material para ver sus detalles.</p>
-    }
-  </section>
+    </section>
 </article>

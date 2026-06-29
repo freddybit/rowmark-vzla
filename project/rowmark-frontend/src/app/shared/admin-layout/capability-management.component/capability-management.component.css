@@ -317,3 +317,78 @@ tbody tr:hover {
     margin-bottom: 25px;
   }
 }
+
+/* Mejora en la tabla: efecto de profundidad */
+table {
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+}
+
+/* Mejora de filas: más aire y legibilidad */
+tr {
+  min-height: 70px;
+  padding: 0 10px;
+  align-items: center;
+}
+
+/* Botones: mejor contraste y feedback */
+.add-material {
+  background: linear-gradient(135deg, var(--main-color), #00045e);
+  box-shadow: 0 4px 12px rgba(0, 6, 97, 0.2);
+}
+
+/* Estado de carga (usado cuando el usuario hace clic) */
+.btn-loading {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Mejora en la tarjeta de detalles */
+.details-card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  /* Centramos los controles en el contenedor */
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f9fafb;
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+}
+
+.pagination-controls button {
+  padding: 8px 16px;
+  border: 1px solid var(--main-color);
+  background-color: white;
+  color: var(--main-color);
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: var(--main-color);
+  color: white;
+}
+
+.pagination-controls button:disabled {
+  border-color: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+  background-color: #f3f4f6;
+}
+
+.pagination-controls span {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #374151;
+}

@@ -1,30 +1,89 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  MaterialService,
+  Material,
+} from '../../../services/rowmark-api/material-service/material.service';
+// IMPORTANTE: Agregamos getFilteredRowModel a los imports
+import {
+  FlexRenderDirective,
+  createAngularTable,
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  getFilteredRowModel,
+} from '@tanstack/angular-table';
 
 @Component({
   selector: 'app-material-management',
-  imports: [],
+  imports: [CommonModule, FlexRenderDirective],
   templateUrl: './material-management.component.html',
   styleUrl: './material-management.component.css',
 })
-export class MaterialManagementComponent {
+export class MaterialManagementComponent implements OnInit {
+  private materialService = inject(MaterialService);
+  public materials: Material[] = [];
+  public selectedMaterial: Material | null = null;
 
-  selectedMaterial: Material = { id: 0, name: '', imgUrl: '', category: '', description: '' };
+  // 1. Nueva variable para guardar el texto del buscador
+  public globalFilter: string = '';
 
-    materials: Material[] = [
-    { id: 1, name: 'Fibra de Densidad Media (MDF)', category: 'Madera', description: 'La fibra de densidad media (MDF) es un material compuesto hecho de fibras de madera comprimidas y unido con adhesivos.', imgUrl: 'https://tse2.mm.bing.net/th/id/OIP.ruDUGqmS0CNXFLH1qRWkYAHaE8?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3' },
-    { id: 2, name: 'Material 2', category: 'Plástico', description: 'El plástico es un material sintético ampliamente utilizado en la industria y el consumo diario, conocido por su ligereza, durabilidad y versatilidad en la fabricación de diversos productos.', imgUrl: 'https://tse1.mm.bing.net/th/id/OIP.FGaiFYn85RKz39GvDNGyhgHaD3?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3' },
-    { id: 3, name: 'Material 3', category: 'Metal', description: 'El metal es un material natural, ampliamente utilizado en la industria y la construcción, conocido por su resistencia, durabilidad y capacidad de conductividad térmica y eléctrica.', imgUrl: 'https://tse3.mm.bing.net/th/id/OIP.raY1I7m0vPLI3KIRq_3oDwHaEK?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3' },
-  ];
+  table = createAngularTable(() => ({
+    data: this.materials,
+    columns: [
+      { accessorKey: 'materialKey', header: 'ID' },
+      { accessorKey: 'name', header: 'Nombre' },
+      { accessorKey: 'category', header: 'Categoría' },
+    ],
+    // 1. Mantienes tu estado de búsqueda global
+    state: {
+      globalFilter: this.globalFilter,
+    },
 
-  addMaterial(name: string): void {
-    const newMaterial: Material = {
-      id: this.materials.length > 0 ? Math.max(...this.materials.map(m => m.id)) + 1 : 1,
-      name: name,
-      imgUrl: '',
-      category: '',
-      description: ''
-    };
-    this.materials.push(newMaterial);
+    // 2. NUEVO: Agregas el estado inicial para forzar la paginación a 7
+    initialState: {
+      pagination: {
+        pageSize: 7, // <--- AQUÍ LIMITAS A 7 REGISTROS (puedes poner 5, 15, etc.)
+        pageIndex: 0, // Arranca en la página 1 (índice 0)
+      },
+    },
+
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+  }));
+
+  ngOnInit(): void {
+    this.loadMaterials();
+  }
+
+  public loadMaterials(): void {
+    this.materialService.getAll().subscribe({
+      next: (data) => {
+        this.materials = data;
+        this.updateTableData();
+      },
+      error: (err) => console.error('Error:', err),
+    });
+  }
+
+  // 4. Función que captura lo que escribes en el HTML y actualiza la tabla
+  onSearch(event: Event) {
+    this.globalFilter = (event.target as HTMLInputElement).value;
+
+    this.table.setOptions((prev) => ({
+      ...prev,
+      state: {
+        ...prev.state,
+        globalFilter: this.globalFilter,
+      },
+    }));
+  }
+
+  // Función auxiliar para mantener limpio el código
+  private updateTableData() {
+    this.table.setOptions((prev) => ({ ...prev, data: [...this.materials] }));
   }
 
   selectMaterial(material: Material): void {
@@ -32,14 +91,22 @@ export class MaterialManagementComponent {
   }
 
   deselectMaterial(): void {
-    this.selectedMaterial = { id: 0, name: '', imgUrl: '', category: '', description: '' };
+    this.selectedMaterial = null;
   }
 
-  deleteMaterial(id: number): void {
-    this.materials = this.materials.filter(material => material.id !== id);
-    if (this.selectedMaterial.id === id) {
-      this.deselectMaterial();
-    }
-  }
+  deleteMaterial(materialKey: number | undefined): void {
+    if (!materialKey) return;
 
+    this.materialService.delete(materialKey).subscribe({
+      next: () => {
+        this.materials = this.materials.filter((m) => m.materialKey !== materialKey);
+        this.updateTableData();
+
+        if (this.selectedMaterial?.materialKey === materialKey) {
+          this.deselectMaterial();
+        }
+      },
+      error: (err) => console.error('Error al eliminar:', err),
+    });
+  }
 }

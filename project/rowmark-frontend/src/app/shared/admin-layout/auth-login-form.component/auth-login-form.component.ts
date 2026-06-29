@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { RowmarkApi } from '../../../services/rowmark-api/rowmark-api';
 import { ProfileLoginDto } from '../../../models/dtos/profile-login.dto';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../../services/rowmark-api/auth-service/auth.service';
 
 @Component({
   selector: 'app-auth-login-form',
@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './auth-login-form.component.css',
 })
 export class AuthLoginFormComponent {
-  private apiService = inject(RowmarkApi);
+  private apiService = inject(AuthService);
   private router = inject(Router);
   public credentials: ProfileLoginDto = {
     email: '',

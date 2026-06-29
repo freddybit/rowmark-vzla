@@ -1,100 +1,131 @@
-.material-management {
+.color-management {
   display: flex;
   width: 100%;
-  max-height: 900px;
-  height: 100%;
+  height: auto;
   flex-direction: row;
   justify-content: space-between;
   gap: 10px;
 }
 
-.material-list {
+.color-list {
   display: flex;
   flex-direction: column;
   width: 70%;
   padding: 20px;
   border-radius: 1rem;
   gap: 1rem;
-  overflow-x: auto;
 }
 
-.material-details {
+.color-details {
   width: 30%;
-  height: 100%;
-  max-height: 900px;
+  height: auto;
   padding: 20px;
   border-left: 1px solid var(--main-color);
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  overflow-y: auto;
 }
 
 .details-card {
-  height: 100%;
-  max-height: 900px;
   width: 100%;
   display: flex;
   padding: 20px;
   flex-direction: column;
   gap: 1rem;
-  background-color: rgba(0, 6, 97, 0.05);
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
   border-radius: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
 }
 
 h2 {
   font-size: 2.3rem;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   margin-top: 0;
 }
 
-.add-material {
+/* --- TOP CONTROLS (Buscador y Botón) --- */
+.top-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
   width: 100%;
-  max-height: 35px;
-  min-height: 35px;
-  height: 100%;
+}
+
+.search-container {
+  flex-grow: 1;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 20px;
+  border-radius: 2rem;
+  border: 1px solid #e5e7eb;
+  font-size: 1.4rem;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.search-input:focus {
+  border-color: var(--main-color);
+  box-shadow: 0 0 8px rgba(0, 6, 97, 0.2);
+}
+
+.add-color {
+  width: auto;
+  min-width: 200px;
+  padding: 0 20px;
   font-size: 1.4rem;
   font-weight: 500;
   border: none;
   cursor: pointer;
   border-radius: 2rem;
   color: #fff;
-  background-color: var(--main-color);
+  background: linear-gradient(135deg, var(--main-color), #00045e);
   transition: all 0.3s ease;
-  box-shadow: -2px -2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
+  box-shadow: 0 4px 12px rgba(0, 6, 97, 0.2);
 }
 
-.add-material:hover,
+.add-color:hover,
 .row-button button:hover {
   background-color: #25D366;
+  background: #25D366;
+  /* Sobrescribe el gradiente en hover */
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
 }
 
+/* --- TABLA --- */
 table {
   display: flex;
   flex-direction: column;
   width: 100%;
   min-width: 650px;
-  max-height: 500px;
-  height: 50%;
-  background-color: rgba(0, 6, 97, 0.05);
+  height: auto;
+  background-color: #ffffff;
   border-radius: 1rem;
   border-collapse: collapse;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
 }
 
 tbody {
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow: visible;
+  /* Quita el scroll interno */
 }
 
 tr {
-  min-height: 60px;
+  min-height: 70px;
+  padding: 0 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
 }
@@ -116,7 +147,6 @@ thead tr {
 
 tbody tr:hover {
   background-color: rgba(0, 15, 226, 0.1);
-  border-radius: 0;
 }
 
 .row-id {
@@ -129,19 +159,12 @@ tbody tr:hover {
   padding-left: 20px;
 }
 
-.row-category {
-  width: 35%;
-  justify-content: flex-start;
-  padding-left: 20px;
-}
-
 .row-button {
   width: 20%;
 }
 
 .row-button button {
   width: 90%;
-  height: 50%;
   min-height: 35px;
   border: none;
   cursor: pointer;
@@ -155,11 +178,9 @@ tbody tr:hover {
 
 .button-active {
   display: flex;
-  text-align: center;
   justify-content: center;
   align-items: center;
   width: 90%;
-  height: 50%;
   min-height: 35px;
   border-radius: 1rem;
   font-size: 1.2rem;
@@ -169,10 +190,38 @@ tbody tr:hover {
   box-shadow: 2px 2px 8px rgba(37, 211, 102, 0.4);
 }
 
+/* --- MUESTRAS DE COLOR (SWATCHES) --- */
+.hex-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.color-swatch-small {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.color-preview-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.color-swatch-large {
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* --- DETALLES --- */
 .detail-image {
   width: 100%;
-  max-height: 500px;
-  height: auto;
+  height: 200px;
   border-radius: 1rem;
   object-fit: cover;
   margin-bottom: 20px;
@@ -205,7 +254,7 @@ tbody tr:hover {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-top: auto;
+  margin-top: 20px;
 }
 
 .action-buttons {
@@ -220,7 +269,6 @@ tbody tr:hover {
   width: 100%;
   font-size: 1.5rem;
   font-weight: 500;
-  flex-wrap: wrap;
   margin: 0;
 }
 
@@ -231,11 +279,9 @@ tbody tr:hover {
   text-align: center;
 }
 
-.material-details button {
+.color-details button {
   width: 100%;
-  max-height: 35px;
-  min-height: 35px;
-  height: 100%;
+  min-height: 40px;
   font-weight: 500;
   font-size: 1.4rem;
   border: none;
@@ -246,13 +292,11 @@ tbody tr:hover {
 
 .btn-deselect {
   background-color: #dadada;
-  box-shadow: 2px 2px 8px rgba(218, 218, 218, 0.4);
   color: #00000063;
 }
 
 .btn-deselect:hover {
-  background-color: rgba(218, 218, 218, 0.4);
-  box-shadow: 3px 3px 10px rgba(218, 218, 218, 0.6);
+  background-color: rgba(218, 218, 218, 0.8);
 }
 
 .btn-edit {
@@ -273,43 +317,71 @@ tbody tr:hover {
   background-color: #ac0614 !important;
 }
 
+/* --- PAGINACIÓN --- */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f9fafb;
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+}
+
+.pagination-controls button {
+  padding: 8px 16px;
+  border: 1px solid var(--main-color);
+  background-color: white;
+  color: var(--main-color);
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: var(--main-color);
+  color: white;
+}
+
+.pagination-controls button:disabled {
+  border-color: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+  background-color: #f3f4f6;
+}
+
+.pagination-controls span {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+/* --- RESPONSIVE --- */
 @media (max-width: 1024px) {
-  .material-management {
+  .color-management {
     flex-direction: column;
-    height: auto;
-    max-height: none;
   }
 
-  .material-list {
+  .color-list {
     width: 100%;
-    height: auto;
     box-sizing: border-box;
   }
 
-  .material-details {
+  .color-details {
     width: 100%;
-    height: auto;
     border-left: none;
-    /* Quitamos la línea separadora al pasar a columna */
     border-top: 1px solid var(--main-color);
     box-sizing: border-box;
-  }
-
-  table {
-    height: 400px;
-    max-height: 500px;
   }
 }
 
 @media (max-width: 768px) {
-  .add-material {
-    max-height: 45px;
-    min-height: 45px;
-    font-size: 1.2rem;
-  }
 
-  .material-details button {
-    max-height: 45px;
+  .add-color,
+  .color-details button {
     min-height: 45px;
   }
 

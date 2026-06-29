@@ -2,26 +2,29 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using rowmark.interfaces;
-using rowmark.models;
-using rowmark.models.entities;
-using rowmark.repositories.jsons;
-using rowmark.services;
 using Scalar.AspNetCore;
 using Microsoft.OpenApi;
-using rowmark.repositories.postgres;
+using rowmark.modules.auth;
+using rowmark.Modules.Capability;
+using rowmark.Modules.Color;
+using rowmark.Modules.EngravingDepth;
+using rowmark.Modules.Finish;
+using rowmark.Modules.Materials;
+using rowmark.Modules.Place;
+using rowmark.Modules.SheetSize;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddAuthModule();
+builder.Services.AddMaterialModule();
+builder.Services.AddCapabilityModule();
+builder.Services.AddColorModule();
+builder.Services.AddEngravingDepthModule();
+builder.Services.AddFinishModule();
+builder.Services.AddPlaceModule();
+builder.Services.AddSheetSizeModule();
 
-builder.Services.AddScoped<IPasswordHasher<Profile>, BCryptHasher<Profile>>();
-builder.Services.AddScoped<IRoleRepository, RoleRepositoryPostgre>();
-builder.Services.AddScoped<IRoleService, RoleService>();
-builder.Services.AddScoped<IAuthRepository, AuthRepositoryPostgre>();
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddControllers();
 builder.Services.AddCors(options => {
     options.AddPolicy("AllowAngularDev", policy => {
         policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();

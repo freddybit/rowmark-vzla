@@ -1,7 +1,9 @@
 export interface Color {
-  id: number;
-  imgUrl: string;
+  colorKey?: number;
+  hexadecimalCode: string;
+  hexadecimalCore: string;
   name: string;
-  surfaceHex: string;
-  coreHex: string;
+  imgUrl: string;
+  imgAlt?: string;
+  product?: any[];
 }
