@@ -1,6 +1,4 @@
 DROP TABLE IF EXISTS
-    historicrolepermissions,
-    historicroles,
     phone,
     productattribute,
     productauditlog,
@@ -9,18 +7,14 @@ DROP TABLE IF EXISTS
     productdimension,
     productfinish,
     productmaterial,
-    productusage,
     profile,
     product,
     place,
-    role,
-    permission,
     attribute,
     capability,
     color,
     engravingdepth,
     finish,
     material,
-    sheetsize,
-    usage
+    sheetsize
 CASCADE;

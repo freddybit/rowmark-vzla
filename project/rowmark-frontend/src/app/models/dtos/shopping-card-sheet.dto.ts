@@ -1,9 +1,9 @@
 
 export interface ShoppingCardSheetDto {
   name: string;
-  material: string;
-  finish: string;
-  capability: string;
+  material: Array<string>;
+  finish: Array<string>;
+  capability: Array<string>;
   unitsAvailable: number;
   imgUrl: string;
   imgAlt: string;

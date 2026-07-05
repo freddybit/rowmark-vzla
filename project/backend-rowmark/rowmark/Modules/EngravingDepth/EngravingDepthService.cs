@@ -27,21 +27,18 @@ public class EngravingDepthService
         return engravingDepth;
     }
 
-    public IEnumerable<Entities.EngravingDepth> GetAllEngravingDepths() 
-    {
+    public IEnumerable<Entities.EngravingDepth> GetAllEngravingDepths() {
         return _repository.GetAll();
     }
 
-    public Entities.EngravingDepth GetEngravingDepthById(int id) 
-    {
+    public Entities.EngravingDepth GetEngravingDepthById(int id) {
         if (id <= 0)
             throw new ArgumentException("ID inválido.");
 
         return _repository.GetById(id)!;
     }
 
-    public bool UpdateEngravingDepth(int id, Entities.EngravingDepth engravingDepth) 
-    {
+    public bool UpdateEngravingDepth(int id, Entities.EngravingDepth engravingDepth) {
         if (engravingDepth == null)
             throw new ArgumentNullException(nameof(engravingDepth));
 

@@ -12,6 +12,7 @@ public class Profile {
     public string? SecondLastname { get; set; }
     public string Email { get; set; }
     public string HashPassword { get; set; }
+    public string? Phone { get; set; }
     public int Place_PlaceKey { get; set; }
     public Place.Entities.Place Place { get; set; }
     

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UsageManagementComponent } from './usage-management.component';
+import { DynamicModalComponent } from './dynamic-modal.component';
 
-describe('UsageManagementComponent', () => {
-  let component: UsageManagementComponent;
-  let fixture: ComponentFixture<UsageManagementComponent>;
+describe('DynamicModalComponent', () => {
+  let component: DynamicModalComponent;
+  let fixture: ComponentFixture<DynamicModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UsageManagementComponent]
+      imports: [DynamicModalComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UsageManagementComponent);
+    fixture = TestBed.createComponent(DynamicModalComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

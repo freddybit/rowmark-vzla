@@ -41,15 +41,14 @@ public class AuthRepositoryPostgre : IAuthRepository {
         string query = @"
         INSERT INTO profile (
             firstname, secondname, firstlastname, secondlastname, 
-            place_placekey, email, hashpassword, id 
+            place_placekey, email, hashpassword, phone, id 
         ) 
         VALUES (
             @FirstName, @SecondName, @FirstLastname, @SecondLastname, 
-            @Place_PlaceKey, @Email, @HashPassword, @Id
+            @Place_PlaceKey, @Email, @HashPassword, @Phone, @Id
         ) 
         RETURNING profilekey;";
-            
-        // profilekey sigue siendo un SERIAL en la BD, por lo que retorna un int
+        
         var newProfileKey = db.ExecuteScalar<int>(query, profile);
         
         profile.ProfileKey = newProfileKey; 

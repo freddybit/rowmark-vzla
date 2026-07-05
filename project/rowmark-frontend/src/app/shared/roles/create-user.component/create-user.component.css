@@ -193,3 +193,20 @@
     width: 100%;
   }
 }
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  /* Espacio entre las columnas */
+  width: 100%;
+}
+
+.form-row .form-group {
+  flex: 1;
+  /* Hace que ambos inputs tomen el 50% del ancho */
+}
+
+.text-danger {
+  color: red;
+  /* Para el asterisco de campos obligatorios */
+}

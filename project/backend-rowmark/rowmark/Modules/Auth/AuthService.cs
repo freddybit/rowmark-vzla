@@ -38,9 +38,12 @@ public class AuthService : IAuthService {
         Profile profile = new Profile();
         profile.Id = request.Id;
         profile.FirstName = request.FirstName!;
+        profile.SecondName = request.SecondName;
         profile.FirstLastname = request.FirstLastname!;
+        profile.SecondLastname = request.SecondLastname;
         profile.Email = request.Email!;
         profile.Place_PlaceKey = request.Place_PlaceKey;
+        profile.Phone = request.Phone;
         if (request.Password != null) 
             profile.HashPassword = _passwordHasher.HashPassword(profile, request.Password);
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using Microsoft.OpenApi;
+using rowmark.Modules.Attribute;
 using rowmark.modules.auth;
 using rowmark.Modules.Capability;
 using rowmark.Modules.Color;
@@ -11,6 +12,7 @@ using rowmark.Modules.EngravingDepth;
 using rowmark.Modules.Finish;
 using rowmark.Modules.Materials;
 using rowmark.Modules.Place;
+using rowmark.Modules.Product;
 using rowmark.Modules.SheetSize;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,9 +23,11 @@ builder.Services.AddMaterialModule();
 builder.Services.AddCapabilityModule();
 builder.Services.AddColorModule();
 builder.Services.AddEngravingDepthModule();
+builder.Services.AddAttributeModule();
 builder.Services.AddFinishModule();
 builder.Services.AddPlaceModule();
 builder.Services.AddSheetSizeModule();
+builder.Services.AddProductModule();
 
 builder.Services.AddCors(options => {
     options.AddPolicy("AllowAngularDev", policy => {

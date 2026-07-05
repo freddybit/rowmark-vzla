@@ -1,113 +1,123 @@
 <article class="color-management">
-    <section class="color-list">
-        <h2>LISTA DE COLORES</h2>
+  <section class="color-list">
+    <h2>LISTA DE COLORES</h2>
 
-        <div class="top-controls">
-            <div class="search-container">
-                <input
-                  type="text"
-                  class="search-input"
-                  placeholder="Buscar por ID, nombre o HEX..."
-                  (input)="onSearch($event)">
-            </div>
-            <button class="add-color">
-                <span>+ Agregar Color</span>
-            </button>
-        </div>
+    <div class="top-controls">
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Buscar por ID, nombre o HEX..."
+          (input)="onSearch($event)">
+      </div>
+      <button class="add-color" (click)="openCreateModal()">
+        <span>+ Agregar Color</span>
+      </button>
+    </div>
 
-        <table>
-          <thead>
-            @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
-            <tr>
-              @for (header of headerGroup.headers; track header.id) {
-                <th scope="col" class="row-name" (click)="header.column.getToggleSortingHandler()?.($event)" [style.cursor]="header.column.getCanSort() ? 'pointer' : 'default'">
-                  <div style="display: flex; align-items: center; gap: 5px;">
-                    <ng-container *flexRender="header.column.columnDef.header; props: header.getContext(); let headerValue">
-                      {{ headerValue }}
-                    </ng-container>
-                    @if (header.column.getIsSorted() === 'asc') {
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
-                    } @else if (header.column.getIsSorted() === 'desc') {
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    }
-                  </div>
-                </th>
-              }
-              <th scope="col" class="row-button">Acción</th>
-            </tr>
-            }
-          </thead>
-          <tbody>
-            @for (row of table.getRowModel().rows; track row.id) {
-            <tr>
-              @for (cell of row.getVisibleCells(); track cell.id) {
-                <td class="row-name">
-                  @if (cell.column.id === 'hexadecimalCode' || cell.column.id === 'hexadecimalCore') {
-                    <div class="hex-cell">
-                      <div class="color-swatch-small" [style.background-color]="cell.getValue()"></div>
-                      <ng-container *flexRender="cell.column.columnDef.cell; props: cell.getContext(); let cellValue">{{ cellValue }}</ng-container>
-                    </div>
-                  } @else {
-                    <ng-container *flexRender="cell.column.columnDef.cell; props: cell.getContext(); let cellValue">{{ cellValue }}</ng-container>
-                  }
-                </td>
-              }
-              <td class="row-button">
-                @if (selectedColor === row.original) {
-                  <span class="button-active">Seleccionado</span>
-                } @else {
-                  <button (click)="selectColor(row.original)">Seleccionar</button>
+    <table>
+      <thead>
+        @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
+        <tr>
+          @for (header of headerGroup.headers; track header.id) {
+            <th scope="col" class="row-name" (click)="header.column.getToggleSortingHandler()?.($event)" [style.cursor]="header.column.getCanSort() ? 'pointer' : 'default'">
+              <div style="display: flex; align-items: center; gap: 5px;">
+                <ng-container *flexRender="header.column.columnDef.header; props: header.getContext(); let headerValue">
+                  {{ headerValue }}
+                </ng-container>
+                @if (header.column.getIsSorted() === 'asc') {
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                } @else if (header.column.getIsSorted() === 'desc') {
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 }
-              </td>
-            </tr>
-            }
-            @if (table.getRowModel().rows.length === 0) {
-              <tr>
-                <td colspan="5" style="text-align: center; padding: 20px;">No se encontraron colores.</td>
-              </tr>
-            }
-          </tbody>
-        </table>
-
-        <div class="pagination-controls">
-            <button (click)="table.previousPage()" [disabled]="!table.getCanPreviousPage()">Anterior</button>
-            <span>Página <strong>{{ table.getState().pagination.pageIndex + 1 }}</strong> de {{ table.getPageCount() || 1 }}</span>
-            <button (click)="table.nextPage()" [disabled]="!table.getCanNextPage()">Siguiente</button>
-        </div>
-    </section>
-
-    <section class="color-details">
-        <h2>DETALLES DEL COLOR</h2>
-
-        @if (selectedColor && selectedColor.colorKey) {
-            <div class="details-card">
-                <section class="detail-header">
-                    <img [src]="selectedColor.imgUrl || 'https://via.placeholder.com/300?text=Sin+Imagen'" alt="Imagen del color" class="detail-image">
-                    <p class="detail-name">Nombre: {{ selectedColor.name }}</p>
-                    <p class="detail-id">ID: {{ selectedColor.colorKey }}</p>
-                </section>
-
-                <section class="detail-content">
-                    <div class="color-preview-group">
-                        <p><span>Superficie:</span> {{ selectedColor.hexadecimalCode }}</p>
-                        <div class="color-swatch-large" [style.background-color]="selectedColor.hexadecimalCode"></div>
-                    </div>
-                    <div class="color-preview-group">
-                        <p><span>Núcleo:</span> {{ selectedColor.hexadecimalCore }}</p>
-                        <div class="color-swatch-large" [style.background-color]="selectedColor.hexadecimalCore"></div>
-                    </div>
-                </section>
-
-                <section class="detail-actions">
-                    <button (click)="deselectColor()" class="btn-deselect">Deseleccionar</button>
-                    <div class="action-buttons">
-                        <button (click)="deleteColor(selectedColor.colorKey)" class="btn-delete">Eliminar</button>
-                        <button class="btn-edit">Modificar</button>
-                    </div>
-                </section>
-            </div>
-        } @else {
-            <p class="detail-warning">AVISO: Seleccione un color para ver sus detalles y códigos HEX.</p>
+              </div>
+            </th>
+          }
+          <th scope="col" class="row-button">Acción</th>
+        </tr>
         }
-    </section>
+      </thead>
+      <tbody>
+        @for (row of table.getRowModel().rows; track row.id) {
+        <tr>
+          @for (cell of row.getVisibleCells(); track cell.id) {
+            <td class="row-name">
+              @if (cell.column.id === 'hexadecimalCode' || cell.column.id === 'hexadecimalCore') {
+                <div class="hex-cell">
+                  <div class="color-swatch-small" [style.background-color]="cell.getValue()"></div>
+                  <ng-container *flexRender="cell.column.columnDef.cell; props: cell.getContext(); let cellValue">{{ cellValue }}</ng-container>
+                </div>
+              } @else {
+                <ng-container *flexRender="cell.column.columnDef.cell; props: cell.getContext(); let cellValue">{{ cellValue }}</ng-container>
+              }
+            </td>
+          }
+          <td class="row-button">
+            @if (selectedColor === row.original) {
+              <span class="button-active">Seleccionado</span>
+            } @else {
+              <button (click)="selectColor(row.original)">Seleccionar</button>
+            }
+          </td>
+        </tr>
+        }
+        @if (table.getRowModel().rows.length === 0) {
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 20px;">No se encontraron colores.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <div class="pagination-controls">
+      <button (click)="table.previousPage()" [disabled]="!table.getCanPreviousPage()">Anterior</button>
+      <span>Página <strong>{{ table.getState().pagination.pageIndex + 1 }}</strong> de {{ table.getPageCount() || 1 }}</span>
+      <button (click)="table.nextPage()" [disabled]="!table.getCanNextPage()">Siguiente</button>
+    </div>
+  </section>
+
+  <section class="color-details">
+    <h2>DETALLES DEL COLOR</h2>
+
+    @if (selectedColor && selectedColor.colorKey) {
+      <div class="details-card">
+        <section class="detail-header">
+          <img [src]="selectedColor.imgUrl || 'https://via.placeholder.com/300?text=Sin+Imagen'" alt="Imagen del color" class="detail-image">
+          <p class="detail-name">Nombre: {{ selectedColor.name }}</p>
+          <p class="detail-id">ID: {{ selectedColor.colorKey }}</p>
+        </section>
+
+        <section class="detail-content">
+          <div class="color-preview-group">
+            <p><span>Superficie:</span> {{ selectedColor.hexadecimalCode }}</p>
+            <div class="color-swatch-large" [style.background-color]="selectedColor.hexadecimalCode"></div>
+          </div>
+          <div class="color-preview-group">
+            <p><span>Núcleo:</span> {{ selectedColor.hexadecimalCore }}</p>
+            <div class="color-swatch-large" [style.background-color]="selectedColor.hexadecimalCore"></div>
+          </div>
+        </section>
+
+        <section class="detail-actions">
+          <button (click)="deselectColor()" class="btn-deselect">Deseleccionar</button>
+          <div class="action-buttons">
+            <button (click)="deleteColor(selectedColor.colorKey)" class="btn-delete">Eliminar</button>
+            <button class="btn-edit" (click)="openEditModal()">Modificar</button>
+          </div>
+        </section>
+      </div>
+    } @else {
+      <p class="detail-warning">AVISO: Seleccione un color para ver sus detalles y códigos HEX.</p>
+    }
+  </section>
 </article>
+
+@if (isModalOpen) {
+  <app-dynamic-modal
+    [titulo]="modalTitle"
+    [campos]="modalConfigColor"
+    [datosIniciales]="colorToEdit"
+    (onClose)="closeModal()"
+    (onSave)="saveColor($event)">
+  </app-dynamic-modal>
+}

@@ -5,11 +5,10 @@ export interface Product {
   imgAlt: string;
   name: string;
   description: string;
-  material: string;
-  finish: string;
-  attributes: string;
-  usage: string;
-  capabilities: string;
+  material: Array<string>;
+  finish: Array<string>;
+  attributes: Array<string>;
+  capabilities: Array<string>;
   unitsAvailable: number;
   price: number;
   size: string;

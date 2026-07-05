@@ -10,7 +10,7 @@
             placeholder="Buscar por ID o nombre..."
             (input)="onSearch($event)">
       </div>
-      <button class="add-finish">
+      <button class="add-finish" (click)="openCreateModal()">
           <span>+ Agregar Acabado</span>
       </button>
     </div>
@@ -26,9 +26,16 @@
                   {{ headerValue }}
                 </ng-container>
                 @if (header.column.getIsSorted() === 'asc') {
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="18 15 12 9 6 15">
+                    </polyline>
+                  </svg>
                 } @else if (header.column.getIsSorted() === 'desc') {
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                } @else {
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity: 0.4;">
+                    <path d="M7 15l5 5 5-5M7 9l5-5 5 5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
                 }
               </div>
             </th>
@@ -88,7 +95,7 @@
         <button (click)="deselectFinish()" class="btn-deselect">Deseleccionar</button>
         <div class="action-buttons">
           <button (click)="deleteFinish(selectedFinish.finishKey)" class="btn-delete">Eliminar</button>
-          <button class="btn-edit">Modificar</button>
+          <button class="btn-edit" (click)="openEditModal()">Modificar</button>
         </div>
       </section>
     </div>
@@ -97,3 +104,13 @@
     }
   </section>
 </article>
+
+@if (isModalOpen) {
+  <app-dynamic-modal
+    [titulo]="modalTitle"
+    [campos]="modalConfigFinish"
+    [datosIniciales]="finishToEdit"
+    (onClose)="closeModal()"
+    (onSave)="saveFinish($event)">
+  </app-dynamic-modal>
+}

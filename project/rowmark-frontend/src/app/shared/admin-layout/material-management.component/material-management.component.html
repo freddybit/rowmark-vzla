@@ -1,14 +1,16 @@
 <article class="material-management">
   <section class="material-list">
     <h2>LISTA DE MATERIALES</h2>
+
     <div class="top-controls">
       <div class="search-container">
-      <input type="text" class="search-input" placeholder="Buscar por ID, nombre o categoría..." (input)="onSearch($event)">
+        <input type="text" class="search-input" placeholder="Buscar por ID, nombre o categoría..." (input)="onSearch($event)">
       </div>
-      <button class="add-material">
+      <button class="add-material" (click)="openCreateModal()">
           <span>+ Agregar Material</span>
       </button>
     </div>
+
     <table>
       <thead>
         @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
@@ -63,19 +65,13 @@
   </table>
 
   <div class="pagination-controls">
-    <button
-      (click)="table.previousPage()"
-      [disabled]="!table.getCanPreviousPage()">
+    <button (click)="table.previousPage()" [disabled]="!table.getCanPreviousPage()">
       Anterior
     </button>
-
     <span>
       Página <strong>{{ table.getState().pagination.pageIndex + 1 }}</strong> de {{ table.getPageCount() }}
     </span>
-
-    <button
-      (click)="table.nextPage()"
-      [disabled]="!table.getCanNextPage()">
+    <button (click)="table.nextPage()" [disabled]="!table.getCanNextPage()">
       Siguiente
     </button>
   </div>
@@ -98,7 +94,7 @@
                 <button (click)="deselectMaterial()" class="btn-deselect">Deseleccionar</button>
                 <div class="action-buttons">
                     <button (click)="deleteMaterial(selectedMaterial.materialKey)" class="btn-delete">Eliminar</button>
-                    <button class="btn-edit">Modificar</button>
+                    <button class="btn-edit" (click)="openEditModal()">Modificar</button>
                 </div>
             </section>
         </div>
@@ -107,3 +103,13 @@
     }
   </section>
 </article>
+
+@if (isModalOpen) {
+  <app-dynamic-modal
+    [titulo]="modalTitle"
+    [campos]="modalConfigMaterial"
+    [datosIniciales]="materialToEdit"
+    (onClose)="closeModal()"
+    (onSave)="saveMaterial($event)">
+  </app-dynamic-modal>
+}

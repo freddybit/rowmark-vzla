@@ -1,0 +1,96 @@
+<div class="modal-overlay">
+  <div class="modal-card">
+
+    <div class="modal-header">
+      <h2>{{ titulo }}</h2>
+      <button class="btn-close" (click)="cerrar()" aria-label="Cerrar modal">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      @for (campo of campos; track campo.key) {
+        <div class="form-group">
+          <label [for]="campo.key" class="field-label">
+            {{ campo.label }}
+            @if (campo.required) { <span class="text-danger">*</span> }
+          </label>
+
+          @switch (campo.type) {
+
+            @case ('textarea') {
+              <textarea
+                [id]="campo.key"
+                [(ngModel)]="formData[campo.key]"
+                class="form-control form-textarea"
+                rows="3"
+                [placeholder]="campo.placeholder || ''">
+              </textarea>
+            }
+
+            @case ('color') {
+              <div class="color-picker-container">
+                <input
+                  type="color"
+                  [id]="campo.key"
+                  [(ngModel)]="formData[campo.key]"
+                  class="custom-color-input">
+                <span class="color-hex-text">{{ formData[campo.key] || '#000000' }}</span>
+              </div>
+            }
+
+            @case ('file') {
+              <div class="custom-file-dropzone" [class.has-file]="formData[campo.key]">
+                <label [for]="campo.key" class="dropzone-label">
+
+                  @if (formData[campo.key]) {
+                    <div class="preview-wrapper">
+                      @if (isString(formData[campo.key])) {
+                        <img [src]="formData[campo.key]" alt="Preview" class="dropzone-img-preview">
+                      } @else {
+                        <div class="file-success-icon">
+                          <svg xmlns="http://www.w3.org/2000/svg" height="44px" viewBox="0 -960 960 960" width="44px" fill="#00b4d8"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm130-352-186 186-102-102 56-56 46 46 130-130 56 56Z"/></svg>
+                        </div>
+                      }
+                      <div class="file-details-text">
+                        <p class="file-name">{{ isString(formData[campo.key]) ? 'Imagen actual del catálogo' : formData[campo.key].name }}</p>
+                        <p class="file-action-hint">Haz clic aquí para cambiar el archivo</p>
+                      </div>
+                    </div>
+                  } @else {
+                    <div class="upload-placeholder">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#8f9ca7"><path d="M440-200h80v-167l64 64 56-57-160-160-160 160 57 57 63-64v167ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm320-560v-160H240v640h480v-480H560W240v640v-640Z"/></svg>
+                      <p class="placeholder-sub">Formatos recomendados: PNG, JPG o WEBP</p>
+                    </div>
+                  }
+
+                </label>
+                <input
+                  type="file"
+                  [id]="campo.key"
+                  [accept]="campo.accept || 'image/*'"
+                  (change)="onFileSelected($event, campo.key)"
+                  class="hidden-file-input">
+              </div>
+            }
+
+            @default {
+              <input
+                [type]="campo.type"
+                [id]="campo.key"
+                [(ngModel)]="formData[campo.key]"
+                class="form-control"
+                [placeholder]="campo.placeholder || ''">
+            }
+          }
+        </div>
+      }
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="cerrar()">Cancelar</button>
+      <button class="btn-save" (click)="guardar()">Guardar Cambios</button>
+    </div>
+
+  </div>
+</div>

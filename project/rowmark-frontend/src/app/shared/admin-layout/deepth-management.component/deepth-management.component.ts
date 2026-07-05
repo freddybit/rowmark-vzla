@@ -1,67 +1,182 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DeepthService, Deepth } from '../../../services/rowmark-api/deepth-service/deepth.service';
+// 👇 Importamos solo el Modal Dinámico
+import { DynamicModalComponent, DynamicField } from '../dynamic-modal.component/dynamic-modal.component';
+import {
+  FlexRenderDirective,
+  createAngularTable,
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  getFilteredRowModel,
+} from '@tanstack/angular-table';
 
 @Component({
-  selector: 'app-deepth-management.component',
-  imports: [],
+  selector: 'app-deepth-management',
+  standalone: true,
+  // 👇 Agregamos el modal a los imports
+  imports: [CommonModule, FlexRenderDirective, DynamicModalComponent],
   templateUrl: './deepth-management.component.html',
-  styleUrl: './deepth-management.component.css',
+  styleUrls: ['./deepth-management.component.css'],
 })
-export class DeepthManagementComponent {
-  selectedMaterial: Material = { id: 0, name: '', imgUrl: '', category: '', description: '' };
+export class DeepthManagementComponent implements OnInit {
+  private deepthService = inject(DeepthService);
+  public deepths: Deepth[] = [];
+  public selectedDeepth: Deepth | null = null;
+  public globalFilter: string = '';
 
-  materials: Material[] = [
+  // --- VARIABLES DEL MODAL DINÁMICO ---
+  public isModalOpen = false;
+  public modalTitle = 'Agregar Profundidad';
+  public deepthToEdit: any = {};
+
+  // 👇 Configuración específica para Deepth
+  public modalConfigDeepth: DynamicField[] = [
     {
-      id: 1,
-      name: 'Fibra de Densidad Media (MDF)',
-      category: 'Madera',
-      description:
-        'La fibra de densidad media (MDF) es un material compuesto hecho de fibras de madera comprimidas y unido con adhesivos.',
-      imgUrl:
-        'https://tse2.mm.bing.net/th/id/OIP.ruDUGqmS0CNXFLH1qRWkYAHaE8?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3',
+      key: 'depth',
+      label: 'Profundidad de Grabado',
+      type: 'number',
+      required: true,
+      placeholder: 'Ej: 0.08',
     },
     {
-      id: 2,
-      name: 'Material 2',
-      category: 'Plástico',
-      description:
-        'El plástico es un material sintético ampliamente utilizado en la industria y el consumo diario, conocido por su ligereza, durabilidad y versatilidad en la fabricación de diversos productos.',
-      imgUrl:
-        'https://tse1.mm.bing.net/th/id/OIP.FGaiFYn85RKz39GvDNGyhgHaD3?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3',
-    },
-    {
-      id: 3,
-      name: 'Material 3',
-      category: 'Metal',
-      description:
-        'El metal es un material natural, ampliamente utilizado en la industria y la construcción, conocido por su resistencia, durabilidad y capacidad de conductividad térmica y eléctrica.',
-      imgUrl:
-        'https://tse3.mm.bing.net/th/id/OIP.raY1I7m0vPLI3KIRq_3oDwHaEK?r=0&cb=thfvnextfalcon&rs=1&pid=ImgDetMain&o=7&rm=3',
+      key: 'unitMedition',
+      label: 'Unidad de Medida',
+      type: 'text',
+      required: true,
+      placeholder: 'Ej: mm, pulgadas, mil',
     },
   ];
 
-  addMaterial(name: string): void {
-    const newMaterial: Material = {
-      id: this.materials.length > 0 ? Math.max(...this.materials.map((m) => m.id)) + 1 : 1,
-      name: name,
-      imgUrl: '',
-      category: '',
-      description: '',
+  table = createAngularTable(() => ({
+    data: this.deepths,
+    columns: [
+      {
+        accessorKey: 'engravingDepthKey',
+        header: 'ID',
+      },
+      {
+        accessorKey: 'depth',
+        header: 'Profundidad',
+      },
+      {
+        accessorKey: 'unitMedition',
+        header: 'Unidad',
+      },
+    ],
+    state: {
+      globalFilter: this.globalFilter,
+    },
+    initialState: {
+      pagination: {
+        pageSize: 10,
+        pageIndex: 0,
+      },
+    },
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+  }));
+
+  ngOnInit(): void {
+    this.loadDeepths();
+  }
+
+  public loadDeepths(): void {
+    this.deepthService.getAll().subscribe({
+      next: (data) => {
+        this.deepths = data;
+        this.updateTableData();
+      },
+      error: (err) => console.error('Error al cargar las profundidades:', err),
+    });
+  }
+
+  onSearch(event: Event) {
+    this.globalFilter = (event.target as HTMLInputElement).value;
+    this.table.setOptions((prev) => ({
+      ...prev,
+      state: { ...prev.state, globalFilter: this.globalFilter },
+    }));
+  }
+
+  private updateTableData() {
+    this.table.setOptions((prev) => ({ ...prev, data: [...this.deepths] }));
+  }
+
+  selectDeepth(deepth: Deepth): void {
+    this.selectedDeepth = deepth;
+  }
+
+  deselectDeepth(): void {
+    this.selectedDeepth = null;
+  }
+
+  deleteDeepth(engravingDepthKey: number | undefined): void {
+    if (!engravingDepthKey) return;
+
+    if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+      this.deepthService.delete(engravingDepthKey).subscribe({
+        next: () => {
+          this.deepths = this.deepths.filter((d) => d.engravingDepthKey !== engravingDepthKey);
+          this.updateTableData();
+
+          if (this.selectedDeepth?.engravingDepthKey === engravingDepthKey) {
+            this.deselectDeepth();
+          }
+        },
+        error: (err) => console.error('Error al eliminar:', err),
+      });
+    }
+  }
+
+  // --- MÉTODOS PARA CONTROLAR EL MODAL ---
+
+  openCreateModal() {
+    this.modalTitle = 'Agregar Nueva Profundidad';
+    this.deepthToEdit = {};
+    this.isModalOpen = true;
+  }
+
+  openEditModal() {
+    this.modalTitle = 'Modificar Profundidad';
+    this.deepthToEdit = { ...this.selectedDeepth };
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+  }
+
+  saveDeepth(formData: any) {
+    const payload: Deepth = {
+      ...formData,
+      depth: Number(formData.depth),
     };
-    this.materials.push(newMaterial);
-  }
 
-  selectMaterial(material: Material): void {
-    this.selectedMaterial = material;
-  }
+    if (payload.engravingDepthKey) {
 
-  deselectMaterial(): void {
-    this.selectedMaterial = { id: 0, name: '', imgUrl: '', category: '', description: '' };
-  }
-
-  deleteMaterial(id: number): void {
-    this.materials = this.materials.filter((material) => material.id !== id);
-    if (this.selectedMaterial.id === id) {
-      this.deselectMaterial();
+      this.deepthService.update(payload.engravingDepthKey, payload).subscribe({
+        next: () => {
+          alert('Profundidad actualizada correctamente.');
+          this.loadDeepths();
+          this.selectedDeepth = payload;
+          this.closeModal();
+        },
+        error: (err) => console.error('Error al actualizar:', err),
+      });
+    } else {
+      // Crear
+      this.deepthService.create(payload).subscribe({
+        next: () => {
+          alert('Profundidad creada exitosamente.');
+          this.loadDeepths();
+          this.closeModal();
+        },
+        error: (err) => console.error('Error al crear:', err),
+      });
     }
   }
 }

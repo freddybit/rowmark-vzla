@@ -1,125 +1,207 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+
+// Importaciones de tus catálogos
+import { CapabilityService } from '../../../services/rowmark-api/capability-service/capability.service';
+import { ColorService } from '../../../services/rowmark-api/color-service/color.service';
+import { FinishService } from '../../../services/rowmark-api/finish-service/finish.service';
+import { MaterialService } from '../../../services/rowmark-api/material-service/material.service';
+import { ProductService } from '../../../services/rowmark-api/product-service/product.service';
+import { SheetSizeService } from '../../../services/rowmark-api/sheet-size-service/sheet-size.service';
+import { DeepthService } from '../../../services/rowmark-api/deepth-service/deepth.service';
+import { AttributeService } from '../../../services/rowmark-api/attribute-service/attribute.service';
+import { SupabaseService } from '../../../services/supabase-service/supabase.service';
+
+interface ProductDimension {
+  engravingDepthKey: number;
+  sheetSizeKey: number;
+  productPrice: number;
+  unitsAvailable: number;
+}
+
+interface ProductDTO {
+  name: string;
+  description: string;
+  imgUrl: string;
+  imgAlt: string;
+  videoUrl: string;
+  colorKeys: number[];
+  materialKeys: number[];
+  finishKeys: number[];
+  attributesKeys: number[];
+  capabilitiesKeys: number[];
+  dimensions: ProductDimension[];
+  profileKey: number;
+}
 
 @Component({
   selector: 'app-add-product-form',
-  standalone: true, // Asumo que es standalone por tu array de imports en el decorador
-  imports: [ReactiveFormsModule],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './add-product-form.component.html',
   styleUrl: './add-product-form.component.css',
 })
 export class AddProductFormComponent implements OnInit {
-  sheetForm!: FormGroup;
-  selectedFile: File | null = null;
-  public readonly availableSizes: string[] = ['120x60', '60x60', '30x60'];
+  private fb = inject(FormBuilder);
 
-  constructor(private fb: FormBuilder) {}
+  private productService = inject(ProductService);
+  private colorService = inject(ColorService);
+  private materialService = inject(MaterialService);
+  private finishService = inject(FinishService);
+  private capabilityService = inject(CapabilityService);
+  private depthService = inject(DeepthService);
+  private sizeService = inject(SheetSizeService);
+  private attributeService = inject(AttributeService);
 
-  ngOnInit(): void {
-    this.sheetForm = this.fb.group({
-      name: ['', Validators.required],
-      unitsAvailable: [0, [Validators.required, Validators.min(0)]],
-      imgFile: [null],
-      imgAlt: [''],
-      description: [''],
-      material: [''],
-      finish: [''],
-      attributes: [''],
-      usage: [''],
-      capabilities: [''],
-      prices: this.fb.array([]),
-      engravingDepth: this.fb.array([]),
-      sizes: this.fb.array([], Validators.required),
-      videoUrls: this.fb.array([]),
+  // INYECCIÓN DE SUPABASE
+  private supabaseService = inject(SupabaseService);
+
+  currentStep = signal<number>(1);
+  isSubmitting = signal<boolean>(false);
+  isUploadingImage = signal<boolean>(false);
+
+  availableColors = signal<any[]>([]);
+  availableMaterials = signal<any[]>([]);
+  availableFinishes = signal<any[]>([]);
+  availableCapabilities = signal<any[]>([]);
+  availableDepths = signal<any[]>([]);
+  availableSizes = signal<any[]>([]);
+  availableAttributes = signal<any[]>([]);
+
+  productForm: FormGroup;
+
+  constructor() {
+    this.productForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['', [Validators.required]],
+      videoUrl: [''],
+      imgUrl: ['', [Validators.required]],
+      imgAlt: ['', [Validators.required]],
+
+      colorKeys: [[]],
+      materialKeys: [[]],
+      finishKeys: [[]],
+      attributesKeys: [[]],
+      capabilitiesKeys: [[]],
+      dimensions: this.fb.array([this.createDimensionRow()]),
+      profileKey: [localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')!).profileKey : null, Validators.required],
     });
   }
 
-  // =========================================================================
-  // Getters para FormArrays
-  // =========================================================================
-
-  get prices(): FormArray {
-    return this.sheetForm.get('prices') as FormArray;
-  }
-  get engravingDepth(): FormArray {
-    return this.sheetForm.get('engravingDepth') as FormArray;
-  }
-  get sizes(): FormArray {
-    return this.sheetForm.get('sizes') as FormArray;
-  }
-  get videoUrls(): FormArray {
-    return this.sheetForm.get('videoUrls') as FormArray;
+  ngOnInit(): void {
+    this.loadCatalogs();
   }
 
-  // =========================================================================
-  // Manipulación de Arreglos Dinámicos
-  // =========================================================================
-
-  addPrice(): void {
-    this.prices.push(this.fb.control(null, [Validators.required, Validators.min(0)]));
-  }
-  removePrice(index: number): void {
-    this.prices.removeAt(index);
-  }
-
-  addDepth(): void {
-    this.engravingDepth.push(this.fb.control(null, [Validators.required, Validators.min(0)]));
-  }
-  removeDepth(index: number): void {
-    this.engravingDepth.removeAt(index);
+  loadCatalogs(): void {
+    this.colorService.getAll().subscribe((data) => this.availableColors.set(data));
+    this.materialService.getAll().subscribe((data) => this.availableMaterials.set(data));
+    this.finishService.getAll().subscribe((data) => this.availableFinishes.set(data));
+    this.capabilityService.getAll().subscribe((data) => this.availableCapabilities.set(data));
+    this.depthService.getAll().subscribe((data) => this.availableDepths.set(data));
+    this.sizeService.getAll().subscribe((data) => this.availableSizes.set(data));
+    this.attributeService.getAll().subscribe((data) => this.availableAttributes.set(data));
   }
 
-  addVideo(): void {
-    this.videoUrls.push(this.fb.control(''));
-  }
-  removeVideo(index: number): void {
-    this.videoUrls.removeAt(index);
-  }
-
-  // =========================================================================
-  // Eventos de la Interfaz (Archivos y Checkboxes)
-  // =========================================================================
-
-  onFileSelected(event: Event): void {
+  // --- LÓGICA DE SUPABASE ---
+  async onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0];
-      this.sheetForm.patchValue({ imgFile: this.selectedFile });
-      this.sheetForm.get('imgFile')?.updateValueAndValidity();
+    if (!input.files || input.files.length === 0) {
+      return;
     }
-  }
 
-  onSizeChange(event: Event): void {
-    const checkbox = event.target as HTMLInputElement;
+    const file = input.files[0];
+    this.isUploadingImage.set(true);
 
-    if (checkbox.checked) {
-      this.sizes.push(this.fb.control(checkbox.value));
-    } else {
-      const index = this.sizes.controls.findIndex((ctrl) => ctrl.value === checkbox.value);
-      if (index !== -1) {
-        this.sizes.removeAt(index);
+    try {
+      const publicUrl = await this.supabaseService.uploadImage(file);
+      this.productForm.patchValue({ imgUrl: publicUrl });
+
+      if (!this.productForm.get('imgAlt')?.value) {
+        this.productForm.patchValue({ imgAlt: file.name.split('.')[0] });
       }
+    } catch (error) {
+      alert('Hubo un error al subir la imagen. Revisa la consola.');
+    } finally {
+      this.isUploadingImage.set(false);
     }
   }
 
-  // =========================================================================
-  // Envío del Formulario
-  // =========================================================================
+  // --- MATRIZ DINÁMICA ---
+  get dimensionsArray(): FormArray {
+    return this.productForm.get('dimensions') as FormArray;
+  }
 
+  createDimensionRow(): FormGroup {
+    return this.fb.group({
+      engravingDepthKey: [null, Validators.required],
+      sheetSizeKey: [null, Validators.required],
+      productPrice: [null, [Validators.required, Validators.min(0.01)]],
+      unitsAvailable: [null, [Validators.required, Validators.min(0)]],
+    });
+  }
+
+  addDimensionRow(): void {
+    this.dimensionsArray.push(this.createDimensionRow());
+  }
+
+  removeDimensionRow(index: number): void {
+    if (this.dimensionsArray.length > 1) {
+      this.dimensionsArray.removeAt(index);
+    }
+  }
+
+  // --- SELECCIÓN MÚLTIPLE ---
+  toggleSelection(controlName: string, key: number): void {
+    const control = this.productForm.get(controlName);
+    const currentValues: number[] = control?.value || [];
+    if (currentValues.includes(key)) {
+      control?.setValue(currentValues.filter((v) => v !== key));
+    } else {
+      control?.setValue([...currentValues, key]);
+    }
+    control?.markAsTouched();
+  }
+
+  isSelected(controlName: string, key: number): boolean {
+    return this.productForm.get(controlName)?.value?.includes(key);
+  }
+
+  // --- STEPPER ---
+  nextStep(): void {
+    if (this.currentStep() < 3) this.currentStep.update((s) => s + 1);
+  }
+
+  prevStep(): void {
+    if (this.currentStep() > 1) this.currentStep.update((s) => s - 1);
+  }
+
+  // --- ENVÍO AL BACKEND ---
   onSubmit(): void {
-    if (this.sheetForm.valid) {
-      // Aquí tienes tu objeto puro y el archivo físico separados.
-      // Ya puedes aplicar tu propia lógica de servicios o mapeo hacia C#.
-      const formValues = this.sheetForm.value;
-      const fileToUpload = this.selectedFile;
+    if (this.productForm.valid) {
+      this.isSubmitting.set(true);
+      const payload: ProductDTO = this.productForm.value;
 
-      console.log('Datos del formulario listos:', formValues);
-      if (fileToUpload) {
-        console.log('Archivo listo para procesar:', fileToUpload.name);
-      }
+      console.log('JSON listo para enviarse a la API:', payload);
+
+      this.productService.createProduct(payload).subscribe({
+        next: (response) => {
+          this.isSubmitting.set(false);
+          alert('¡Producto creado e insertado transaccionalmente en la base de datos con éxito!');
+          this.productForm.reset();
+          this.dimensionsArray.clear();
+          this.addDimensionRow();
+          this.currentStep.set(1);
+        },
+        error: (err) => {
+          this.isSubmitting.set(false);
+          console.error('Error al enviar el producto a la API:', err);
+          alert('Hubo un error al guardar el producto. Revisa la consola para más detalles.');
+        },
+      });
     } else {
-      console.warn('Faltan campos por llenar o hay errores.');
-      this.sheetForm.markAllAsTouched();
+      this.productForm.markAllAsTouched();
+      alert('Revisa los campos en rojo. Faltan llaves foráneas o información requerida.');
     }
   }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using rowmark.interfaces;
 using rowmark.models.dto;
 using rowmark.models.entities;
@@ -83,4 +85,26 @@ public class AuthController : ControllerBase {
             return BadRequest(new { message = ex.Message });
         }
     }
+
+    [Authorize]
+    [HttpGet("me")]
+    public ActionResult<Profile> GetMyProfile() {
+        try {
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? User.FindFirstValue("id");
+
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                return Unauthorized(new { message = "El token no es válido o no contiene la identificación del usuario." });
+            
+            var response = _authService.GetProfileById(userId);
+            
+            if (response == null)
+                return NotFound(new { message = "Usuario no encontrado en la base de datos." });
+            
+            return Ok(response);
+            
+        } catch (Exception ex) {
+            return BadRequest(new { message = $"Error al obtener el perfil: {ex.Message}" });
+        }
+    }
+    
 }

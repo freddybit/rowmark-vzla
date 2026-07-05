@@ -9,8 +9,7 @@ using rowmark.models.entities;
 
 namespace rowmark.Modules.EngravingDepth;
 
-public class EngravingDepthRepository 
-{
+public class EngravingDepthRepository {
     private readonly string _connectionString;
 
     public EngravingDepthRepository(IConfiguration configuration) {
@@ -35,17 +34,27 @@ public class EngravingDepthRepository
     public List<Entities.EngravingDepth> GetAll() {
         using IDbConnection db = new NpgsqlConnection(_connectionString);
         
-        string query = "SELECT engravingdepthkey, depth, unitmedition FROM engravingdepth;";
+        string query = @"
+            SELECT 
+                engravingdepthkey AS EngravingDepthKey, 
+                depth AS Depth, 
+                unitmedition AS UnitMedition 
+            FROM engravingdepth;";
         
         return db.Query<Entities.EngravingDepth>(query).ToList();
     }
 
     // READ (Por ID)
-    public Entities.EngravingDepth? GetById(int id) 
-    {
+    public Entities.EngravingDepth? GetById(int id) {
         using IDbConnection db = new NpgsqlConnection(_connectionString);
         
-        string query = "SELECT engravingdepthkey, depth, unitmedition FROM engravingdepth WHERE engravingdepthkey = @Id;";
+        string query = @"
+            SELECT 
+                engravingdepthkey AS EngravingDepthKey, 
+                depth AS Depth, 
+                unitmedition AS UnitMedition 
+            FROM engravingdepth 
+            WHERE engravingdepthkey = @Id;";
         
         return db.QueryFirstOrDefault<Entities.EngravingDepth>(query, new { Id = id });
     }
@@ -68,8 +77,7 @@ public class EngravingDepthRepository
     }
 
     // DELETE
-    public bool Delete(int id) 
-    {
+    public bool Delete(int id) {
         using IDbConnection db = new NpgsqlConnection(_connectionString);
         
         string query = "DELETE FROM engravingdepth WHERE engravingdepthkey = @Id;";

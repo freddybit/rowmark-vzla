@@ -1,106 +1,110 @@
-<article class="material-management">
-    <section class="material-list">
-        <h2>LISTA DE MATERIALES TO DO</h2>
+<article class="capability-management">
+  <section class="capability-list">
+    <h2>LISTA DE CAPACIDADES</h2>
 
-        <button class="add-material">
-            <span>+ Agregar Material</span>
-        </button>
-
-        <table>
-          <thead>
-            @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
-            <tr>
-              @for (header of headerGroup.headers; track header.id) {
-                <th scope="col" class="row-name" (click)="header.column.getToggleSortingHandler()?.($event)" [style.cursor]="header.column.getCanSort() ? 'pointer' : 'default'">
-                  <div style="display: flex; align-items: center; gap: 5px;">
-                    <ng-container *flexRender="header.column.columnDef.header; props: header.getContext(); let headerValue">
-                      {{ headerValue }}
-                    </ng-container>
-                    @if (header.column.getIsSorted() === 'asc') {
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="18 15 12 9 6 15"></polyline>
-                      </svg>
-                    } @else if (header.column.getIsSorted() === 'desc') {
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                      </svg>
-                    } @else if (header.column.getCanSort()) {
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#b0b0b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="7 15 12 20 17 15"></polyline>
-                      <polyline points="7 9 12 4 17 9"></polyline>
-                    </svg>
-                    }
-                  </div>
-                </th>
-              }
-              <th scope="col" class="row-button">Seleccionar</th>
-            </tr>
-          }
-        </thead>
-        <tbody>
-          @for (row of table.getRowModel().rows; track row.id) {
-            <tr>
-              @for (cell of row.getVisibleCells(); track cell.id) {
-                <td class="row-name">
-                  <ng-container *flexRender="cell.column.columnDef.cell; props: cell.getContext(); let cellValue">
-                    {{ cellValue }}
-                  </ng-container>
-                </td>
-              }
-              <td class="row-button">
-                @if (selectedMaterial === row.original) {
-                  <span class="button-active">Seleccionado</span>
-                } @else {
-                  <button (click)="selectMaterial(row.original)">Seleccionar</button>
-                }
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-
-      <div class="pagination-controls">
-        <button
-          (click)="table.previousPage()"
-          [disabled]="!table.getCanPreviousPage()">
-          Anterior
-        </button>
-
-        <span>
-          Página <strong>{{ table.getState().pagination.pageIndex + 1 }}</strong> de {{ table.getPageCount() }}
-        </span>
-
-        <button
-          (click)="table.nextPage()"
-          [disabled]="!table.getCanNextPage()">
-          Siguiente
-        </button>
+    <div class="top-controls">
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Buscar por ID, nombre o categoría..."
+          (input)="onSearch($event)">
       </div>
-    </section>
+      <button class="add-capability" (click)="openCreateModal()">
+        <span>+ Agregar Capacidad</span>
+      </button>
+    </div>
 
-    <section class="material-details">
-        <h2>DETALLES DEL MATERIAL</h2>
-        @if (selectedMaterial && selectedMaterial.materialKey) {
-            <div class="details-card">
-                <section class="detail-header">
-                    <img [src]="selectedMaterial.imgUrl" alt="Imagen del material" class="detail-image">
-                    <p class="detail-name">Nombre: {{ selectedMaterial.name }}</p>
-                    <p class="detail-name">Categoría: {{ selectedMaterial.category }}</p>
-                    <p class="detail-id">ID: {{ selectedMaterial.materialKey }}</p>
-                </section>
-                <section class="detail-content">
-                    <p class="detail-description"><span>Descripción:</span> {{ selectedMaterial.description }}</p>
-                </section>
-                <section class="detail-actions">
-                    <button (click)="deselectMaterial()" class="btn-deselect">Deseleccionar</button>
-                    <div class="action-buttons">
-                        <button (click)="deleteMaterial(selectedMaterial.materialKey)" class="btn-delete">Eliminar</button>
-                        <button class="btn-edit">Modificar</button>
-                    </div>
-                </section>
-            </div>
-        } @else {
-            <p class="detail-warning">AVISO: Seleccione un material para ver sus detalles.</p>
+    <table>
+      <thead>
+        @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
+        <tr>
+          @for (header of headerGroup.headers; track header.id) {
+            <th scope="col" class="row-name" (click)="header.column.getToggleSortingHandler()?.($event)" [style.cursor]="header.column.getCanSort() ? 'pointer' : 'default'">
+              <div style="display: flex; align-items: center; gap: 5px;">
+                <ng-container *flexRender="header.column.columnDef.header; props: header.getContext(); let headerValue">
+                  {{ headerValue }}
+                </ng-container>
+                @if (header.column.getIsSorted() === 'asc') {
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                } @else if (header.column.getIsSorted() === 'desc') {
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                }
+              </div>
+            </th>
+          }
+          <th scope="col" class="row-button">Acción</th>
+        </tr>
         }
-    </section>
+      </thead>
+      <tbody>
+        @for (row of table.getRowModel().rows; track row.id) {
+        <tr>
+          @for (cell of row.getVisibleCells(); track cell.id) {
+            <td class="row-name">
+              <ng-container *flexRender="cell.column.columnDef.cell; props: cell.getContext(); let cellValue">{{ cellValue }}</ng-container>
+            </td>
+          }
+          <td class="row-button">
+            @if (selectedCapability === row.original) {
+              <span class="button-active">Seleccionado</span>
+            } @else {
+              <button (click)="selectCapability(row.original)">Seleccionar</button>
+            }
+          </td>
+        </tr>
+        }
+        @if (table.getRowModel().rows.length === 0) {
+          <tr>
+            <td colspan="4" style="text-align: center; padding: 20px;">No se encontraron capacidades.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <div class="pagination-controls">
+      <button (click)="table.previousPage()" [disabled]="!table.getCanPreviousPage()">Anterior</button>
+      <span>Página <strong>{{ table.getState().pagination.pageIndex + 1 }}</strong> de {{ table.getPageCount() || 1 }}</span>
+      <button (click)="table.nextPage()" [disabled]="!table.getCanNextPage()">Siguiente</button>
+    </div>
+  </section>
+
+  <section class="capability-details">
+    <h2>DETALLES DE LA CAPACIDAD</h2>
+
+    @if (selectedCapability && selectedCapability.capabilityKey) {
+    <div class="details-card">
+      <section class="detail-header">
+        <img [src]="selectedCapability.imgUrl || 'https://via.placeholder.com/300?text=Sin+Imagen'" alt="Imagen de la capacidad" class="detail-image">
+        <p class="detail-name">Nombre: {{ selectedCapability.name }}</p>
+        <p class="detail-name">Categoría: {{ selectedCapability.category }}</p>
+        <p class="detail-id">ID: {{ selectedCapability.capabilityKey }}</p>
+      </section>
+
+      <section class="detail-content">
+        <p class="detail-description"><span>Descripción:</span> {{ selectedCapability.description }}</p>
+      </section>
+
+      <section class="detail-actions">
+        <button (click)="deselectCapability()" class="btn-deselect">Deseleccionar</button>
+        <div class="action-buttons">
+          <button (click)="deleteCapability(selectedCapability.capabilityKey)" class="btn-delete">Eliminar</button>
+          <button class="btn-edit" (click)="openEditModal()">Modificar</button>
+        </div>
+      </section>
+    </div>
+    } @else {
+      <p class="detail-warning">AVISO: Seleccione una capacidad para ver sus detalles.</p>
+    }
+  </section>
 </article>
+
+@if (isModalOpen) {
+  <app-dynamic-modal
+    [titulo]="modalTitle"
+    [campos]="modalConfigCapability"
+    [datosIniciales]="capabilityToEdit"
+    (onClose)="closeModal()"
+    (onSave)="saveCapability($event)">
+  </app-dynamic-modal>
+}

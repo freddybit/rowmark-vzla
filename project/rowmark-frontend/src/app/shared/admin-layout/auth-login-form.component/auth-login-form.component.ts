@@ -20,13 +20,21 @@ export class AuthLoginFormComponent {
 
   onSubmit() {
     this.apiService.login(this.credentials).subscribe({
-      next: (token: string) => {
-        console.log('¡Login exitoso! Token:', token);
+      next: (response: any) => {
+        const token = response.token;
         localStorage.setItem('auth_token', token);
-        this.router.navigate(['/admin/my-profile']);
+        this.apiService.getMyProfile().subscribe({
+          next: (userData) => {
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+            this.router.navigate(['/admin/my-profile']);
+          },
+          error: (err) => {
+            console.error('Error al cargar perfil:', err);
+          },
+        });
       },
-      error: (err: any) => {
-        console.error('Falló la autenticación', err);
+      error: (err) => {
+        console.error('Falló el login', err);
       },
     });
   }

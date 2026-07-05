@@ -12,14 +12,13 @@ import { ShoppingCartPage } from '../pages/shopping-cart.page/shopping-cart.page
 import { MaterialManagementComponent } from '../shared/admin-layout/material-management.component/material-management.component';
 import { ColorManagementComponent } from '../shared/admin-layout/color-management.component/color-management.component';
 import { FinishManagementComponent } from '../shared/admin-layout/finish-management.component/finish-management.component';
-import { AtributesManagementComponent } from '../shared/admin-layout/atributes-management.component/atributes-management.component';
-import { UsageManagementComponent } from '../shared/admin-layout/usage-management.component/usage-management.component';
 import { CapabilityManagementComponent } from '../shared/admin-layout/capability-management.component/capability-management.component';
 import { DeepthManagementComponent } from '../shared/admin-layout/deepth-management.component/deepth-management.component';
-import { DimensionsManagementComponent } from '../shared/admin-layout/dimensions-management.component/dimensions-management.component';
 import { RoleManagementComponent } from '../shared/roles/role-management.component/role-management.component';
 import { CreateRoleComponent } from '../shared/roles/create-role.component/create-role.component';
 import { UserManagementComponent } from '../shared/roles/user-management.component/user-management.component';
+import { AttributesManagementComponent } from '../shared/admin-layout/attributes-management.component/attributes-management.component';
+import { SheetSizeManagementComponent } from '../shared/admin-layout/sheet-size-management.component/sheet-size-management.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -43,10 +42,9 @@ export const routes: Routes = [
       { path: 'attributes/material', component: MaterialManagementComponent },
       { path: 'attributes/color', component: ColorManagementComponent },
       { path: 'attributes/finish', component: FinishManagementComponent },
-      { path: 'attributes', component: AtributesManagementComponent },
-      { path: 'attributes/usage', component: UsageManagementComponent },
+      { path: 'attributes', component: AttributesManagementComponent },
       { path: 'attributes/capability', component: CapabilityManagementComponent },
-      { path: 'attributes/dimension', component: DimensionsManagementComponent },
+      { path: 'attributes/dimension', component: SheetSizeManagementComponent },
       { path: 'attributes/engravingDepth', component: DeepthManagementComponent },
     ],
   },

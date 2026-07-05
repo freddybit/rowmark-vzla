@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UsageService } from './usage.service';
+import { PlaceInterface } from './place.interface';
 
-describe('UsageService', () => {
-  let service: UsageService;
+describe('PlaceInterface', () => {
+  let service: PlaceInterface;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(UsageService);
+    service = TestBed.inject(PlaceInterface);
   });
 
   it('should be created', () => {

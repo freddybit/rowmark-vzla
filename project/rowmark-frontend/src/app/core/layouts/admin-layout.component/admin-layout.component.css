@@ -8,5 +8,7 @@
 .content {
   min-width: 0;
   padding: 4rem 8rem;
+  background: var(--background-color);
 }
+
 
