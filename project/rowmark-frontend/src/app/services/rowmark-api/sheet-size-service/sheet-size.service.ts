@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -8,8 +9,7 @@ import { Observable } from 'rxjs';
 export class SheetSizeService {
   private http = inject(HttpClient);
 
-  // Asegúrate de que el controlador en .NET se llame SheetSizeController
-  private apiUrl = 'http://localhost:5008/api/SheetSize/';
+  private apiUrl = environment.apiUrl + 'SheetSize/';
 
   getAll(): Observable<SheetSize[]> {
     return this.http.get<SheetSize[]>(this.apiUrl);
@@ -33,9 +33,9 @@ export class SheetSizeService {
 }
 
 export interface SheetSize {
-  sheetSizeKey?: number; // Opcional porque la BD lo genera
+  sheetSizeKey?: number;
   length: number;
   width: number;
   height: number;
-  unitMedition: string; // Respetamos la 'u' minúscula que le pusiste en C#
+  unitMedition: string;
 }

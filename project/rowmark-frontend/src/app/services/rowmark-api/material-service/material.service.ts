@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Material } from '../../../models/entities/material';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ export class MaterialService {
   private http = inject(HttpClient);
 
   // URL base apuntando a tu controlador de .NET
-  private apiUrl = 'http://localhost:5008/api/Material';
+  private apiUrl = environment.apiUrl + 'Material';
 
   // 1. Obtener todos los materiales (READ ALL)
   getAll(): Observable<Material[]> {

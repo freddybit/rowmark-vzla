@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Finish } from '../../../models/entities/finish';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -9,8 +10,7 @@ import { Finish } from '../../../models/entities/finish';
 export class FinishService {
   private http = inject(HttpClient);
 
-  // URL base de tu controlador en C#
-  private apiUrl = 'http://localhost:5008/api/Finish/';
+  private apiUrl = environment.apiUrl + 'Finish/';
 
   getAll(): Observable<Finish[]> {
     return this.http.get<Finish[]>(this.apiUrl);

@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AttributeService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5008/api/Attribute/';
+  private apiUrl = environment.apiUrl + 'Attribute/';
 
   getAll(): Observable<Attribute[]> {
     return this.http.get<Attribute[]>(this.apiUrl);

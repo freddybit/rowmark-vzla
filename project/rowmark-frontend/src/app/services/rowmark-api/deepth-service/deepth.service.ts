@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 export interface Deepth {
   engravingDepthKey?: number;
@@ -14,7 +15,7 @@ export interface Deepth {
 export class DeepthService {
   private http = inject(HttpClient);
 
-  private apiUrl = 'http://localhost:5008/api/EngravingDepth';
+  private apiUrl = environment.apiUrl + 'EngravingDepth';
 
   getAll(): Observable<Deepth[]> {
     return this.http.get<Deepth[]>(this.apiUrl);

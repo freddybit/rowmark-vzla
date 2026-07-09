@@ -4,15 +4,15 @@ import { Observable } from 'rxjs';
 import { ProfileLoginDto } from '../../../models/dtos/profile-login.dto';
 import { ProfileRegisterDto } from '../../../models/dtos/profile-register.dto';
 import { ReadProfileDTO } from '../../../models/dtos/read-profile.dto';
- 
+import { environment } from '../../../../environments/environment.development';
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private http = inject(HttpClient);
 
-  // Apuntamos al AuthController de tu backend
-  private apiUrl = 'http://localhost:5008/api/Auth';
+  private apiUrl = environment.apiUrl + 'Auth';
 
   // --- AUTENTICACIÓN Y REGISTRO ---
 

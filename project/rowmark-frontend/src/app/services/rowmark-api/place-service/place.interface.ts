@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Place } from '../../../models/entities/place';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ import { Place } from '../../../models/entities/place';
 export class PlaceService {
   private http = inject(HttpClient);
 
-  private apiUrl = 'http://localhost:5008/api/Place';
+  private apiUrl = environment.apiUrl + 'Place';
 
   getAll(): Observable<Place[]> {
     return this.http.get<Place[]>(this.apiUrl);

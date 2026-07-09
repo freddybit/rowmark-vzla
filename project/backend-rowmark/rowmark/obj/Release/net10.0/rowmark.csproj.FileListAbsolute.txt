@@ -135,8 +135,6 @@ C:\Users\PC\Documents\GitHub\rowmark-vzla\project\backend-rowmark\rowmark\bin\Re
 C:\Users\PC\Documents\GitHub\rowmark-vzla\project\backend-rowmark\rowmark\bin\Release\net10.0\appsettings.json
 C:\Users\PC\Documents\GitHub\rowmark-vzla\project\backend-rowmark\rowmark\bin\Release\net10.0\rowmark.staticwebassets.endpoints.json
 C:\Users\PC\Documents\GitHub\rowmark-vzla\project\backend-rowmark\rowmark\bin\Release\net10.0\rowmark.exe
-C:\Users\PC\Documents\GitHub\rowmark-vzla\project\backend-rowmark\rowmark\bin\Release\net10.0\data\profiles.json
-C:\Users\PC\Documents\GitHub\rowmark-vzla\project\backend-rowmark\rowmark\bin\Release\net10.0\data\roles.json
 C:\Users\PC\Documents\GitHub\rowmark-vzla\project\backend-rowmark\rowmark\bin\Release\net10.0\rowmark.deps.json
 C:\Users\PC\Documents\GitHub\rowmark-vzla\project\backend-rowmark\rowmark\bin\Release\net10.0\rowmark.runtimeconfig.json
 C:\Users\PC\Documents\GitHub\rowmark-vzla\project\backend-rowmark\rowmark\bin\Release\net10.0\rowmark.dll

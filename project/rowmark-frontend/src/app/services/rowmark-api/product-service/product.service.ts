@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProductCard } from '../../../models/entities/productCard';
+import { environment } from '../../../../environments/environment';
 
 export interface Product {
   productKey?: number;
@@ -33,7 +34,7 @@ export interface ProductCreateDto {
 export class ProductService {
   private http = inject(HttpClient);
 
-  private apiUrl = 'http://localhost:5008/api/Product';
+  private apiUrl = environment.apiUrl + 'Product';
 
   getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Color } from '../../../models/entities/color';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -9,20 +10,17 @@ import { Color } from '../../../models/entities/color';
 export class ColorService {
   private http = inject(HttpClient);
 
-  // URL base de tu controlador en C# (ajusta el puerto si es necesario)
-  private apiUrl = 'http://localhost:5008/api/Color/';
+  private apiUrl = environment.apiUrl + 'Color/';
 
   getAll(): Observable<Color[]> {
     return this.http.get<Color[]>(this.apiUrl);
   }
 
   getById(id: number): Observable<Color> {
-    console.log(`Obteniendo color con ID: ${id}`);
     return this.http.get<Color>(`${this.apiUrl}${id}`);
   }
 
   create(color: Color): Observable<Color> {
-    // Recuerda que el ID lo debe generar la base de datos (Supabase) automáticamente
     return this.http.post<Color>(this.apiUrl, color);
   }
 
