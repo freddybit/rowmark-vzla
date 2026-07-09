@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using rowmark.Modules.Product.Dtos;
-using rowmark.Modules.Product.Entities;
 
 namespace rowmark.Modules.Product;
 
@@ -57,6 +56,22 @@ public class ProductController : ControllerBase {
     [HttpGet("cards")]
     public ActionResult<IEnumerable<ProductCardDto>> GetAllCards() {
         return Ok(_productService.GetAllProductCards());
+    }
+    
+    // ... Tus otros endpoints (GetAll, GetById, Create, Delete) ...
+
+    [HttpPut("{id}")]
+    public ActionResult<Entities.Product> Update(int id, [FromBody] ProductUpdateDto dto) {
+        try {
+            var updatedProduct = _productService.UpdateProduct(id, dto);
+            return Ok(updatedProduct);
+        } 
+        catch (ArgumentException ex) {
+            return BadRequest(ex.Message);
+        } 
+        catch (Exception ex) {
+            return StatusCode(500, "Error interno al actualizar el producto: " + ex.Message);
+        }
     }
     
 }

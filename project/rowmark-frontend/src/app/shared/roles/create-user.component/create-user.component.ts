@@ -88,7 +88,7 @@ export class CreateUserComponent implements OnInit {
     }
 
     if (isEditing) {
-      this.authService.updateProfile(this.userToEdit!.profileKey, this.nuevoUsuario).subscribe({
+      this.authService.updateProfile(this.userToEdit!.id, this.nuevoUsuario).subscribe({
         next: (response) => {
           alert('Usuario actualizado exitosamente.');
           this.onUserCreated.emit();

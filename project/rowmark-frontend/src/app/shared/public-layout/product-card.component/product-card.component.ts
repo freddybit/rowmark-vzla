@@ -77,7 +77,7 @@ export class ProductCardComponent implements OnInit, OnChanges {
         unitsAvailable: this.productCard.unitsAvailable,
         price: this.price,
         size: this.productCard.sizes[this.selectionCoords[0]],
-        urlVideos: [],
+        videoUrl: this.productCard.videoUrl,
         iva: this.iva,
         totalPrice: this.totalPrice,
       };

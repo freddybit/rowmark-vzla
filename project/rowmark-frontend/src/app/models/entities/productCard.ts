@@ -1,6 +1,7 @@
 export interface ProductCard {
   imgName: string;
   imgAlt: string;
+  videoUrl: string;
   name: string;
   description: string;
   unitsAvailable: number;

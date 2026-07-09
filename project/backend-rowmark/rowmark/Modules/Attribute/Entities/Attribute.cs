@@ -1,6 +1,4 @@
-﻿using rowmark.models.entities;
-
-namespace rowmark.Modules.Attribute.Entities;
+﻿namespace rowmark.Modules.Attribute.Entities;
 
 public class Attribute {
     

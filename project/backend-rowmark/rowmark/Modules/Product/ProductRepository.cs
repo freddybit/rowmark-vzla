@@ -22,8 +22,8 @@ public class ProductRepository {
         try {
             // 1. Insertar el Producto Base
             string sqlProduct = @"
-                INSERT INTO product (name, description, imgurl, imgalt) 
-                VALUES (@Name, @Description, @ImgUrl, @ImgAlt) 
+                INSERT INTO product (name, description, imgurl, imgalt, videourl) 
+                VALUES (@Name, @Description, @ImgUrl, @ImgAlt, @VideoUrl) 
                 RETURNING productkey;";
             
             int newProductKey = db.QuerySingle<int>(sqlProduct, productDto, transaction);
@@ -100,40 +100,45 @@ public class ProductRepository {
     // 2. GET BY ID (Trae el producto armado con sus listas)
     public Entities.Product? GetById(int productKey) {
         using IDbConnection db = new NpgsqlConnection(_connectionString);
-        
+        db.Open(); 
+    
         string sql = @"
-            -- 1. Traer el producto base
-            SELECT * FROM product WHERE productkey = @Id;
-            
-            -- 2. Traer los colores asociados
-            SELECT c.* FROM color c 
-            INNER JOIN productcolor pc ON c.colorkey = pc.color_colorkey 
-            WHERE pc.product_productkey = @Id;
 
-            -- 3. Traer los materiales asociados
-            SELECT m.* FROM material m 
-            INNER JOIN productmaterial pm ON m.materialkey = pm.material_materialkey 
-            WHERE pm.product_productkey = @Id;
+        SELECT * FROM product WHERE productkey = @Id;
+        
+        SELECT c.* FROM color c 
+        INNER JOIN productcolor pc ON c.colorkey = pc.color_colorkey 
+        WHERE pc.product_productkey = @Id;
 
-            -- 4. Traer los acabados asociados
-            SELECT f.* FROM finish f 
-            INNER JOIN productfinish pf ON f.finishkey = pf.finish_finishkey 
-            WHERE pf.product_productkey = @Id;
+        SELECT m.* FROM material m 
+        INNER JOIN productmaterial pm ON m.materialkey = pm.material_materialkey 
+        WHERE pm.product_productkey = @Id;
 
-            -- 5. Opcional: Traer las dimensiones (precios)
-            -- SELECT * FROM productdimension WHERE product_productkey = @Id;
-        ";
+        SELECT f.* FROM finish f 
+        INNER JOIN productfinish pf ON f.finishkey = pf.finish_finishkey 
+        WHERE pf.product_productkey = @Id;
+
+        SELECT 
+            productprice AS ProductPrice,
+            CAST(unitsavailables AS INTEGER) AS UnitsAvailable, 
+            engravingdepth_engravingdepthkey AS EngravingDept_EngravingDepthKey,
+            sheetsize_sheetsizekey AS SheetSize_SheetSizeKey
+        FROM productdimension 
+        WHERE product_productkey = @Id;
+    ";
 
         using var multi = db.QueryMultiple(sql, new { Id = productKey });
-        
+    
         var product = multi.ReadFirstOrDefault<Entities.Product>();
-        
+    
         if (product != null) {
             product.Colors = multi.Read<rowmark.Modules.Color.Entities.Color>().ToList();
             product.Materials = multi.Read<rowmark.Modules.Materials.Entities.Material>().ToList();
             product.Finishes = multi.Read<rowmark.Modules.Finish.Entities.Finish>().ToList();
+            // Dapper leerá los Alias y los meterá en tu Entidad sin fallar
+            product.Dimensions = multi.Read<rowmark.Modules.Product.Entities.ProductDimension>().ToList();
         }
-        
+    
         return product;
     }
     
@@ -149,7 +154,6 @@ public class ProductRepository {
             db.Execute("DELETE FROM productfinish WHERE product_productkey = @Id;", new { Id = productKey }, transaction);
             db.Execute("DELETE FROM productcapabilities WHERE product_productkey = @Id;", new { Id = productKey }, transaction);
             db.Execute("DELETE FROM productattribute WHERE product_productkey = @Id;", new { Id = productKey }, transaction);
-            db.Execute("DELETE FROM productusage WHERE product_productkey = @Id;", new { Id = productKey }, transaction);
             db.Execute("DELETE FROM productdimension WHERE product_productkey = @Id;", new { Id = productKey }, transaction);
             db.Execute("DELETE FROM productauditlog WHERE product_productkey = @Id;", new { Id = productKey }, transaction);
 
@@ -173,6 +177,7 @@ public class ProductRepository {
             p.imgalt AS ImgAlt,
             p.name AS Name,
             p.description AS Description,
+            p.videourl AS VideoUrl,
             
             -- Suma todas las unidades disponibles de todas sus dimensiones
             COALESCE((SELECT SUM(unitsavailables) FROM productdimension WHERE product_productkey = p.productkey), 0) AS UnitsAvailable,
@@ -192,24 +197,22 @@ public class ProductRepository {
             -- Armamos el arreglo de arreglos para los precios: [[precio, unidades], [precio, unidades]]
             (SELECT COALESCE(json_agg(json_build_array(pd.productprice, pd.unitsavailables)), '[]') FROM productdimension pd WHERE pd.product_productkey = p.productkey) AS prices_json
         FROM product p;";
-
-        // Dapper nos devuelve objetos dinámicos porque las columnas generadas no son nuestra Entidad estándar
+    
         var results = db.Query(sql);
 
         var cards = new List<ProductCardDto>();
         
-        // Mapeamos de SQL a C#
         foreach (var row in results) 
         {
             cards.Add(new ProductCardDto
             {
                 ImgName = row.imgname,
                 ImgAlt = row.imgalt,
+                VideoUrl = row.videourl,
                 Name = row.name,
                 Description = row.description,
                 UnitsAvailable = Convert.ToInt32(row.unitsavailable),
                 
-                // Convertimos ese JSON de PostgreSQL directo a las listas de C#
                 Material = JsonSerializer.Deserialize<List<string>>(row.material_json),
                 Finish = JsonSerializer.Deserialize<List<string>>(row.finish_json),
                 Capabilities = JsonSerializer.Deserialize<List<string>>(row.capabilities_json),
@@ -224,5 +227,94 @@ public class ProductRepository {
         return cards;
     }
     
+    public void Update(int productKey, ProductUpdateDto productDto) {
+        using IDbConnection db = new NpgsqlConnection(_connectionString);
+        db.Open(); 
+        
+        using var transaction = db.BeginTransaction(); 
+
+        try {
+            string sqlProduct = @"
+                UPDATE product 
+                SET name = @Name, 
+                    description = @Description, 
+                    imgurl = @ImgUrl, 
+                    imgalt = @ImgAlt, 
+                    videourl = @VideoUrl
+                WHERE productkey = @ProductKey;";
+            
+            db.Execute(sqlProduct, new {
+                productDto.Name,
+                productDto.Description,
+                productDto.ImgUrl,
+                productDto.ImgAlt,
+                productDto.VideoUrl,
+                ProductKey = productKey
+            }, transaction);
+            
+            db.Execute("DELETE FROM productcolor WHERE product_productkey = @Id;", new { Id = productKey }, transaction);
+            db.Execute("DELETE FROM productmaterial WHERE product_productkey = @Id;", new { Id = productKey }, transaction);
+            db.Execute("DELETE FROM productfinish WHERE product_productkey = @Id;", new { Id = productKey }, transaction);
+            db.Execute("DELETE FROM productcapabilities WHERE product_productkey = @Id;", new { Id = productKey }, transaction);
+            db.Execute("DELETE FROM productattribute WHERE product_productkey = @Id;", new { Id = productKey }, transaction);
+            db.Execute("DELETE FROM productdimension WHERE product_productkey = @Id;", new { Id = productKey }, transaction);
+            
+            if (productDto.ColorKeys.Any()) {
+                string sqlColor = "INSERT INTO productcolor (color_colorkey, product_productkey) VALUES (@ColorKey, @ProductKey);";
+                db.Execute(sqlColor, productDto.ColorKeys.Select(c => new { ColorKey = c, ProductKey = productKey }), transaction);
+            }
+
+            if (productDto.MaterialKeys.Any()) {
+                string sqlMaterial = "INSERT INTO productmaterial (material_materialkey, product_productkey) VALUES (@MaterialKey, @ProductKey);";
+                db.Execute(sqlMaterial, productDto.MaterialKeys.Select(m => new { MaterialKey = m, ProductKey = productKey }), transaction);
+            }
+
+            if (productDto.FinishKeys.Any()) {
+                string sqlFinish = "INSERT INTO productfinish (finish_finishkey, product_productkey) VALUES (@FinishKey, @ProductKey);";
+                db.Execute(sqlFinish, productDto.FinishKeys.Select(f => new { FinishKey = f, ProductKey = productKey }), transaction);
+            }
+
+            if (productDto.CapabilitiesKeys.Any()) {
+                string sqlCap = "INSERT INTO productcapabilities (capabilitie_capabilitiekey, product_productkey) VALUES (@CapKey, @ProductKey);";
+                db.Execute(sqlCap, productDto.CapabilitiesKeys.Select(c => new { CapKey = c, ProductKey = productKey }), transaction);
+            }
+
+            if (productDto.AttributesKeys.Any()) {
+                string sqlAtr = "INSERT INTO productattribute (attribute_attributekey, product_productkey) VALUES (@AtrKey, @ProductKey);";
+                db.Execute(sqlAtr, productDto.AttributesKeys.Select(a => new { AtrKey = a, ProductKey = productKey }), transaction);
+            }
+            
+            if (productDto.Dimensions.Any()) {
+                string sqlDim = @"
+                    INSERT INTO productdimension (product_productkey, productprice, engravingdepth_engravingdepthkey, unitsavailables, sheetsize_sheetsizekey) 
+                    VALUES (@ProductKey, @ProductPrice, @EngravingDepthKey, @UnitsAvailable, @SheetSizeKey);";
+                
+                var dimParams = productDto.Dimensions.Select(d => new {
+                    ProductKey = productKey,
+                    ProductPrice = d.ProductPrice,
+                    EngravingDepthKey = d.EngravingDepthKey,
+                    UnitsAvailable = d.UnitsAvailable,
+                    SheetSizeKey = d.SheetSizeKey
+                });
+                db.Execute(sqlDim, dimParams, transaction);
+            }
+            
+            string sqlAudit = @"
+                INSERT INTO productauditlog (dateaction, typeaction, product_productkey, profile_profilekey) 
+                VALUES (@DateAction, @TypeAction, @ProductKey, @ProfileKey);";
+            
+            db.Execute(sqlAudit, new { 
+                DateAction = DateTime.UtcNow, 
+                TypeAction = "UPDATE_PRODUCT",
+                ProductKey = productKey, 
+                ProfileKey = productDto.ProfileKey 
+            }, transaction);
+            
+            transaction.Commit();
+        } catch (Exception) {
+            transaction.Rollback();
+            throw; 
+        }
+    }
     
 }

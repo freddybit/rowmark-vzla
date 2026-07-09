@@ -13,7 +13,7 @@ export interface Product {
   price: number;
   size: string;
   engravingDepth: number;
-  urlVideos: Array<string>;
+  videoUrl: string;
   iva: number;
   totalPrice: number;
 }

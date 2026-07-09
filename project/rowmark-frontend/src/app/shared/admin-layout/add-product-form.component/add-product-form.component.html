@@ -2,8 +2,8 @@
 
   <div class="card header-card">
     <div class="card-header">
-      <h2 class="title">Creador de Producto Industrial</h2>
-      <p class="subtitle">Crea un nuevo producto de polímero industrial para el catálogo de fabricación.</p>
+      <h2 class="title">{{ productIdToEdit ? 'Modificar Producto' : 'Creador de Producto' }}</h2>
+      <p class="subtitle">{{ productIdToEdit ? 'Actualizando datos y matriz de precios del producto existente.' : 'Crea un nuevo producto para el catálogo.' }}</p>
     </div>
 
     <div class="stepper-container">
@@ -257,7 +257,7 @@
         </button>
       } @else {
         <button type="submit" class="btn btn-submit" (click)="onSubmit()" [disabled]="isSubmitting() || productForm.invalid">
-          {{ isSubmitting() ? 'Procesando...' : 'Crear Producto' }}
+          {{ isSubmitting() ? 'Procesando...' : (productIdToEdit ? 'Actualizar Producto' : 'Crear Producto') }}
           @if (isSubmitting()) { <div class="spinner"></div> }
         </button>
       }

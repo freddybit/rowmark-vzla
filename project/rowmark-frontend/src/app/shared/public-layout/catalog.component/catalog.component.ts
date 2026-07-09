@@ -2,7 +2,6 @@ import { Component, inject, OnInit, signal, ChangeDetectorRef } from '@angular/c
 import { ProductCardComponent } from '../product-card.component/product-card.component';
 import { DolarApi } from '../../../services/dolar-api/dolar-api';
 import { ProductCard } from '../../../models/entities/productCard';
-// Asegúrate de importar el servicio que creamos
 import { ProductService } from '../../../services/rowmark-api/product-service/product.service';
 
 @Component({
@@ -42,17 +41,16 @@ export class CatalogComponent implements OnInit {
       },
     });
 
-    // 4. Cargar Productos desde el Backend en C#
     this.productService.getProductCards().subscribe({
       next: (data) => {
         this.products = data;
-        console.log('Catálogo cargado exitosamente', this.products);
-        this.cdr.detectChanges(); // <-- Forzamos a Angular a re-dibujar la vista
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.errorLoad.set('No se pudieron cargar los productos del catálogo.');
         console.error('Error cargando productos:', err);
       },
     });
+
   }
 }

@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using rowmark.interfaces;
-using rowmark.models.entities;
 using rowmark.Modules.Auth.entities;
 
 namespace rowmark.services;

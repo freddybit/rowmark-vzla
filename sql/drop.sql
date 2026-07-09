@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS
-    phone,
     productattribute,
     productauditlog,
     productcapabilities,

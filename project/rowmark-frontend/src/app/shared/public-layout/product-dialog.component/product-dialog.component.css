@@ -1,267 +1,590 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 
-/* --- VENTANA MODAL --- */
+:root {
+  --main-color: #004ac6;
+  --main-color-hover: #003ea8;
+  --premium-shadow: 0 20px 40px rgba(0, 0, 0, 0.479);
+  --glow-shadow: 0 10px 20px rgba(0, 74, 198, 0.25);
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+}
 
-dialog {
+:host {
+  display: contents;
+}
+
+.stitch-modal {
+  font-family: 'Roboto', Geneva, Verdana, sans-serif;
   box-sizing: border-box;
   margin: auto;
-  border: none;
-  background-color: #ffffff;
-  width: 90vw;
-  /* Cambiado de 100% a 90vw para evitar tocar bordes en móviles/tablets */
-  max-width: 700px;
+  width: 100%;
+  max-width: 850px;
   max-height: 90vh;
-  border-radius: 2rem;
-  overflow: hidden;
   padding: 0;
-  /* Reseteo de padding por defecto de dialog */
-}
-
-dialog[open] {
-  display: flex;
-  flex-direction: column;
-}
-
-dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px);
+  overflow: hidden;
+  background-color: #ffffff;
+  border-radius: 1.5rem;
+  border: none;
+  outline: none;
+  box-shadow: var(--premium-shadow);
   transition: all 0.3s ease;
 }
 
-dialog .modal-img {
-  flex-shrink: 0;
-  box-shadow: 0 10px 15px #0002635d;
+.stitch-modal::backdrop {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(8px);
+}
+
+.stitch-modal[open] {
+  display: flex;
+  flex-direction: column;
+  animation: modalFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* --- HEADER --- */
+.stitch-header {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid var(--slate-100);
+}
+
+.stitch-header-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--slate-900);
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.stitch-close-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: var(--slate-100);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.stitch-close-btn:hover {
+  background-color: var(--slate-200);
+}
+
+.stitch-close-btn:active {
+  transform: scale(0.9);
+}
+
+.stitch-close-btn span {
+  color: var(--slate-600);
+  font-size: 20px;
+}
+
+/* --- CONTENIDO --- */
+.stitch-scroll-area {
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.stitch-hero {
+  position: relative;
+  aspect-ratio: 16 / 8;
   width: 100%;
-  aspect-ratio: 21 / 9;
-  /* Reemplaza el vh problemático por una proporción fija */
+  background-color: var(--slate-200);
   overflow: hidden;
 }
 
-dialog .modal-img img {
+.stitch-hero-img {
   width: 100%;
   height: 100%;
-  border-radius: 2rem 2rem 0 0;
   object-fit: cover;
-  display: block;
+  object-position: center;
+  transition: transform 700ms ease;
 }
 
-dialog>.modal-content {
-  padding: 3rem 2rem;
-  overflow-y: auto;
+.stitch-hero:hover .stitch-hero-img {
+  transform: scale(1.05);
 }
 
-.modal-title {
-  color: var(--main-color);
-  font-size: clamp(2.5rem, 6vw, 4rem);
+.stitch-hero-badge-container {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+}
+
+.stitch-hero-stock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+
+  color: var(--slate-900);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 1);
+}
+
+.stitch-hero-stock-badge::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+
+}
+
+.stitch-content-padding {
+  padding: 2.5rem;
+}
+
+/* --- TEXTOS --- */
+.stitch-intro {
+  margin-bottom: 3rem;
+}
+
+.stitch-h1 {
+  font-size: 36px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  color: var(--slate-900);
+  margin: 0 0 1rem 0;
+}
+
+.stitch-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 400;
+  color: var(--slate-500);
+  max-width: 100%;
   margin: 0;
 }
 
-.modal-description {
-  padding: 1.5rem 0;
-  font-size: clamp(1.2rem, 3vw, 1.5rem);
-  color: rgba(0, 0, 0, 0.6);
-  font-weight: 500;
-  margin: 0;
+/* --- BENTO GRID --- */
+.stitch-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
 }
 
-.modal-subtitle {
-  font-size: clamp(2rem, 4vw, 2.5rem);
-  color: var(--main-color);
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+.stitch-card {
+  background-color: var(--slate-50);
+  padding: 2rem;
+  border-radius: 1.5rem;
+  border: 1px solid var(--slate-100);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.164);
 }
 
-.modal-specifications-list {
-  margin: 1.5rem 0;
+.stitch-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(0, 74, 198, 0.15);
+  border-color: var(--main-color);
+}
+
+.col-half {
+  grid-column: span 12;
+}
+
+@media (min-width: 768px) {
+  .col-half {
+    grid-column: span 6;
+  }
+}
+
+.flex-col-gap {
   display: flex;
   flex-direction: column;
-  list-style-type: none;
-  background-color: #787afd3f;
-  padding: 2rem;
-  border-radius: 1rem;
-  gap: 1.5rem;
-  /* Reemplazado el gap destructivo de 10rem */
+  gap: 2rem;
 }
 
-.modal-specifications-list li {
+.stitch-subtitle {
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--slate-400);
+  text-transform: uppercase;
+  margin: 0 0 1rem 0;
+}
+
+/* --- BADGES --- */
+.stitch-badges {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 1rem;
-  align-items: center;
-  /* Alinear items si el texto se envuelve */
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-.modal-specifications-list li p {
-  font-size: clamp(1.2rem, 3vw, 1.5rem);
-  font-weight: 500;
+.stitch-badge-solid {
+  background-color: #ffffff;
+  color: var(--slate-700);
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 0.375rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--slate-200);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.luminous-badge {
+  background: color-mix(in srgb, var(--main-color), transparent 88%);
   color: var(--main-color);
-  margin: 0;
-  text-align: right;
+  border: 1px solid color-mix(in srgb, var(--main-color), transparent 70%);
+  transition: all 0.3s ease;
+  font-size: 14px;
+  padding: 0.375rem 1rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
 }
 
-.specification {
-  min-width: 100px;
-  max-width: 500px;
+.luminous-badge:hover {
+  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--main-color), transparent 80%);
+}
+
+/* --- CAPACIDADES (ICONOS CON FONDO) --- */
+.stitch-capabilities-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.stitch-cap-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stitch-cap-icon {
+  color: var(--main-color);
+  background-color: color-mix(in srgb, var(--main-color), transparent 90%);
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+}
+
+.stitch-cap-text {
+  font-size: 14px;
+  color: var(--slate-800);
+  font-weight: 700;
+}
+
+/* --- RESUMEN (ESTILO CONFIGURATION SELECTION) --- */
+.stitch-config-section {
+  margin-bottom: 1.5rem;
+}
+
+.stitch-config-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--slate-900);
+  margin: 0 0 1.5rem 0;
+  letter-spacing: -0.02em;
+}
+
+.stitch-summary-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 2px solid var(--main-color);
+  background-color: color-mix(in srgb, var(--main-color), transparent 97%);
+  box-shadow: 0 10px 15px -3px rgba(0, 74, 198, 0.05);
+  margin-bottom: 1.5rem;
+}
+
+.stitch-summary-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stitch-summary-size {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--slate-900);
+}
+
+.stitch-summary-thickness {
+  font-size: 14px;
+  color: var(--slate-500);
+}
+
+.stitch-summary-price {
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 800;
+  color: var(--main-color);
+}
+
+.stitch-summary-check {
+  position: absolute;
+  top: -0.75rem;
+  right: -0.75rem;
+  color: var(--main-color);
+  background-color: #ffffff;
+  border-radius: 9999px;
+  display: flex;
+}
+
+.stitch-summary-check span {
+  font-size: 24px;
+}
+
+/* Ticket Interno */
+.stitch-ticket {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--slate-200);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stitch-ticket-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stitch-ticket-label {
+  font-size: 14px;
+  color: var(--slate-500);
+  font-weight: 600;
+}
+
+.stitch-ticket-val {
+  font-size: 16px;
+  color: var(--slate-900);
+  font-weight: 700;
+}
+
+/* --- FOOTER CTA --- */
+.stitch-footer {
+  background-color: var(--slate-50);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  border-top: 1px solid var(--slate-100);
+}
+
+@media (min-width: 768px) {
+  .stitch-footer {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
+.stitch-cancel-btn {
   width: 100%;
-  text-align: left !important;
-}
-
-.modal-price-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.modal-price-section ol {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  background-color: #a3a3a348;
-  border-radius: 1rem;
-  padding: 2rem;
-  margin: 0;
-  gap: 1.5rem;
-}
-
-.modal-price-section ol li {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.modal-price-section ol li p {
-  font-size: clamp(1.2rem, 3vw, 1.5rem);
-  font-weight: 500;
-  color: var(--main-color);
-  margin: 0;
-}
-
-.modal-price-section ol .border-top {
-  padding-top: 1rem;
-  border-top: 1px solid var(--main-color);
-}
-
-.modal-footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
-  margin-top: 3rem;
-  gap: 1rem;
-}
-
-.modal-footer .close-dialog-btn {
-  padding: 1rem 1.5rem;
-  border-radius: 1rem;
+  padding: 0.75rem 2rem;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  color: var(--slate-500);
+  background: transparent;
   border: none;
   cursor: pointer;
-  background-color: rgba(216, 0, 0, 0.966);
-  font-weight: 500;
+  transition: all 0.3s;
+}
+
+@media (min-width: 768px) {
+  .stitch-cancel-btn {
+    width: auto;
+  }
+}
+
+.stitch-cancel-btn:hover {
+  color: var(--slate-900);
+  background-color: var(--slate-200);
+}
+
+.btn-premium-cta {
+  background: linear-gradient(135deg, var(--main-color) 0%, #003ea8 100%);
+  box-shadow: var(--glow-shadow);
+  transition: all 0.3s ease;
+}
+
+.btn-premium-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(0, 74, 198, 0.4);
+  filter: brightness(1.1);
+}
+
+.btn-premium-cta:active {
+  transform: scale(0.96);
+}
+
+.stitch-cta-btn {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 300ms ease;
+  gap: 0.75rem;
+  padding: 1rem 3rem;
+  border-radius: 0.75rem;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: -0.02em;
+  border: none;
+  cursor: pointer;
 }
 
-.modal-footer .close-dialog-btn:hover {
-  background-color: rgb(148, 3, 3);
+/* --- SECCIÓN DE VIDEO --- */
+.stitch-video-section {
+  margin-bottom: 3rem;
 }
 
-.modal-footer .close-dialog-btn svg {
-  fill: #FFFFFF;
-  width: 24px;
-  height: 24px;
+.stitch-video-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: var(--slate-900);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
-.modal-footer .add-to-cart-btn {
+/* El reproductor real */
+.stitch-video-container iframe,
+.stitch-video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  border: none;
+  background-color: transparent;
+}
+
+.stitch-video-fallback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
   display: flex;
-  flex-direction: row;
-  gap: 10px;
-  flex: 1;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  background-color: #25D366;
-  border-radius: 1rem;
-  transition: background-color 300ms ease;
-  text-decoration: none;
-  padding: 1rem;
-  color: #FFFFFF;
-  font-size: clamp(1.2rem, 3vw, 1.5rem);
-  font-weight: 500;
-  transition: background-color 300ms ease;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  background: radial-gradient(circle, var(--slate-800) 0%, var(--slate-900) 100%);
 }
 
-.modal-footer .add-to-cart-btn:hover {
-  background-color: #1DA851;
+.stitch-video-fallback span {
+  font-size: 48px;
+  color: var(--icon-color, #59b9fa);
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 0 10px rgba(89, 185, 250, 0.3));
 }
 
-/* --- MEDIA QUERIES --- */
+.stitch-video-fallback p {
+  color: var(--slate-200);
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 1.25rem 0;
+}
 
-/* Breakpoint para Tablets y pantallas medianas */
-@media screen and (max-width: 768px) {
-  .modal-specifications-list li {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
+.stitch-video-link {
+  background-color: var(--main-color);
+  color: #ffffff;
+  padding: 0.6rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
 
-  .modal-specifications-list li p {
-    text-align: left;
+.stitch-video-link:hover {
+  background-color: var(--main-color-hover);
+  transform: translateY(-2px);
+}
+
+@media (min-width: 768px) {
+  .stitch-cta-btn {
+    width: auto;
   }
 }
 
-/* Breakpoint para Móviles */
-@media screen and (max-width: 480px) {
-  article {
-    border-radius: 2rem;
-    padding: 1rem;
-  }
+/* Fix Material Icons */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+}
 
-  .description-area {
-    flex-direction: column;
-    align-items: stretch;
-    /* Estira los elementos hijos para que ocupen todo el ancho */
-    gap: 1rem;
-  }
+/* --- SCROLLBAR PREMIUM (VISIBLE Y ELEGANTE) --- */
 
-  .description-area button {
-    width: 100%;
-    height: auto;
-    /* Anula el height: 4rem fijo que le pusimos en desktop */
-    padding: 0.8rem;
-    /* Para darle área táctil sin ser un cuadrado gigante */
-    border-radius: 1.5rem;
-  }
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--slate-400) var(--slate-100);
+}
 
-  .size-btn-area {
-    flex-direction: column;
-  }
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
 
-  .size-btn-area button,
-  .size-btn-area span {
-    width: 100%;
-  }
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--slate-100);
+  border-radius: 10px;
+}
 
-  .footer-area {
-    flex-direction: column-reverse;
-  }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--slate-400);
+  border-radius: 10px;
+  border: 2px solid var(--slate-100);
+  transition: background-color 0.3s;
+}
 
-  dialog>.modal-content {
-    padding: 1.5rem 1.5rem;
-  }
-
-  dialog .modal-img {
-    aspect-ratio: 16 / 9;
-    /* Ajusta la proporción en móvil para ganar espacio vertical */
-  }
-
-  .modal-footer {
-    flex-direction: column-reverse;
-  }
-
-  .modal-footer button {
-    width: 100%;
-  }
+/* Efecto hover: Se enciende con tu color corporativo al pasar el ratón */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--main-color-hover);
 }

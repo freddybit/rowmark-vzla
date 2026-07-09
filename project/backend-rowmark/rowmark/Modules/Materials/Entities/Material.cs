@@ -1,6 +1,4 @@
-﻿using rowmark.models.entities;
-
-namespace rowmark.Modules.Materials.Entities;
+﻿namespace rowmark.Modules.Materials.Entities;
 
 public class Material {
     

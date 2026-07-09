@@ -71,7 +71,7 @@
           <span class="icon-placeholder">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M607.5-372.5Q660-425 660-500t-52.5-127.5Q555-680 480-680t-127.5 52.5Q300-575 300-500t52.5 127.5Q405-320 480-320t127.5-52.5Zm-204-51Q372-455 372-500t31.5-76.5Q435-608 480-608t76.5 31.5Q588-545 588-500t-31.5 76.5Q525-392 480-392t-76.5-31.5ZM214-281.5Q94-363 40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200q-146 0-266-81.5ZM480-500Zm207.5 160.5Q782-399 832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280q113 0 207.5-59.5Z"/></svg>
           </span>
-          <span>Ver Stock</span>
+          <span>Gestionar Stock</span>
         </a>
         <a routerLink="/admin/product" class="grid-item">
           <span class="icon-placeholder">
@@ -79,18 +79,7 @@
           </span>
           <span>Crear Producto</span>
         </a>
-        <a routerLink="/admin/product" class="grid-item">
-          <span class="icon-placeholder">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M160-120v-170l527-526q12-12 27-18t30-6q16 0 30.5 6t25.5 18l56 56q12 11 18 25.5t6 30.5q0 15-6 30t-18 27L330-120H160Zm80-80h56l393-392-28-29-29-28-392 393v56Zm560-503-57-57 57 57Zm-139 82-29-28 57 57-28-29ZM560-120q74 0 137-37t63-103q0-36-19-62t-51-45l-59 59q23 10 36 22t13 26q0 23-36.5 41.5T560-200q-17 0-28.5 11.5T520-160q0 17 11.5 28.5T560-120ZM183-426l60-60q-20-8-31.5-16.5T200-520q0-12 18-24t76-37q88-38 117-69t29-70q0-55-44-87.5T280-840q-45 0-80.5 16T145-785q-11 13-9 29t15 26q13 11 29 9t27-13q14-14 31-20t42-6q41 0 60.5 12t19.5 28q0 14-17.5 25.5T262-654q-80 35-111 63.5T120-520q0 32 17 54.5t46 39.5Z"/></svg>
-          </span>
-          <span>Modificar Producto</span>
-        </a>
-        <a routerLink="/admin/stock" class="grid-item">
-          <span class="icon-placeholder">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-          </span>
-          <span>Eliminar Producto</span>
-        </a>
+
         <a routerLink="/admin/attributes/material" class="grid-item">
           <span class="icon-placeholder">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M80-160h280v-280H80v280Zm80-440v-120h240v120H160Zm-80 80h400v-280H80v280Zm440 280v-120h280v120H520Zm-80 80h440v-280H440v280Zm-280-80v-120h120v120H160Zm240-360Zm320 80q-83 0-141.5-58.5T520-720q0-83 58.5-141.5T720-920q83 0 141.5 58.5T920-720q0 83-58.5 141.5T720-520Zm-20-80h40v-100h100v-40H740v-100h-40v100H600v40h100v100ZM520-360Zm-240 0Z"/></svg>
@@ -144,7 +133,7 @@
         <h2>Perfil</h2>
       </div>
       <div class="flex-actions">
-        <a routerLink="/admin/perfil" class="action-card">
+        <a href="#" (click)="openEditModal($event)" class="action-card">
           <div class="card-icon-wrapper">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-240Zm-320 80v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q37 0 73 4.5t72 14.5l-67 68q-20-3-39-5t-39-2q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32h240v80H160Zm400 40v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T903-340L683-120H560Zm300-263-37-37 37 37ZM620-180h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19ZM367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47Zm169.5-56.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Z"/></svg>
           </div>
@@ -153,17 +142,90 @@
             <p>Actualizar datos personales</p>
           </div>
         </a>
-        <a routerLink="/admin/perfil/contraseña" class="action-card">
+
+        <a (click)="logout()" class="action-card" style="cursor: pointer;">
           <div class="card-icon-wrapper">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-143 0-253-90T88-400h82q28 106 114 173t196 67q86 0 160-42.5T756-320H640v-80h240v240h-80v-80q-57 76-141 118T480-80Zm-85-315q-35-35-35-85t35-85q35-35 85-35t85 35q35 35 35 85t-35 85q-35 35-85 35t-85-35ZM80-560v-240h80v80q57-76 141-118t179-42q143 0 253 90t139 230h-82q-28-106-114-173t-196-67q-86 0-160 42.5T204-640h116v80H80Z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
           </div>
           <div class="text-left">
-            <h4>Cambiar Contraseña</h4>
-            <p>Opciones de seguridad</p>
+            <h4>Salir</h4>
+            <p>Cerrar sesión</p>
           </div>
         </a>
+
       </div>
     </div>
 
   </section>
 </div>
+
+@if (isEditModalOpen) {
+    <div class="modal-overlay">
+        <div class="modal-card" (click)="$event.stopPropagation()">
+
+            <div class="modal-header">
+                <h2>Editar Perfil</h2>
+                <button class="btn-close" (click)="closeEditModal()" aria-label="Cerrar modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Primer Nombre <span class="text-danger">*</span></label>
+                        <input type="text" [(ngModel)]="editData.firstName" placeholder="Ej: Freddy" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Segundo Nombre</label>
+                        <input type="text" [(ngModel)]="editData.secondName" placeholder="Ej: Alejandro" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Primer Apellido <span class="text-danger">*</span></label>
+                        <input type="text" [(ngModel)]="editData.firstLastName" placeholder="Ej: Fernández" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Segundo Apellido</label>
+                        <input type="text" [(ngModel)]="editData.secondLastName" placeholder="Ej: Tovar" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Correo Electrónico <span class="text-danger">*</span></label>
+                        <input type="email" [(ngModel)]="editData.email" placeholder="tu@correo.com" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Estado / Sede <span class="text-danger">*</span></label>
+                        <select [(ngModel)]="editData.place_PlaceKey" class="form-control">
+                            <option [ngValue]="null" disabled>Seleccione un estado...</option>
+                            @for (lugar of lugares; track lugar.placeKey) {
+                                <option [ngValue]="lugar.placeKey">{{ lugar.name }}</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nueva Contraseña</label>
+                        <input type="password" [(ngModel)]="editData.password" placeholder="En blanco para no cambiar" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirmar Contraseña</label>
+                        <input type="password" [(ngModel)]="editData.confirmPassword" placeholder="Confirma aquí" class="form-control">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-cancel" (click)="closeEditModal()">Cancelar</button>
+                <button class="btn-save" (click)="saveProfile()">Actualizar Cambios</button>
+            </div>
+
+        </div>
+    </div>
+}

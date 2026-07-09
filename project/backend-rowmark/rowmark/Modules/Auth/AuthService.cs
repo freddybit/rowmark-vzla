@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using rowmark.interfaces;
 using rowmark.models.dto;
-using rowmark.models.entities;
 using rowmark.Modules.Auth.dtos;
 using rowmark.Modules.Auth.entities;
 using rowmark.Modules.Auth.interfaces;

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using rowmark.interfaces;
 using rowmark.services;
-using rowmark.models.entities;
 using Microsoft.AspNetCore.Identity;
 using rowmark.models;
 using rowmark.Modules.Auth;

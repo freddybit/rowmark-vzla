@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using rowmark.models.dto;
-using rowmark.models.entities;
 using rowmark.Modules.Auth.dtos;
 using rowmark.Modules.Auth.entities;
 

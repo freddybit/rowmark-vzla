@@ -1,11 +1,13 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   SheetSizeService,
   SheetSize,
 } from '../../../services/rowmark-api/sheet-size-service/sheet-size.service';
-// 👇 Importamos solo el Modal Dinámico (Supabase no es necesario aquí)
-import { DynamicModalComponent, DynamicField } from '../dynamic-modal.component/dynamic-modal.component';
+import {
+  DynamicModalComponent,
+  DynamicField,
+} from '../dynamic-modal.component/dynamic-modal.component';
 import {
   FlexRenderDirective,
   createAngularTable,
@@ -18,23 +20,24 @@ import {
 @Component({
   selector: 'app-sheet-size-management',
   standalone: true,
-  // 👇 Agregamos el modal a los imports
   imports: [CommonModule, FlexRenderDirective, DynamicModalComponent],
   templateUrl: './sheet-size-management.component.html',
   styleUrls: ['./sheet-size-management.component.css'],
 })
 export class SheetSizeManagementComponent implements OnInit {
   private sheetSizeService = inject(SheetSizeService);
-  public sheetSizes: SheetSize[] = [];
+
+  // 👇 1. Variables reactivas con Signals
+  public sheetSizes = signal<SheetSize[]>([]);
+  public globalFilter = signal<string>('');
+
   public selectedSheetSize: SheetSize | null = null;
-  public globalFilter: string = '';
 
   // --- VARIABLES DEL MODAL DINÁMICO ---
   public isModalOpen = false;
   public modalTitle = 'Agregar Tamaño de Lámina';
   public sheetSizeToEdit: any = {};
 
-  // 👇 Configuración específica para SheetSize (Puros números y un texto corto)
   public modalConfigSheetSize: DynamicField[] = [
     { key: 'length', label: 'Largo', type: 'number', required: true, placeholder: 'Ej: 1238' },
     { key: 'width', label: 'Ancho', type: 'number', required: true, placeholder: 'Ej: 613' },
@@ -54,8 +57,9 @@ export class SheetSizeManagementComponent implements OnInit {
     },
   ];
 
+  // 👇 2. La tabla lee los Signals invocándolos con paréntesis ()
   table = createAngularTable(() => ({
-    data: this.sheetSizes,
+    data: this.sheetSizes(),
     columns: [
       { accessorKey: 'sheetSizeKey', header: 'ID' },
       { accessorKey: 'length', header: 'Largo' },
@@ -64,7 +68,7 @@ export class SheetSizeManagementComponent implements OnInit {
       { accessorKey: 'unitMedition', header: 'Unidad' },
     ],
     state: {
-      globalFilter: this.globalFilter,
+      globalFilter: this.globalFilter(),
     },
     initialState: {
       pagination: {
@@ -85,23 +89,17 @@ export class SheetSizeManagementComponent implements OnInit {
   public loadSheetSizes(): void {
     this.sheetSizeService.getAll().subscribe({
       next: (data) => {
-        this.sheetSizes = data;
-        this.updateTableData();
+        // 👇 3. Seteamos la data; la tabla reacciona automáticamente
+        this.sheetSizes.set(data);
       },
       error: (err) => console.error('Error al cargar las dimensiones:', err),
     });
   }
 
   onSearch(event: Event) {
-    this.globalFilter = (event.target as HTMLInputElement).value;
-    this.table.setOptions((prev) => ({
-      ...prev,
-      state: { ...prev.state, globalFilter: this.globalFilter },
-    }));
-  }
-
-  private updateTableData() {
-    this.table.setOptions((prev) => ({ ...prev, data: [...this.sheetSizes] }));
+    const value = (event.target as HTMLInputElement).value;
+    // 👇 4. Actualizamos el filtro de forma reactiva
+    this.globalFilter.set(value);
   }
 
   selectSheetSize(sheetSize: SheetSize): void {
@@ -118,8 +116,8 @@ export class SheetSizeManagementComponent implements OnInit {
     if (confirm('¿Estás seguro de que deseas eliminar este tamaño de lámina?')) {
       this.sheetSizeService.delete(sheetSizeKey).subscribe({
         next: () => {
-          this.sheetSizes = this.sheetSizes.filter((s) => s.sheetSizeKey !== sheetSizeKey);
-          this.updateTableData();
+          // 👇 5. Actualizamos el Signal filtrando el eliminado
+          this.sheetSizes.update((prev) => prev.filter((s) => s.sheetSizeKey !== sheetSizeKey));
 
           if (this.selectedSheetSize?.sheetSizeKey === sheetSizeKey) {
             this.deselectSheetSize();
@@ -134,13 +132,13 @@ export class SheetSizeManagementComponent implements OnInit {
 
   openCreateModal() {
     this.modalTitle = 'Agregar Nuevo Tamaño';
-    this.sheetSizeToEdit = {}; // Formulario vacío
+    this.sheetSizeToEdit = {};
     this.isModalOpen = true;
   }
 
   openEditModal() {
     this.modalTitle = 'Modificar Tamaño de Lámina';
-    this.sheetSizeToEdit = { ...this.selectedSheetSize }; // Copiamos los datos actuales
+    this.sheetSizeToEdit = { ...this.selectedSheetSize };
     this.isModalOpen = true;
   }
 
@@ -148,7 +146,6 @@ export class SheetSizeManagementComponent implements OnInit {
     this.isModalOpen = false;
   }
 
-  // 👇 Método sincrónico para guardar directo a la API de .NET (No hay imágenes)
   saveSheetSize(formData: any) {
     // Convertimos los valores a número por seguridad antes de enviarlos a C#
     const payload: SheetSize = {
@@ -159,7 +156,6 @@ export class SheetSizeManagementComponent implements OnInit {
     };
 
     if (payload.sheetSizeKey) {
-      // Modificar
       this.sheetSizeService.update(payload.sheetSizeKey, payload).subscribe({
         next: () => {
           alert('Tamaño de lámina actualizado correctamente.');
@@ -170,7 +166,6 @@ export class SheetSizeManagementComponent implements OnInit {
         error: (err) => console.error('Error al actualizar:', err),
       });
     } else {
-      // Crear
       this.sheetSizeService.create(payload).subscribe({
         next: () => {
           alert('Tamaño de lámina creado exitosamente.');

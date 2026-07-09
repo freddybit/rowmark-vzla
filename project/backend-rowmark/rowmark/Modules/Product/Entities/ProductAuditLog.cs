@@ -1,6 +1,6 @@
 ﻿using rowmark.Modules.Auth.entities;
 
-namespace rowmark.models.entities;
+namespace rowmark.Modules.Product.Entities;
 
 public class ProductAuditLog {
     

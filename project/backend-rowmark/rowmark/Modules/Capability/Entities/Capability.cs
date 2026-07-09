@@ -1,6 +1,4 @@
-﻿using rowmark.models.entities;
-
-namespace rowmark.Modules.Capability.Entities;
+﻿namespace rowmark.Modules.Capability.Entities;
 
 public class Capability {
     

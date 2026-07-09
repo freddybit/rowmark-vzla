@@ -6,6 +6,7 @@ public class ProductCardDto
 {
     public string ImgName { get; set; } = string.Empty;
     public string ImgAlt { get; set; } = string.Empty;
+    public string VideoUrl { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public int UnitsAvailable { get; set; }

@@ -6,8 +6,6 @@ import { AuthLayoutComponent } from './layouts/auth-layout.component/auth-layout
 import { AuthPrivatePage } from '../pages/auth-private.page/auth-private.page';
 import { MyProfilePage } from '../pages/my-profile.page/my-profile.page';
 import { AdminLayoutComponent } from './layouts/admin-layout.component/admin-layout.component';
-import { AddStockPage } from '../pages/add-stock.page/add-stock.page';
-import { LookStockPage } from '../pages/look-stock.page/look-stock.page';
 import { ShoppingCartPage } from '../pages/shopping-cart.page/shopping-cart.page';
 import { MaterialManagementComponent } from '../shared/admin-layout/material-management.component/material-management.component';
 import { ColorManagementComponent } from '../shared/admin-layout/color-management.component/color-management.component';
@@ -19,6 +17,8 @@ import { CreateRoleComponent } from '../shared/roles/create-role.component/creat
 import { UserManagementComponent } from '../shared/roles/user-management.component/user-management.component';
 import { AttributesManagementComponent } from '../shared/admin-layout/attributes-management.component/attributes-management.component';
 import { SheetSizeManagementComponent } from '../shared/admin-layout/sheet-size-management.component/sheet-size-management.component';
+import { AddProductFormComponent } from '../shared/admin-layout/add-product-form.component/add-product-form.component';
+import { ProductManagementComponent } from '../shared/admin-layout/product-management.component/product-management.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -37,8 +37,9 @@ export const routes: Routes = [
       { path: 'profiles/all', component: UserManagementComponent },
       { path: 'roles', component: RoleManagementComponent },
       { path: 'roles/create', component: CreateRoleComponent },
-      { path: 'product', component: AddStockPage },
-      { path: 'stock', component: LookStockPage },
+      { path: 'product', component: AddProductFormComponent },
+      { path: 'product/:id', component: AddProductFormComponent },
+      { path: 'stock', component: ProductManagementComponent },
       { path: 'attributes/material', component: MaterialManagementComponent },
       { path: 'attributes/color', component: ColorManagementComponent },
       { path: 'attributes/finish', component: FinishManagementComponent },

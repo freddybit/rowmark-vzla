@@ -1,12 +1,13 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// Asegúrate de que las rutas a tu modelo y servicio sean las correctas
 import {
   AttributeService,
   Attribute,
 } from '../../../services/rowmark-api/attribute-service/attribute.service';
-// 👇 Importamos el Modal y el Servicio de Supabase
-import { DynamicModalComponent, DynamicField } from '../dynamic-modal.component/dynamic-modal.component';
+import {
+  DynamicModalComponent,
+  DynamicField,
+} from '../dynamic-modal.component/dynamic-modal.component';
 import { SupabaseService } from '../../../services/supabase-service/supabase.service';
 import {
   FlexRenderDirective,
@@ -19,26 +20,26 @@ import {
 
 @Component({
   selector: 'app-attributes-management',
-  standalone: true, // Siempre recomendado si usas imports directos
-  // 👇 Añadimos DynamicModalComponent al arreglo
+  standalone: true,
   imports: [CommonModule, FlexRenderDirective, DynamicModalComponent],
   templateUrl: './attributes-management.component.html',
   styleUrl: './attributes-management.component.css',
 })
 export class AttributesManagementComponent implements OnInit {
   private attributeService = inject(AttributeService);
-  private supabaseService = inject(SupabaseService); // 👇 Inyectamos Supabase
+  private supabaseService = inject(SupabaseService);
 
-  public attributes: Attribute[] = [];
+  // 👇 1. Variables reactivas con Signals
+  public attributes = signal<Attribute[]>([]);
+  public globalFilter = signal<string>('');
+
   public selectedAttribute: Attribute | null = null;
-  public globalFilter: string = '';
 
   // --- VARIABLES DEL MODAL DINÁMICO ---
   public isModalOpen = false;
   public modalTitle = 'Agregar Atributo';
   public attributeToEdit: any = {};
 
-  // 👇 Configuración exacta para crear/editar un Atributo
   public modalConfigAttribute: DynamicField[] = [
     {
       key: 'name',
@@ -61,19 +62,19 @@ export class AttributesManagementComponent implements OnInit {
     },
   ];
 
-  // Configuración de TanStack Table
+  // 👇 2. La tabla lee los Signals invocándolos con paréntesis ()
   table = createAngularTable(() => ({
-    data: this.attributes,
+    data: this.attributes(),
     columns: [
       { accessorKey: 'attributeKey', header: 'ID' },
       { accessorKey: 'name', header: 'Nombre' },
     ],
     state: {
-      globalFilter: this.globalFilter,
+      globalFilter: this.globalFilter(),
     },
     initialState: {
       pagination: {
-        pageSize: 6, // Limitado estrictamente a 6 registros
+        pageSize: 6,
         pageIndex: 0,
       },
     },
@@ -90,23 +91,17 @@ export class AttributesManagementComponent implements OnInit {
   public loadAttributes(): void {
     this.attributeService.getAll().subscribe({
       next: (data) => {
-        this.attributes = data;
-        this.updateTableData();
+        // 👇 3. Seteamos la data; la tabla reacciona automáticamente
+        this.attributes.set(data);
       },
       error: (err) => console.error('Error al cargar atributos:', err),
     });
   }
 
   onSearch(event: Event) {
-    this.globalFilter = (event.target as HTMLInputElement).value;
-    this.table.setOptions((prev) => ({
-      ...prev,
-      state: { ...prev.state, globalFilter: this.globalFilter },
-    }));
-  }
-
-  private updateTableData() {
-    this.table.setOptions((prev) => ({ ...prev, data: [...this.attributes] }));
+    const value = (event.target as HTMLInputElement).value;
+    // 👇 4. Actualizamos el filtro de forma reactiva
+    this.globalFilter.set(value);
   }
 
   selectAttribute(attribute: Attribute): void {
@@ -123,8 +118,8 @@ export class AttributesManagementComponent implements OnInit {
     if (confirm('¿Estás seguro de que deseas eliminar este atributo?')) {
       this.attributeService.delete(attributeKey).subscribe({
         next: () => {
-          this.attributes = this.attributes.filter((a) => a.attributeKey !== attributeKey);
-          this.updateTableData();
+          // 👇 5. Actualizamos el Signal filtrando el eliminado
+          this.attributes.update((prev) => prev.filter((a) => a.attributeKey !== attributeKey));
 
           if (this.selectedAttribute?.attributeKey === attributeKey) {
             this.deselectAttribute();
@@ -139,13 +134,13 @@ export class AttributesManagementComponent implements OnInit {
 
   openCreateModal() {
     this.modalTitle = 'Agregar Nuevo Atributo';
-    this.attributeToEdit = {}; // Limpiamos para crear desde cero
+    this.attributeToEdit = {};
     this.isModalOpen = true;
   }
 
   openEditModal() {
     this.modalTitle = 'Modificar Atributo';
-    this.attributeToEdit = { ...this.selectedAttribute }; // Pasamos los datos actuales
+    this.attributeToEdit = { ...this.selectedAttribute };
     this.isModalOpen = true;
   }
 
@@ -153,21 +148,17 @@ export class AttributesManagementComponent implements OnInit {
     this.isModalOpen = false;
   }
 
-  // 👇 Guardamos imagen en Supabase y luego en PostgreSQL
   async saveAttribute(formData: any) {
     if (formData.imgUrl instanceof File) {
       const archivoImagen: File = formData.imgUrl;
       try {
         console.log('Subiendo archivo a Supabase...', archivoImagen.name);
-
-        // Seguimos usando tu bucket público 'rowmark-product-img'
         const urlSupabase = await this.supabaseService.uploadImage(
           archivoImagen,
           'rowmark-product-img',
         );
-
         console.log('¡Imagen subida! URL:', urlSupabase);
-        formData.imgUrl = urlSupabase; // Cambiamos el File por el String de la URL
+        formData.imgUrl = urlSupabase;
       } catch (error) {
         console.error('Error de Supabase:', error);
         alert('Fallo al subir la imagen. Revisa la consola.');
@@ -176,7 +167,6 @@ export class AttributesManagementComponent implements OnInit {
     }
 
     if (formData.attributeKey) {
-      // Modificar
       this.attributeService.update(formData.attributeKey, formData).subscribe({
         next: () => {
           alert('Atributo actualizado correctamente.');
@@ -187,7 +177,6 @@ export class AttributesManagementComponent implements OnInit {
         error: (err) => console.error('Error al actualizar:', err),
       });
     } else {
-      // Crear
       this.attributeService.create(formData).subscribe({
         next: () => {
           alert('Atributo creado exitosamente.');

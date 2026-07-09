@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
@@ -26,7 +27,7 @@ interface ProductDTO {
   imgUrl: string;
   imgAlt: string;
   videoUrl: string;
-  colorKeys: number[];
+  colorKeys: number[] ;
   materialKeys: number[];
   finishKeys: number[];
   attributesKeys: number[];
@@ -44,6 +45,10 @@ interface ProductDTO {
 })
 export class AddProductFormComponent implements OnInit {
   private fb = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+
+  public productIdToEdit: number | null = null;
 
   private productService = inject(ProductService);
   private colorService = inject(ColorService);
@@ -85,12 +90,25 @@ export class AddProductFormComponent implements OnInit {
       attributesKeys: [[]],
       capabilitiesKeys: [[]],
       dimensions: this.fb.array([this.createDimensionRow()]),
-      profileKey: [localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')!).profileKey : null, Validators.required],
+      profileKey: [
+        localStorage.getItem('currentUser')
+          ? JSON.parse(localStorage.getItem('currentUser')!).profileKey
+          : null,
+        Validators.required,
+      ],
     });
   }
 
   ngOnInit(): void {
     this.loadCatalogs();
+
+    // 👇 Leemos si viene un ID en la URL
+    const idParam = this.route.snapshot.paramMap.get('id');
+
+    if (idParam) {
+      this.productIdToEdit = Number(idParam);
+      this.fetchAndLoadProduct(this.productIdToEdit);
+    }
   }
 
   loadCatalogs(): void {
@@ -101,6 +119,71 @@ export class AddProductFormComponent implements OnInit {
     this.depthService.getAll().subscribe((data) => this.availableDepths.set(data));
     this.sizeService.getAll().subscribe((data) => this.availableSizes.set(data));
     this.attributeService.getAll().subscribe((data) => this.availableAttributes.set(data));
+  }
+
+  fetchAndLoadProduct(id: number): void {
+    this.productService.getProductById(id).subscribe({
+      next: (productoDB: any) => {
+        const mappedColorKeys =
+          productoDB.colors?.map((c: any) => c.colorKey) || productoDB.colorKeys || [];
+        const mappedMaterialKeys =
+          productoDB.materials?.map((m: any) => m.materialKey) || productoDB.materialKeys || [];
+        const mappedFinishKeys =
+          productoDB.finishes?.map((f: any) => f.finishKey) || productoDB.finishKeys || [];
+        const mappedAttributeKeys =
+          productoDB.attributes?.map((a: any) => a.attributeKey) || productoDB.attributesKeys || [];
+        const mappedCapabilityKeys =
+          productoDB.capabilities?.map((c: any) => c.capabilityKey) ||
+          productoDB.capabilitiesKeys ||
+          [];
+
+        this.productForm.patchValue({
+          name: productoDB.name,
+          description: productoDB.description,
+          videoUrl: productoDB.videoUrl || '',
+          imgUrl: productoDB.imgUrl,
+          imgAlt: productoDB.imgAlt || productoDB.name,
+          colorKeys: mappedColorKeys,
+          materialKeys: mappedMaterialKeys,
+          finishKeys: mappedFinishKeys,
+          attributesKeys: mappedAttributeKeys,
+          capabilitiesKeys: mappedCapabilityKeys,
+          profileKey: productoDB.profileKey || this.productForm.get('profileKey')?.value,
+        });
+
+        const dimensionesBackend = productoDB.dimensions || productoDB.productDimensions || [];
+
+        if (dimensionesBackend.length > 0) {
+          this.dimensionsArray.clear();
+
+          dimensionesBackend.forEach((dim: any) => {
+            const dimGroup = this.createDimensionRow();
+            const depthKey = dim.engravingDept_EngravingDepthKey ?? dim.EngravingDepthKey ?? dim.engravingDepthKey;
+            const sizeKey = dim.sheetSize_SheetSizeKey ?? dim.SheetSizeKey ?? dim.sheetSizeKey;
+            const stock = dim.unitsAvailable ?? dim.UnitsAvailable ?? 0;
+            const price = dim.productPrice ?? dim.ProductPrice ?? 0;
+
+            dimGroup.patchValue({
+              engravingDepthKey: depthKey !== null && depthKey !== undefined ? Number(depthKey) : null,
+              sheetSizeKey: sizeKey !== null && sizeKey !== undefined ? Number(sizeKey) : null,
+              productPrice: price !== null && price !== undefined ? Number(price) : null,
+              unitsAvailable: stock !== null && stock !== undefined ? Number(stock) : null,
+            });
+
+            this.dimensionsArray.push(dimGroup);
+          });
+        }
+      },
+      error: (err) => {
+        console.error('Error cargando el producto para editar:', err);
+        alert('No se pudo cargar la información del producto.');
+        this.backToProductList();
+      },
+    });
+  }
+
+  backToProductList(): void {
+    this.router.navigate(['/admin/product']);
   }
 
   // --- LÓGICA DE SUPABASE ---
@@ -182,26 +265,35 @@ export class AddProductFormComponent implements OnInit {
       this.isSubmitting.set(true);
       const payload: ProductDTO = this.productForm.value;
 
-      console.log('JSON listo para enviarse a la API:', payload);
-
-      this.productService.createProduct(payload).subscribe({
-        next: (response) => {
-          this.isSubmitting.set(false);
-          alert('¡Producto creado e insertado transaccionalmente en la base de datos con éxito!');
-          this.productForm.reset();
-          this.dimensionsArray.clear();
-          this.addDimensionRow();
-          this.currentStep.set(1);
-        },
-        error: (err) => {
-          this.isSubmitting.set(false);
-          console.error('Error al enviar el producto a la API:', err);
-          alert('Hubo un error al guardar el producto. Revisa la consola para más detalles.');
-        },
-      });
+      if (this.productIdToEdit) {
+        // MODO EDICIÓN (PUT)
+        this.productService.update(this.productIdToEdit, payload).subscribe({
+          next: () => {
+            this.isSubmitting.set(false);
+            alert('¡Producto actualizado con éxito!');
+            this.backToProductList();
+          },
+          error: (err) => {
+            this.isSubmitting.set(false);
+            alert('Hubo un error al actualizar el producto. Revisa la consola.');
+          },
+        });
+      } else {
+        this.productService.createProduct(payload).subscribe({
+          next: () => {
+            this.isSubmitting.set(false);
+            alert('¡Producto creado con éxito!');
+            this.backToProductList();
+          },
+          error: (err) => {
+            this.isSubmitting.set(false);
+            alert('Hubo un error al crear el producto. Revisa la consola.');
+          },
+        });
+      }
     } else {
       this.productForm.markAllAsTouched();
-      alert('Revisa los campos en rojo. Faltan llaves foráneas o información requerida.');
+      alert('Revisa los campos en rojo. Faltan datos requeridos.');
     }
   }
 }

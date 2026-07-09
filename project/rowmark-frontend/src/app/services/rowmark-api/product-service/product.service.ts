@@ -9,6 +9,7 @@ export interface Product {
   description: string;
   imgUrl: string;
   imgAlt: string;
+  videoUrl: string;
   profileKey: number;
 }
 
@@ -32,7 +33,6 @@ export interface ProductCreateDto {
 export class ProductService {
   private http = inject(HttpClient);
 
-
   private apiUrl = 'http://localhost:5008/api/Product';
 
   getAllProducts(): Observable<Product[]> {
@@ -51,8 +51,11 @@ export class ProductService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-
   getProductCards(): Observable<ProductCard[]> {
     return this.http.get<ProductCard[]>(`${this.apiUrl}/cards`);
+  }
+
+  update(id: number, dto: ProductCreateDto): Observable<Product> {
+    return this.http.put<Product>(`${this.apiUrl}/${id}`, dto);
   }
 }

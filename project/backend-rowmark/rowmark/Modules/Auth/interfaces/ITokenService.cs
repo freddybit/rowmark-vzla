@@ -1,5 +1,4 @@
-﻿using rowmark.models.entities;
-using rowmark.Modules.Auth.entities;
+﻿using rowmark.Modules.Auth.entities;
 
 namespace rowmark.interfaces;
 

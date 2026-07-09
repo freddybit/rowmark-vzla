@@ -11,11 +11,13 @@ public class Product {
     public string Description { get; set; }
     public string ImgUrl { get; set; }
     public string ImgAlt { get; set; }
+    public string VideoUrl { get; set; }
     public List<Color.Entities.Color>? Colors { get; set; } = new List<Color.Entities.Color>();
     public List<Material>? Materials { get; set; } = new List<Material>();
     public List<Finish.Entities.Finish>? Finishes { get; set; } = new List<Finish.Entities.Finish>();
     public List<Capability.Entities.Capability>? Capabilities { get; set; } = new List<Capability.Entities.Capability>();
     public List<Attribute.Entities.Attribute>? Attributes { get; set; } = new List<Attribute.Entities.Attribute>();
+    public List<ProductDimension>? Dimensions { get; set; } = new List<ProductDimension>();
     
     // Constructor #1
     public Product() {
@@ -24,20 +26,16 @@ public class Product {
         Description = "";
         ImgUrl = "";
         ImgAlt = "";
+        VideoUrl = "";
     }
 
     // Constructor #2
-    public Product(int productKey, string name, string description, string imgUrl, string imgAlt, List<Color.Entities.Color>? colors, List<Material>? materials, List<Finish.Entities.Finish>? finishes, List<Capability.Entities.Capability>? capabilities, List<Attribute.Entities.Attribute>? attributes) {
+    public Product(int productKey, string name, string description, string imgUrl, string imgAlt, string videoUrl) {
         ProductKey = productKey;
         Name = name;
         Description = description;
         ImgUrl = imgUrl;
         ImgAlt = imgAlt;
-        Colors = colors;
-        Materials = materials;
-        Finishes = finishes;
-        Capabilities = capabilities;
-        Attributes = attributes;
+        VideoUrl = videoUrl;
     }
-
 }

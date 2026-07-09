@@ -1,7 +1,6 @@
 ﻿using System.Data;
 using Dapper;
 using Npgsql;
-using rowmark.models.entities;
 using rowmark.Modules.Auth.entities;
 using rowmark.Modules.Auth.interfaces;
 

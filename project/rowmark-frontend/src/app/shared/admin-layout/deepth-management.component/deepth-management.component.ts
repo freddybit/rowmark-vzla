@@ -1,8 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DeepthService, Deepth } from '../../../services/rowmark-api/deepth-service/deepth.service';
-// 👇 Importamos solo el Modal Dinámico
-import { DynamicModalComponent, DynamicField } from '../dynamic-modal.component/dynamic-modal.component';
+import {
+  DynamicModalComponent,
+  DynamicField,
+} from '../dynamic-modal.component/dynamic-modal.component';
 import {
   FlexRenderDirective,
   createAngularTable,
@@ -15,23 +17,24 @@ import {
 @Component({
   selector: 'app-deepth-management',
   standalone: true,
-  // 👇 Agregamos el modal a los imports
   imports: [CommonModule, FlexRenderDirective, DynamicModalComponent],
   templateUrl: './deepth-management.component.html',
   styleUrls: ['./deepth-management.component.css'],
 })
 export class DeepthManagementComponent implements OnInit {
   private deepthService = inject(DeepthService);
-  public deepths: Deepth[] = [];
+
+  // 👇 1. Variables reactivas con Signals
+  public deepths = signal<Deepth[]>([]);
+  public globalFilter = signal<string>('');
+
   public selectedDeepth: Deepth | null = null;
-  public globalFilter: string = '';
 
   // --- VARIABLES DEL MODAL DINÁMICO ---
   public isModalOpen = false;
   public modalTitle = 'Agregar Profundidad';
   public deepthToEdit: any = {};
 
-  // 👇 Configuración específica para Deepth
   public modalConfigDeepth: DynamicField[] = [
     {
       key: 'depth',
@@ -48,9 +51,9 @@ export class DeepthManagementComponent implements OnInit {
       placeholder: 'Ej: mm, pulgadas, mil',
     },
   ];
-
+  
   table = createAngularTable(() => ({
-    data: this.deepths,
+    data: this.deepths(),
     columns: [
       {
         accessorKey: 'engravingDepthKey',
@@ -66,7 +69,7 @@ export class DeepthManagementComponent implements OnInit {
       },
     ],
     state: {
-      globalFilter: this.globalFilter,
+      globalFilter: this.globalFilter(),
     },
     initialState: {
       pagination: {
@@ -87,23 +90,16 @@ export class DeepthManagementComponent implements OnInit {
   public loadDeepths(): void {
     this.deepthService.getAll().subscribe({
       next: (data) => {
-        this.deepths = data;
-        this.updateTableData();
+        this.deepths.set(data);
       },
       error: (err) => console.error('Error al cargar las profundidades:', err),
     });
   }
 
   onSearch(event: Event) {
-    this.globalFilter = (event.target as HTMLInputElement).value;
-    this.table.setOptions((prev) => ({
-      ...prev,
-      state: { ...prev.state, globalFilter: this.globalFilter },
-    }));
-  }
-
-  private updateTableData() {
-    this.table.setOptions((prev) => ({ ...prev, data: [...this.deepths] }));
+    const value = (event.target as HTMLInputElement).value;
+    // 👇 4. Actualizamos el filtro de forma reactiva
+    this.globalFilter.set(value);
   }
 
   selectDeepth(deepth: Deepth): void {
@@ -120,8 +116,10 @@ export class DeepthManagementComponent implements OnInit {
     if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
       this.deepthService.delete(engravingDepthKey).subscribe({
         next: () => {
-          this.deepths = this.deepths.filter((d) => d.engravingDepthKey !== engravingDepthKey);
-          this.updateTableData();
+          // 👇 5. Actualizamos el Signal filtrando el eliminado
+          this.deepths.update((prev) =>
+            prev.filter((d) => d.engravingDepthKey !== engravingDepthKey),
+          );
 
           if (this.selectedDeepth?.engravingDepthKey === engravingDepthKey) {
             this.deselectDeepth();
@@ -157,7 +155,6 @@ export class DeepthManagementComponent implements OnInit {
     };
 
     if (payload.engravingDepthKey) {
-
       this.deepthService.update(payload.engravingDepthKey, payload).subscribe({
         next: () => {
           alert('Profundidad actualizada correctamente.');

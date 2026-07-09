@@ -1,6 +1,4 @@
-﻿using rowmark.models.entities;
-
-namespace rowmark.Modules.Color.Entities;
+﻿namespace rowmark.Modules.Color.Entities;
 
 public class Color {
     

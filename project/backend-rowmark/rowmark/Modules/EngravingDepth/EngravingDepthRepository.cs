@@ -5,7 +5,6 @@ using System.Linq;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
-using rowmark.models.entities;
 
 namespace rowmark.Modules.EngravingDepth;
 

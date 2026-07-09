@@ -1,8 +1,4 @@
-﻿using rowmark.Modules.EngravingDepth.Entities;
-using rowmark.Modules.Product.Entities;
-using rowmark.Modules.SheetSize.Entities;
-
-namespace rowmark.models.entities;
+﻿namespace rowmark.Modules.Product.Entities;
 
 public class ProductDimension {
     
@@ -15,8 +11,8 @@ public class ProductDimension {
     public int UnitsAvailable { get; set; }
     public int SheetSize_SheetSizeKey { get; set; }
     public Product? Product { get; set; }
-    public EngravingDepth? EngravingDept { get; set; }
-    public SheetSize? SheetSize { get; set; }
+    public EngravingDepth.Entities.EngravingDepth? EngravingDept { get; set; }
+    public SheetSize.Entities.SheetSize? SheetSize { get; set; }
     
     // Constructor #1
     public ProductDimension() {

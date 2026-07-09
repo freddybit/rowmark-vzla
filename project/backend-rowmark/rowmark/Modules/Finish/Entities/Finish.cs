@@ -1,6 +1,4 @@
-﻿using rowmark.models.entities;
-
-namespace rowmark.Modules.Finish.Entities;
+﻿namespace rowmark.Modules.Finish.Entities;
 
 public class Finish {
     

@@ -1,11 +1,13 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   CapabilityService,
   Capability,
 } from '../../../services/rowmark-api/capability-service/capability.service';
-// 👇 Importamos el Modal y el Servicio de Supabase
-import { DynamicModalComponent, DynamicField } from '../dynamic-modal.component/dynamic-modal.component';
+import {
+  DynamicModalComponent,
+  DynamicField,
+} from '../dynamic-modal.component/dynamic-modal.component';
 import { SupabaseService } from '../../../services/supabase-service/supabase.service';
 import {
   FlexRenderDirective,
@@ -19,25 +21,25 @@ import {
 @Component({
   selector: 'app-capability-management',
   standalone: true,
-  // 👇 Añadimos DynamicModalComponent al arreglo
   imports: [CommonModule, FlexRenderDirective, DynamicModalComponent],
   templateUrl: './capability-management.component.html',
   styleUrls: ['./capability-management.component.css'],
 })
 export class CapabilityManagementComponent implements OnInit {
   private capabilityService = inject(CapabilityService);
-  private supabaseService = inject(SupabaseService); // 👇 Inyectamos Supabase
+  private supabaseService = inject(SupabaseService);
 
-  public capabilities: Capability[] = [];
+  // 👇 1. Variables reactivas con Signals
+  public capabilities = signal<Capability[]>([]);
+  public globalFilter = signal<string>('');
+
   public selectedCapability: Capability | null = null;
-  public globalFilter: string = '';
 
   // --- VARIABLES DEL MODAL DINÁMICO ---
   public isModalOpen = false;
   public modalTitle = 'Agregar Capacidad';
   public capabilityToEdit: any = {};
 
-  // 👇 Configuración exacta para crear/editar una Capacidad
   public modalConfigCapability: DynamicField[] = [
     {
       key: 'name',
@@ -67,15 +69,16 @@ export class CapabilityManagementComponent implements OnInit {
     },
   ];
 
+  // 👇 2. La tabla lee los Signals invocándolos con paréntesis ()
   table = createAngularTable(() => ({
-    data: this.capabilities,
+    data: this.capabilities(),
     columns: [
       { accessorKey: 'capabilityKey', header: 'ID' },
       { accessorKey: 'name', header: 'Nombre' },
       { accessorKey: 'category', header: 'Categoría' },
     ],
     state: {
-      globalFilter: this.globalFilter,
+      globalFilter: this.globalFilter(),
     },
     initialState: {
       pagination: {
@@ -96,23 +99,17 @@ export class CapabilityManagementComponent implements OnInit {
   public loadCapabilities(): void {
     this.capabilityService.getAll().subscribe({
       next: (data) => {
-        this.capabilities = data;
-        this.updateTableData();
+        // 👇 3. Seteamos la data; la tabla reacciona automáticamente
+        this.capabilities.set(data);
       },
       error: (err) => console.error('Error:', err),
     });
   }
 
   onSearch(event: Event) {
-    this.globalFilter = (event.target as HTMLInputElement).value;
-    this.table.setOptions((prev) => ({
-      ...prev,
-      state: { ...prev.state, globalFilter: this.globalFilter },
-    }));
-  }
-
-  private updateTableData() {
-    this.table.setOptions((prev) => ({ ...prev, data: [...this.capabilities] }));
+    const value = (event.target as HTMLInputElement).value;
+    // 👇 4. Actualizamos el filtro de forma reactiva
+    this.globalFilter.set(value);
   }
 
   selectCapability(capability: Capability): void {
@@ -129,8 +126,8 @@ export class CapabilityManagementComponent implements OnInit {
     if (confirm('¿Estás seguro de que deseas eliminar esta capacidad?')) {
       this.capabilityService.delete(capabilityKey).subscribe({
         next: () => {
-          this.capabilities = this.capabilities.filter((c) => c.capabilityKey !== capabilityKey);
-          this.updateTableData();
+          // 👇 5. Actualizamos el Signal filtrando el eliminado
+          this.capabilities.update((prev) => prev.filter((c) => c.capabilityKey !== capabilityKey));
 
           if (this.selectedCapability?.capabilityKey === capabilityKey) {
             this.deselectCapability();
@@ -145,13 +142,13 @@ export class CapabilityManagementComponent implements OnInit {
 
   openCreateModal() {
     this.modalTitle = 'Agregar Nueva Capacidad';
-    this.capabilityToEdit = {}; // Limpiamos para crear desde cero
+    this.capabilityToEdit = {};
     this.isModalOpen = true;
   }
 
   openEditModal() {
     this.modalTitle = 'Modificar Capacidad';
-    this.capabilityToEdit = { ...this.selectedCapability }; // Pasamos los datos actuales
+    this.capabilityToEdit = { ...this.selectedCapability };
     this.isModalOpen = true;
   }
 
@@ -159,21 +156,20 @@ export class CapabilityManagementComponent implements OnInit {
     this.isModalOpen = false;
   }
 
-  // 👇 Método asíncrono para guardar imagen en la nube y datos en BD
   async saveCapability(formData: any) {
     if (formData.imgUrl instanceof File) {
       const archivoImagen: File = formData.imgUrl;
+
       try {
         console.log('Subiendo archivo a Supabase...', archivoImagen.name);
 
-        // Usamos el mismo bucket que definimos antes
         const urlSupabase = await this.supabaseService.uploadImage(
           archivoImagen,
           'rowmark-product-img',
         );
 
         console.log('¡Imagen subida! URL:', urlSupabase);
-        formData.imgUrl = urlSupabase; // Sobreescribimos File con String (URL)
+        formData.imgUrl = urlSupabase;
       } catch (error) {
         console.error('Error de Supabase:', error);
         alert('Fallo al subir la imagen. Revisa la consola.');
@@ -182,7 +178,6 @@ export class CapabilityManagementComponent implements OnInit {
     }
 
     if (formData.capabilityKey) {
-      // Modificar
       this.capabilityService.update(formData.capabilityKey, formData).subscribe({
         next: () => {
           alert('Capacidad actualizada correctamente.');
@@ -193,7 +188,6 @@ export class CapabilityManagementComponent implements OnInit {
         error: (err) => console.error('Error al actualizar:', err),
       });
     } else {
-      // Crear
       this.capabilityService.create(formData).subscribe({
         next: () => {
           alert('Capacidad creada exitosamente.');

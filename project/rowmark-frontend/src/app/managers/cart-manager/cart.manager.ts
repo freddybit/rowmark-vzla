@@ -31,8 +31,8 @@ export class CartManager {
     this.cartItems.update((items) => [...items, newItem]);
   }
 
-  public removeItem(productName: string) {
-    this.cartItems.update((items) => items.filter((item) => item.name !== productName));
+  public removeItem(cartItemId: string) {
+    this.cartItems.update((items) => items.filter((item) => item.cartItemId !== cartItemId));
   }
 
   public clearCart() {
@@ -53,15 +53,18 @@ export class CartManager {
 
   public addShoppingCartItem(product: Product) {
     const newItem: ShoppingCardSheetDto = {
+      cartItemId: Date.now().toString(),
       name: product.name,
-      material: product.material,
-      finish: product.finish,
-      capability: product.capabilities,
+      material: Array.isArray(product.material) ? product.material.join(', ') : product.material,
+      finish: Array.isArray(product.finish) ? product.finish.join(', ') : product.finish,
+      capability: Array.isArray(product.capabilities)
+        ? product.capabilities.join(', ')
+        : product.capabilities,
       unitsAvailable: parseInt(product.unitsAvailable.toString()),
       imgUrl: product.imgUrl,
       imgAlt: product.imgAlt,
       size: product.size,
-      engravingDepth: product.engravingDepth,
+      engravingDepth: `${product.engravingDepth ?? ''}`,
       price: product.price,
     };
 
@@ -72,5 +75,4 @@ export class CartManager {
     const iva = price * 0.16;
     return Number(iva.toFixed(2));
   }
-
 }
