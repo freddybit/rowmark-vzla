@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("rowmark")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d09401389315de951d9ce3586f48bfd2cbf6dbd3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+34e43467bace2ab282e5f1e9f001099a1db77a25")]
 [assembly: System.Reflection.AssemblyProductAttribute("rowmark")]
 [assembly: System.Reflection.AssemblyTitleAttribute("rowmark")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

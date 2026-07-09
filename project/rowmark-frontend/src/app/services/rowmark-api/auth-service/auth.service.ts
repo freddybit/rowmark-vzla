@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ProfileLoginDto } from '../../../models/dtos/profile-login.dto';
 import { ProfileRegisterDto } from '../../../models/dtos/profile-register.dto';
 import { ReadProfileDTO } from '../../../models/dtos/read-profile.dto';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
