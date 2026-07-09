@@ -1,0 +1,78 @@
+import { Injectable, signal, effect, computed, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { ShoppingCardSheetDto } from '../../models/dtos/shopping-card-sheet.dto';
+import { Product } from '../../models/entities/product';
+
+@Injectable({ providedIn: 'root' })
+export class CartManager {
+  private platformId = inject(PLATFORM_ID);
+  private isBrowser = isPlatformBrowser(this.platformId);
+
+  private cartItems = signal<ShoppingCardSheetDto[]>(this.loadFromStorage());
+  public totalItems = computed(() => this.cartItems().length);
+
+  constructor() {
+    effect(() => {
+      if (this.isBrowser) {
+        localStorage.setItem('cartItems', JSON.stringify(this.cartItems()));
+      }
+    });
+  }
+
+  private loadFromStorage(): ShoppingCardSheetDto[] {
+    if (this.isBrowser) {
+      const saved = localStorage.getItem('cartItems');
+      return saved ? JSON.parse(saved) : [];
+    }
+    return [];
+  }
+
+  public addItem(newItem: ShoppingCardSheetDto) {
+    this.cartItems.update((items) => [...items, newItem]);
+  }
+
+  public removeItem(cartItemId: string) {
+    this.cartItems.update((items) => items.filter((item) => item.cartItemId !== cartItemId));
+  }
+
+  public clearCart() {
+    this.cartItems.set([]);
+  }
+
+  public getItems = this.cartItems.asReadonly();
+
+  public cartSubtotal = computed(() => {
+    const subtotal = this.cartItems().reduce((acc, item) => acc + item.price, 0);
+    return Number(subtotal.toFixed(2));
+  });
+
+  public cartTotal = computed(() => {
+    const total = this.cartSubtotal() * 1.16;
+    return Number(total.toFixed(2));
+  });
+
+  public addShoppingCartItem(product: Product) {
+    const newItem: ShoppingCardSheetDto = {
+      cartItemId: Date.now().toString(),
+      name: product.name,
+      material: Array.isArray(product.material) ? product.material.join(', ') : product.material,
+      finish: Array.isArray(product.finish) ? product.finish.join(', ') : product.finish,
+      capability: Array.isArray(product.capabilities)
+        ? product.capabilities.join(', ')
+        : product.capabilities,
+      unitsAvailable: parseInt(product.unitsAvailable.toString()),
+      imgUrl: product.imgUrl,
+      imgAlt: product.imgAlt,
+      size: product.size,
+      engravingDepth: `${product.engravingDepth ?? ''}`,
+      price: product.price,
+    };
+
+    this.addItem(newItem);
+  }
+
+  public getIvaItem(price: number): number {
+    const iva = price * 0.16;
+    return Number(iva.toFixed(2));
+  }
+}

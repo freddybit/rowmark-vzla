@@ -1,0 +1,112 @@
+<article class="deepth-management">
+    <section class="deepth-list">
+        <h2>LISTA DE PROFUNDIDADES</h2>
+
+        <div class="top-controls">
+            <div class="search-container">
+                <input
+                    type="text"
+                    class="search-input"
+                    placeholder="Buscar por ID, valor o unidad..."
+                    (input)="onSearch($event)">
+            </div>
+            <button class="add-deepth" (click)="openCreateModal()">
+                <span>+ Agregar Profundidad</span>
+            </button>
+        </div>
+
+        <table>
+            <thead>
+                @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
+                <tr>
+                    @for (header of headerGroup.headers; track header.id) {
+                        <th scope="col" class="row-name" (click)="header.column.getToggleSortingHandler()?.($event)" [style.cursor]="header.column.getCanSort() ? 'pointer' : 'default'">
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <ng-container *flexRender="header.column.columnDef.header; props: header.getContext(); let headerValue">
+                                    {{ headerValue }}
+                                </ng-container>
+                                @if (header.column.getIsSorted() === 'asc') {
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                                } @else if (header.column.getIsSorted() === 'desc') {
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                } @else {
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity: 0.4;">
+                                    <path d="M7 15l5 5 5-5M7 9l5-5 5 5" stroke-linecap="round" stroke-linejoin="round"/>
+                                  </svg>
+                                }
+                            </div>
+                        </th>
+                    }
+                    <th scope="col" class="row-button">Acción</th>
+                </tr>
+                }
+            </thead>
+            <tbody>
+                @for (row of table.getRowModel().rows; track row.id) {
+                <tr>
+                    @for (cell of row.getVisibleCells(); track cell.id) {
+                        <td class="row-name">
+                            <ng-container *flexRender="cell.column.columnDef.cell; props: cell.getContext(); let cellValue">{{ cellValue }}</ng-container>
+                        </td>
+                    }
+                    <td class="row-button">
+                        @if (selectedDeepth === row.original) {
+                            <span class="button-active">Seleccionado</span>
+                        } @else {
+                            <button (click)="selectDeepth(row.original)">Seleccionar</button>
+                        }
+                    </td>
+                </tr>
+                }
+                @if (table.getRowModel().rows.length === 0) {
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 20px;">No se encontraron registros.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="pagination-controls">
+            <button (click)="table.previousPage()" [disabled]="!table.getCanPreviousPage()">Anterior</button>
+            <span>Página <strong>{{ table.getState().pagination.pageIndex + 1 }}</strong> de {{ table.getPageCount() || 1 }}</span>
+            <button (click)="table.nextPage()" [disabled]="!table.getCanNextPage()">Siguiente</button>
+        </div>
+    </section>
+
+    <section class="deepth-details">
+        <h2>DETALLES DE PROFUNDIDAD</h2>
+
+        @if (selectedDeepth && selectedDeepth.engravingDepthKey) {
+        <div class="details-card">
+            <section class="detail-header">
+                <p class="detail-name">Profundidad: {{ selectedDeepth.depth }} {{ selectedDeepth.unitMedition }}</p>
+                <p class="detail-id">ID: {{ selectedDeepth.engravingDepthKey }}</p>
+            </section>
+
+            <section class="detail-content">
+                <p class="detail-description"><span>Unidad de Medición:</span> {{ selectedDeepth.unitMedition }}</p>
+            </section>
+
+            <section class="detail-actions">
+                <button (click)="deselectDeepth()" class="btn-deselect">Deseleccionar</button>
+                <div class="action-buttons">
+                    <button (click)="deleteDeepth(selectedDeepth.engravingDepthKey)" class="btn-delete">Eliminar</button>
+                    <button class="btn-edit" (click)="openEditModal()">Modificar</button>
+                </div>
+            </section>
+        </div>
+        } @else {
+            <p class="detail-warning">AVISO: Seleccione una profundidad para ver sus detalles.</p>
+        }
+    </section>
+</article>
+
+@if (isModalOpen) {
+  <app-dynamic-modal
+    [titulo]="modalTitle"
+    [campos]="modalConfigDeepth"
+    [datosIniciales]="deepthToEdit"
+    (onClose)="closeModal()"
+    (onSave)="saveDeepth($event)">
+  </app-dynamic-modal>
+}

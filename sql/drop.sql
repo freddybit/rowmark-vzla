@@ -1,0 +1,19 @@
+DROP TABLE IF EXISTS
+    productattribute,
+    productauditlog,
+    productcapabilities,
+    productcolor,
+    productdimension,
+    productfinish,
+    productmaterial,
+    profile,
+    product,
+    place,
+    attribute,
+    capability,
+    color,
+    engravingdepth,
+    finish,
+    material,
+    sheetsize
+CASCADE;

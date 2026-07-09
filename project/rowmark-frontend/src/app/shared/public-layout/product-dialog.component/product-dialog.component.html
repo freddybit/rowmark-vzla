@@ -1,0 +1,136 @@
+<dialog #modalWindow class="stitch-modal" id="product-modal">
+  <header class="stitch-header">
+    <h2 class="stitch-header-title">{{ product.name }}</h2>
+    <button class="stitch-close-btn" (click)="close()">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </header>
+
+  <div class="stitch-scroll-area custom-scrollbar">
+    <div class="stitch-hero group">
+      <img [alt]="product.imgAlt" [src]="product.imgUrl" class="stitch-hero-img" />
+      <div class="stitch-hero-badge-container">
+        <span class="stitch-hero-stock-badge">
+          Unidades disponibles: {{ product.unitsAvailable }}
+        </span>
+      </div>
+    </div>
+
+    <div class="stitch-content-padding">
+
+      <div class="stitch-intro">
+        <h1 class="stitch-h1">{{ product.name }}</h1>
+        <p class="stitch-desc">{{ product.description }}</p>
+      </div>
+
+      <div class="stitch-bento-grid">
+
+        <article class="stitch-card col-half flex-col-gap">
+          <div>
+            <h3 class="stitch-subtitle">Materiales Prime</h3>
+            <div class="stitch-badges">
+              @for (mat of product.material; track $index) {
+                <span class="luminous-badge">{{ mat }}</span>
+              } @empty {
+                <span class="luminous-badge">{{ product.material }}</span>
+              }
+            </div>
+          </div>
+          <div>
+            <h3 class="stitch-subtitle">Acabados Premium</h3>
+            <div class="stitch-badges">
+              @for (fin of product.finish; track $index) {
+                <span class="luminous-badge">{{ fin }}</span>
+              } @empty {
+                <span class="luminous-badge">{{ product.finish }}</span>
+              }
+            </div>
+          </div>
+        </article>
+
+        <article class="stitch-card col-half flex-col-gap">
+          <div>
+            <h3 class="stitch-subtitle">Atributos</h3>
+            <div class="stitch-badges">
+              @for (attr of product.attributes; track $index) {
+                <span class="luminous-badge">{{ attr }}</span>
+              } @empty {
+                <span class="luminous-badge">{{ product.attributes }}</span>
+              }
+            </div>
+          </div>
+          <div>
+            <h3 class="stitch-subtitle">Capacidades Avanzadas</h3>
+            <div class="stitch-capabilities-grid">
+              @for (cap of product.capabilities; track $index) {
+                  <span class="luminous-badge">{{ cap }}</span>
+              } @empty {
+                  <span class="luminous-badge">{{ product.capabilities }}</span>
+              }
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="stitch-config-section">
+        <h3 class="stitch-config-title">Configuración Seleccionada</h3>
+
+        <label class="stitch-summary-card">
+          <div class="stitch-summary-info">
+            <span class="stitch-summary-size">{{ product.size }}</span>
+            <span class="stitch-summary-thickness">{{ product.engravingDepth }}mm de Grosor</span>
+          </div>
+          <div class="stitch-summary-price-box">
+            <span class="stitch-summary-price">{{ product.totalPrice }} Bs.</span>
+          </div>
+          <div class="stitch-summary-check">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+          </div>
+        </label>
+
+        <div class="stitch-ticket">
+          <div class="stitch-ticket-row">
+            <span class="stitch-ticket-label">Precio Neto</span>
+            <span class="stitch-ticket-val">{{ product.price }} Bs.</span>
+          </div>
+          <div class="stitch-ticket-row">
+            <span class="stitch-ticket-label">IVA (16%)</span>
+            <span class="stitch-ticket-val">{{ product.iva }} Bs.</span>
+          </div>
+        </div>
+      </div>
+
+      @if (product.videoUrl) {
+        <div class="stitch-video-section">
+          <h3 class="stitch-config-title">Video Demostrativo</h3>
+
+          <div class="stitch-video-container">
+            <div class="stitch-video-fallback">
+              <span class="material-symbols-outlined">play_circle</span>
+              <p>El video demostrativo está disponible</p>
+              <a [href]="product.videoUrl" target="_blank" class="stitch-video-link">
+                Ver video en otra pestaña
+              </a>
+            </div>
+
+            <iframe
+              [src]="safeVideoUrl"
+              title="Video de {{ product.name }}"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+      }
+
+    </div>
+  </div>
+
+  <footer class="stitch-footer">
+    <button class="stitch-cancel-btn" (click)="close()">Cancelar</button>
+    <button class="btn-premium-cta stitch-cta-btn" (click)="cartManager.addShoppingCartItem(product); close()">
+      <span class="material-symbols-outlined">shopping_cart</span>
+      Añadir al Carrito
+    </button>
+  </footer>
+</dialog>

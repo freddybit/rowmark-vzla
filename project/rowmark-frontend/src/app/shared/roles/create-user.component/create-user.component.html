@@ -1,0 +1,82 @@
+<div class="modal-overlay">
+  <div class="modal-card">
+
+    <div class="modal-header">
+      <h2>{{ userToEdit ? 'Editar Usuario' : 'Nuevo Usuario' }}</h2>
+      <button class="btn-close" (click)="cerrar()" aria-label="Cerrar modal">&times;</button>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="form-group">
+        <label for="id">Cédula de Identidad <span class="text-danger">*</span></label>
+        <input type="number" id="id" [(ngModel)]="nuevoUsuario.id" class="form-control" placeholder="Ej: 20123456" [disabled]="!!userToEdit">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">Primer Nombre <span class="text-danger">*</span></label>
+          <input type="text" id="firstName" [(ngModel)]="nuevoUsuario.firstName" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="secondName">Segundo Nombre</label>
+          <input type="text" id="secondName" [(ngModel)]="nuevoUsuario.secondName" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstLastName">Primer Apellido <span class="text-danger">*</span></label>
+          <input type="text" id="firstLastName" [(ngModel)]="nuevoUsuario.firstLastName" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="secondLastName">Segundo Apellido</label>
+          <input type="text" id="secondLastName" [(ngModel)]="nuevoUsuario.secondLastName" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Correo Electrónico <span class="text-danger">*</span></label>
+          <input type="email" id="email" [(ngModel)]="nuevoUsuario.email" class="form-control" placeholder="correo@rowmark.com">
+        </div>
+
+        <div class="form-group">
+          <label for="placeKey">Estado / Sede <span class="text-danger">*</span></label>
+          <select id="placeKey" [(ngModel)]="nuevoUsuario.place_PlaceKey" class="form-control">
+            <option [ngValue]="null" disabled>Seleccione un estado...</option>
+            @for (lugar of lugares; track lugar.placeKey) {
+              <option [ngValue]="lugar.placeKey">{{ lugar.name }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="password">Contraseña
+            @if (!userToEdit) { <span class="text-danger">*</span> }
+          </label>
+          <input type="password" id="password" [(ngModel)]="nuevoUsuario.password" class="form-control"
+                 [placeholder]="userToEdit ? 'Déjalo en blanco para no cambiarla' : ''">
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirmar Contraseña
+            @if (!userToEdit) { <span class="text-danger">*</span> }
+          </label>
+          <input type="password" id="confirmPassword" [(ngModel)]="nuevoUsuario.confirmPassword" class="form-control"
+                 [placeholder]="userToEdit ? 'Déjalo en blanco' : ''">
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="cerrar()">Cancelar</button>
+      <button class="btn-save" (click)="guardar()">
+        {{ userToEdit ? 'Actualizar Cambios' : 'Guardar Usuario' }}
+      </button>
+    </div>
+
+  </div>
+</div>

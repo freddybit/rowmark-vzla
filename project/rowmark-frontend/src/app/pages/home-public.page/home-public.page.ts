@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { HomeSectionComponent } from "../../shared/home-section.component/home-section.component";
-import { CatalogComponent } from "../../shared/catalog.component/catalog.component";
-import { InfoSectionComponent } from "../../shared/info-section.component/info-section.component";
-import { FooterComponent } from "../../shared/footer.component/footer.component";
+import { HomeSectionComponent } from "../../shared/public-layout/home-section.component/home-section.component";
+import { CatalogComponent } from "../../shared/public-layout/catalog.component/catalog.component";
 
 @Component({
   selector: 'app-home-public',
-  imports: [HomeSectionComponent, CatalogComponent, InfoSectionComponent, FooterComponent],
+  imports: [HomeSectionComponent, CatalogComponent],
   templateUrl: './home-public.page.html',
   styleUrl: './home-public.page.css',
 })

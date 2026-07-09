@@ -1,0 +1,275 @@
+/* =========================================
+   CONTENEDOR PRINCIPAL
+========================================= */
+article {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  font-family: inherit;
+  background-color: #f4f7fb;
+  /* Un fondo general ligeramente azulado/grisáceo */
+  min-height: 100vh;
+}
+
+/* =========================================
+   CABECERA (HEADER)
+========================================= */
+.header-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 51, 160, 0.05);
+  /* Sombra tintada con el color base */
+}
+
+.header-section div {
+  max-width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.header-section h2 {
+  margin: 0;
+  font-size: 2.5rem;
+  color: #002266;
+  /* Azul más oscuro y vibrante que el gris #1a1a1a */
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.header-section p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #556a85;
+  /* Gris azulado para no ser tan apagado */
+  line-height: 1.6;
+}
+
+.btn-primary {
+  padding: 0.8rem 1.8rem;
+  background: linear-gradient(135deg, var(--main-color, #0033a0), #0052cc);
+  /* Gradiente moderno */
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.8rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px rgba(0, 51, 160, 0.3);
+  /* Sombra brillante */
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 20px rgba(0, 51, 160, 0.4);
+  transform: translateY(-2px);
+  /* Pequeño salto hacia arriba */
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* =========================================
+   SECCIÓN DE LA TABLA
+========================================= */
+.table-section {
+  background-color: white;
+  border: none;
+  border-radius: 1.2rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+  /* Sombra muy suave para separar del fondo */
+}
+
+.table-section h3 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: #002266;
+  font-weight: 700;
+}
+
+/* -- Tabla Responsiva -- */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 0.8rem;
+  /* Redondea las esquinas del contenedor de la tabla */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+/* Cabecera con color */
+thead {
+  background-color: #f0f5ff;
+  /* Fondo azul pastel */
+}
+
+th,
+td {
+  padding: 1.2rem 1.5rem;
+  text-align: left;
+}
+
+th {
+  font-weight: 700;
+  color: #0033a0;
+  /* Letras azules de la marca */
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  border-bottom: 2px solid #d6e4ff;
+  /* Borde inferior azul claro */
+}
+
+/* Filas del cuerpo */
+tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.2s ease;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* ¡El toque mágico en el Hover! */
+tbody tr:hover {
+  background-color: #f8fbff;
+  /* Azul muuuy clarito */
+  box-shadow: inset 4px 0 0 var(--main-color, #0033a0);
+  /* Raya azul a la izquierda que aparece de la nada */
+}
+
+/* -- Textos de la Tabla -- */
+.user-name {
+  font-weight: 700;
+  color: #2c3e50;
+  font-size: 1.05rem;
+}
+
+.user-email {
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* -- Etiqueta de Rol (Badge) -- */
+.badge-rol {
+  background: linear-gradient(135deg, #e0ebff, #f0f5ff);
+  color: var(--main-color, #0033a0);
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 1px solid #cce0ff;
+  display: inline-block;
+}
+
+/* -- Columna de Acciones -- */
+.actions-col {
+  width: 120px;
+  text-align: right;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: flex-end;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+/* Colores semánticos para los íconos por defecto */
+.edit-btn svg {
+  fill: #007bff;
+  /* Azul vibrante */
+  transition: fill 0.2s ease, transform 0.2s ease;
+}
+
+.delete-btn svg {
+  fill: #dc3545;
+  /* Rojo alerta */
+  transition: fill 0.2s ease, transform 0.2s ease;
+}
+
+/* Efectos al pasar el mouse por los botones */
+.edit-btn:hover {
+  background-color: #e6f2ff;
+}
+
+.edit-btn:hover svg {
+  fill: #0056b3;
+  transform: scale(1.1);
+  /* Crece un poquito */
+}
+
+.delete-btn:hover {
+  background-color: #ffeeee;
+}
+
+.delete-btn:hover svg {
+  fill: #a71d2a;
+  transform: scale(1.1);
+  /* Crece un poquito */
+}
+
+/* =========================================
+   RESPONSIVE (MÓVILES)
+========================================= */
+@media (max-width: 768px) {
+  article {
+    padding: 1rem;
+    background-color: white;
+  }
+
+  .header-section {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.5rem;
+    box-shadow: none;
+    border-bottom: 1px solid #eee;
+    border-radius: 0;
+  }
+
+  .header-section div {
+    max-width: 100%;
+  }
+
+  .btn-primary {
+    width: 100%;
+    text-align: center;
+  }
+
+  .table-section {
+    padding: 1rem 0;
+    box-shadow: none;
+  }
+
+  .table-section h3 {
+    padding: 0 1rem;
+  }
+}

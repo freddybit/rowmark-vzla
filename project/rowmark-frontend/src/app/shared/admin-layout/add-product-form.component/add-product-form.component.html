@@ -1,0 +1,266 @@
+<div class="product-creator-wrapper">
+
+  <div class="card header-card">
+    <div class="card-header">
+      <h2 class="title">{{ productIdToEdit ? 'Modificar Producto' : 'Creador de Producto' }}</h2>
+      <p class="subtitle">{{ productIdToEdit ? 'Actualizando datos y matriz de precios del producto existente.' : 'Crea un nuevo producto para el catálogo.' }}</p>
+    </div>
+
+    <div class="stepper-container">
+      <div class="step-line"></div>
+
+      <div class="step-item" (click)="currentStep.set(1)">
+        <div class="step-circle" [ngClass]="{'active': currentStep() >= 1}">1</div>
+        <span class="step-label" [ngClass]="{'active': currentStep() >= 1}">Información General</span>
+      </div>
+
+      <div class="step-item" (click)="currentStep.set(2)">
+        <div class="step-circle" [ngClass]="{'active': currentStep() >= 2}">2</div>
+        <span class="step-label" [ngClass]="{'active': currentStep() >= 2}">Atributos</span>
+      </div>
+
+      <div class="step-item" (click)="currentStep.set(3)">
+        <div class="step-circle" [ngClass]="{'active': currentStep() === 3}">3</div>
+        <span class="step-label" [ngClass]="{'active': currentStep() === 3}">Precios e Inventario</span>
+      </div>
+    </div>
+  </div>
+
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="form-content">
+
+    @if (currentStep() === 1) {
+      <section class="fade-in step-section grid-layout-main">
+
+        <div class="card info-column">
+          <h3 class="section-title">Especificaciones Básicas</h3>
+
+          <div class="form-group">
+            <label>Nombre del Producto</label>
+            <input type="text" formControlName="name" class="input-field" placeholder="ej. Negro Industrial Ultra Mate">
+            @if (productForm.get('name')?.invalid && productForm.get('name')?.touched) {
+              <span class="error-text">El nombre del producto es requerido (mín. 3 caracteres).</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label>Descripción</label>
+            <textarea formControlName="description" rows="4" class="input-field" placeholder="Especificaciones técnicas..."></textarea>
+          </div>
+
+          <div class="grid-2-col">
+            <div class="form-group">
+              <label>Imagen del Producto</label>
+
+              <input type="file"
+                     accept="image/*"
+                     (change)="onFileSelected($event)"
+                     class="input-field file-input"
+                     [disabled]="isUploadingImage()">
+
+              @if (isUploadingImage()) {
+                <span class="uploading-text">
+                  Subiendo a la nube... <div class="spinner small-spinner"></div>
+                </span>
+              }
+
+              <input type="hidden" formControlName="imgUrl">
+
+              @if (productForm.get('imgUrl')?.invalid && productForm.get('imgUrl')?.touched && !isUploadingImage()) {
+                <span class="error-text">Debes subir una imagen.</span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label>Texto Alternativo</label>
+              <input type="text" formControlName="imgAlt" class="input-field" placeholder="ej. Acrílico 3mm Negro">
+            </div>
+          </div>
+
+          <div class="form-group mt-3">
+            <label>URL del Video Promocional (Opcional)</label>
+            <input type="text" formControlName="videoUrl" class="input-field" placeholder="ej. https://www.youtube.com/watch?v=...">
+          </div>
+
+        </div>
+
+        <div class="card preview-column">
+          <h3 class="section-title">Vista Previa</h3>
+          <div class="image-preview-container">
+            <div class="image-preview" [style.background-image]="'url(' + productForm.get('imgUrl')?.value + ')'"></div>
+          </div>
+        </div>
+      </section>
+    }
+
+    @if (currentStep() === 2) {
+      <section class="fade-in card step-section">
+        <h3 class="section-title">Atributos y Relaciones (Opcionales)</h3>
+
+        <div class="grid-2-col gap-large">
+          <div class="form-group">
+            <label>Colores Disponibles</label>
+            <div class="chips-container">
+              @for (color of availableColors(); track color.colorKey) {
+                <div class="chip"
+                    (click)="toggleSelection('colorKeys', color.colorKey)"
+                    [ngClass]="{'active': isSelected('colorKeys', color.colorKey)}">
+                  <span class="color-dot" [style.background-color]="color.hex"></span>
+                  <span>{{ color.name }}</span>
+                </div>
+              } @empty {
+                <span class="text-on-surface-variant font-label-md text-sm italic py-2">No hay colores registrados.</span>
+              }
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Materiales Base</label>
+            <div class="chips-container">
+              @for (mat of availableMaterials(); track mat.materialKey) {
+                <span class="chip simple-chip"
+                      (click)="toggleSelection('materialKeys', mat.materialKey)"
+                      [ngClass]="{'active': isSelected('materialKeys', mat.materialKey)}">
+                  {{ mat.name }}
+                </span>
+              } @empty {
+                <span class="text-on-surface-variant font-label-md text-sm italic py-2">No hay materiales registrados.</span>
+              }
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Acabados</label>
+            <div class="chips-container">
+              @for (finish of availableFinishes(); track finish.finishKey) {
+                <span class="chip simple-chip"
+                      (click)="toggleSelection('finishKeys', finish.finishKey)"
+                      [ngClass]="{'active': isSelected('finishKeys', finish.finishKey)}">
+                  {{ finish.name }}
+                </span>
+              } @empty {
+                <span class="text-on-surface-variant font-label-md text-sm italic py-2">No hay acabados registrados.</span>
+              }
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Atributos Extra</label>
+            <div class="chips-container">
+              @for (attr of availableAttributes(); track attr.attributeKey) {
+                <span class="chip simple-chip"
+                      (click)="toggleSelection('attributesKeys', attr.attributeKey)"
+                      [ngClass]="{'active': isSelected('attributesKeys', attr.attributeKey)}">
+                  {{ attr.name }}
+                </span>
+              } @empty {
+                <span class="text-on-surface-variant font-label-md text-sm italic py-2">No hay atributos registrados.</span>
+              }
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Capacidades</label>
+            <div class="chips-container">
+              @for (cap of availableCapabilities(); track cap.capabilityKey) {
+                <span class="chip simple-chip"
+                      (click)="toggleSelection('capabilitiesKeys', cap.capabilityKey)"
+                      [ngClass]="{'active': isSelected('capabilitiesKeys', cap.capabilityKey)}">
+                  {{ cap.name }}
+                </span>
+              } @empty {
+                <span class="text-on-surface-variant font-label-md text-sm italic py-2">No hay capacidades registradas.</span>
+              }
+            </div>
+          </div>
+
+        </div>
+      </section>
+    }
+
+    @if (currentStep() === 3) {
+      <section class="fade-in card step-section">
+        <div class="matrix-header">
+          <h3 class="section-title no-margin">Matriz de Precios e Inventario</h3>
+          <button type="button" class="btn btn-text" (click)="addDimensionRow()">
+            <span class="icon">+</span> AGREGAR FILA
+          </button>
+        </div>
+
+        <div class="table-responsive">
+          <table class="matrix-table" formArrayName="dimensions">
+            <thead>
+              <tr>
+                <th>Grosor</th>
+                <th>Tamaño de Lámina</th>
+                <th>Precio Base ($)</th>
+                <th>Unidades Disponibles</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (dim of dimensionsArray.controls; track $index) {
+                <tr [formGroupName]="$index">
+                  <td>
+                    <select formControlName="engravingDepthKey" class="input-field">
+                      <option [ngValue]="null" disabled>Seleccionar Grosor...</option>
+                      @for (depth of availableDepths(); track depth.engravingDepthKey) {
+                        <option [ngValue]="depth.engravingDepthKey">{{ depth.depth }} {{ depth.unitmedition }}</option>
+                      }
+                    </select>
+                  </td>
+
+                  <td>
+                    <select formControlName="sheetSizeKey" class="input-field">
+                      <option [ngValue]="null" disabled>Seleccionar Tamaño...</option>
+                      @for (size of availableSizes(); track size.sheetSizeKey) {
+                        <option [ngValue]="size.sheetSizeKey">{{ size.length }} x {{ size.width }} {{ size.unitmedition }}</option>
+                      }
+                    </select>
+                  </td>
+
+                  <td>
+                    <div class="input-prefix">
+                      <span class="prefix">$</span>
+                      <input formControlName="productPrice" type="number" step="0.01" class="input-field with-prefix">
+                    </div>
+                  </td>
+
+                  <td>
+                    <input formControlName="unitsAvailable" type="number" class="input-field">
+                  </td>
+
+                  <td class="text-center">
+                    <button type="button" class="btn-icon delete-btn"
+                            (click)="removeDimensionRow($index)"
+                            [disabled]="dimensionsArray.length === 1">
+                      X
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    }
+  </form>
+
+  <footer class="footer-actions">
+    <button type="button" class="btn btn-outline" (click)="prevStep()" [disabled]="currentStep() === 1">
+      &larr; Anterior
+    </button>
+
+    <div class="footer-right">
+      @if (currentStep() < 3) {
+        <button type="button" class="btn btn-primary" (click)="nextStep()">
+          Siguiente Paso &rarr;
+        </button>
+      } @else {
+        <button type="submit" class="btn btn-submit" (click)="onSubmit()" [disabled]="isSubmitting() || productForm.invalid">
+          {{ isSubmitting() ? 'Procesando...' : (productIdToEdit ? 'Actualizar Producto' : 'Crear Producto') }}
+          @if (isSubmitting()) { <div class="spinner"></div> }
+        </button>
+      }
+    </div>
+  </footer>
+</div>

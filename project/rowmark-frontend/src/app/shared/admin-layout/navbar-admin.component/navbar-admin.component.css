@@ -1,0 +1,38 @@
+
+:root {
+  --main-color: #007bff;
+  --text-dark: #333;
+  --bg-white: rgba(255, 255, 255, 0.95);
+}
+
+header {
+  height: 80px;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #ffffff23;
+  backdrop-filter: blur(10px);
+  padding: 0 9%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.logo img {
+  height: 60px;
+  width: auto;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover img {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 0 5%;
+  }
+}

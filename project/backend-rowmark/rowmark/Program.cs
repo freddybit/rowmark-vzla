@@ -2,23 +2,42 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using rowmark.interfaces;
-using rowmark.models;
-using rowmark.models.entities;
-using rowmark.repositories.jsons;
-using rowmark.services;
 using Scalar.AspNetCore;
 using Microsoft.OpenApi;
+using rowmark.Modules.Attribute;
+using rowmark.modules.auth;
+using rowmark.Modules.Capability;
+using rowmark.Modules.Color;
+using rowmark.Modules.EngravingDepth;
+using rowmark.Modules.Finish;
+using rowmark.Modules.Materials;
+using rowmark.Modules.Place;
+using rowmark.Modules.Product;
+using rowmark.Modules.SheetSize;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddAuthModule();
+builder.Services.AddMaterialModule();
+builder.Services.AddCapabilityModule();
+builder.Services.AddColorModule();
+builder.Services.AddEngravingDepthModule();
+builder.Services.AddAttributeModule();
+builder.Services.AddFinishModule();
+builder.Services.AddPlaceModule();
+builder.Services.AddSheetSizeModule();
+builder.Services.AddProductModule();
 
-builder.Services.AddScoped<IPasswordHasher<Profile>, BCryptHasher<Profile>>();
-builder.Services.AddScoped<IAuthRepository, AuthRepositoryJson>();
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddControllers();
+builder.Services.AddCors(options => {
+    options.AddPolicy("AllowAngularDev", policy => {
+        policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+    });
+    options.AddPolicy("AllowAngularApp",
+        policy => {
+            policy.WithOrigins("http://localhost:8080").AllowAnyHeader() .AllowAnyMethod();
+        });
+});
 
 builder.Services.AddOpenApi(options => {
     options.AddDocumentTransformer((document, context, cancellationToken) => {
@@ -53,6 +72,8 @@ if (app.Environment.IsDevelopment()) {
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAngularDev");
+app.UseCors("AllowAngularApp"); 
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

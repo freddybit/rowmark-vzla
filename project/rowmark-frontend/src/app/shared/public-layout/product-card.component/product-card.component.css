@@ -1,0 +1,260 @@
+
+:root {
+    --main-color: #000263;
+    --main-color-hover: #050785;
+}
+
+article {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 35rem;
+    min-height: 490px;
+    box-shadow: 1rem 1.5rem 5rem #00026365;
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    background-color: rgba(255, 255, 255, 1);
+    gap: 15px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+article:hover {
+    transform: translateY(-10px);
+    box-shadow: 0rem 2rem 5rem #000263a1;
+}
+
+.img-area {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 1.5rem;
+    overflow: hidden;
+}
+
+.img-area img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info-area {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+h3 {
+    width: 100%;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--main-color);
+    margin: 0;
+}
+
+.description-area {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3%;
+}
+
+.description-card  {
+    flex: 1;
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0;
+}
+
+.description-area button {
+    width: 4rem;
+    height: 4rem;
+    flex-shrink: 0;
+    border-radius: 2rem;
+    background-color: var(--main-color);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.description-area button svg {
+    width: 24px;
+    height: 24px;
+    fill: #FFFFFF;
+}
+
+.description-area button:hover {
+    background-color: #050785;
+    box-shadow: 0 4px 12px rgba(0, 1, 99, 0.2);
+}
+
+.usability {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1rem 0;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    font-style: italic;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0;
+}
+
+.info-svg {
+    width: 15px;
+    height: 15px;
+    fill: var(--main-color);
+    flex-shrink: 0;
+}
+
+.size-btn-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+
+.size-btn-area section {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.size-btn-area button {
+    flex: 1 1 auto;
+    min-width: fit-content;
+    padding: 0.8rem 1rem;
+    border-radius: 2rem;
+    background-color: var(--main-color);
+    color: #FFFFFF;
+    font-weight: 500;
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.size-btn-area button.active {
+  background-color: #25D366;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+}
+
+.size-btn-area span {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    color: var(--main-color);
+    padding: 0.8rem 1rem 0 0;
+    border: none;
+    font-weight: 500;
+}
+
+.size-btn-area button:hover, .size-btn-area button.active:hover {
+  background-color: #0d0f8b;
+  box-shadow: 0 4px 12px rgba(0, 1, 99, 0.2);
+  color: #FFFFFF;
+}
+
+.price-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    margin-top: 1rem;
+    background-color: #a3a3a348;
+    border-radius: 1.5rem;
+    font-weight: 500;
+    box-sizing: border-box;
+}
+
+.price-area p {
+    font-size: clamp(1.4rem, 3vw, 1.7rem);
+    margin: 0;
+    color: var(--main-color);
+}
+
+.footer-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    margin-top: 1rem;
+    gap: 1rem;
+}
+
+.footer-area button {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: #25D366;
+    border-radius: 1.5rem;
+    transition: background-color 300ms ease;
+    text-decoration: none;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.footer-area button span {
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.footer-area button:hover {
+    background-color: #128C7E;
+}
+
+
+/* --- MEDIA QUERIES --- */
+
+/* Breakpoint para Móviles */
+@media screen and (max-width: 480px) {
+    article {
+        border-radius: 2rem;
+        padding: 1rem;
+    }
+
+    .description-area {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .description-area button {
+        width: 100%;
+        height: auto;
+        padding: 0.8rem;
+        border-radius: 1.5rem;
+    }
+
+    .size-btn-area {
+        flex-direction: column;
+    }
+
+    .size-btn-area button, .size-btn-area span {
+        width: 100%;
+    }
+
+    .footer-area {
+        flex-direction: column-reverse;
+    }
+}

@@ -1,0 +1,14 @@
+
+.layout-container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  min-height: 92vh;
+}
+
+.content {
+  min-width: 0;
+  padding: 4rem 8rem;
+  background: var(--background-color);
+}
+
+

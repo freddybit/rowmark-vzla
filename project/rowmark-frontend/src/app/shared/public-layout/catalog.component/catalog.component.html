@@ -1,0 +1,14 @@
+
+<div class="background-img">
+    <h2>Nuestros Productos</h2>
+</div>
+<article>
+    <section class="sheet">
+      @for (product of products; track product.name) {
+        <app-product-card
+          [productCard]="product"
+          [euro]="euroBcv"
+        />
+      }
+    </section>
+</article>

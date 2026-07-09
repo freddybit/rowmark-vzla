@@ -1,0 +1,90 @@
+<article>
+  <section class="header-section">
+    <div>
+      <h2>Gestión de Usuarios</h2>
+      <p>En esta sección, los administradores pueden gestionar los usuarios de la aplicación. Esto incluye la creación de nuevos usuarios, la asignación de roles y permisos, y la eliminación de usuarios existentes.</p>
+    </div>
+    <button class="btn-primary" title="Crear nuevo usuario" (click)="abrirModal()">+ Crear Usuario</button>
+  </section>
+
+  <section class="table-section">
+    <h3>Lista de Usuarios</h3>
+
+    <div class="table-responsive">
+      <table>
+
+        <thead>
+          @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
+            <tr>
+              @for (header of headerGroup.headers; track header.id) {
+                <th [class.actions-col]="header.id === 'acciones'">
+                  @if (!header.isPlaceholder) {
+                    <ng-container
+                      *flexRender="header.column.columnDef.header; props: header.getContext(); let headerValue">
+                      {{ headerValue }}
+                    </ng-container>
+                  }
+                </th>
+              }
+            </tr>
+          }
+        </thead>
+
+        <tbody>
+          @for (row of table.getRowModel().rows; track row.id) {
+            <tr>
+              @for (cell of row.getVisibleCells(); track cell.id) {
+
+                <td [class.user-email]="cell.column.id === 'email'" [class.actions-col]="cell.column.id === 'acciones'">
+
+                  @if (cell.column.id === 'nombre') {
+                    <span class="user-name">
+                      <ng-container *flexRender="cell.column.columnDef.cell; props: cell.getContext(); let cellValue">
+                        {{ cellValue }}
+                      </ng-container>
+                    </span>
+                  }
+
+                  @else if (cell.column.id === 'rol') {
+                    <span class="badge-rol">
+                      <ng-container *flexRender="cell.column.columnDef.cell; props: cell.getContext(); let cellValue">
+                        {{ cellValue }}
+                      </ng-container>
+                    </span>
+                  }
+
+                  @else if (cell.column.id === 'acciones') {
+                    <div class="action-buttons">
+                      <button class="action-btn edit-btn" title="Editar usuario" (click)="editarUsuario($any(cell.getValue()))">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
+                      </button>
+                      <button class="action-btn delete-btn" title="Eliminar usuario" (click)="eliminarUsuario($any(cell.getValue()))">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                      </button>
+                    </div>
+                  }
+
+                  @else {
+                    <ng-container *flexRender="cell.column.columnDef.cell; props: cell.getContext(); let cellValue">
+                      {{ cellValue }}
+                    </ng-container>
+                  }
+
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+
+      </table>
+    </div>
+  </section>
+</article>
+
+@if (isModalOpen) {
+  <app-create-user
+    [userToEdit]="selectedUserToEdit"
+    (onClose)="cerrarModal()"
+    (onUserCreated)="cargarUsuarios()">
+    </app-create-user>
+}

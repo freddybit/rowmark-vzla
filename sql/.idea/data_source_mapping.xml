@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourcePerFileMappings">
+    <file url="file://$PROJECT_DIR$/create.sql" value="3196fa59-1f79-4007-a099-b31073fc69da" />
+    <file url="file://$PROJECT_DIR$/drop.sql" value="3196fa59-1f79-4007-a099-b31073fc69da" />
+    <file url="file://$PROJECT_DIR$/functions.sql" value="3196fa59-1f79-4007-a099-b31073fc69da" />
+    <file url="file://$PROJECT_DIR$/insert.sql" value="3196fa59-1f79-4007-a099-b31073fc69da" />
+  </component>
+</project>
