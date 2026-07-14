@@ -30,13 +30,15 @@ builder.Services.AddSheetSizeModule();
 builder.Services.AddProductModule();
 
 builder.Services.AddCors(options => {
-    options.AddPolicy("AllowAngularDev", policy => {
-        policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+    options.AddPolicy("ProdCorsPolicy", policy => {
+        policy.WithOrigins(
+                "http://localhost:4200", 
+                "http://localhost:8080", 
+                "https://rowmark-vzla.vercel.app"
+              )
+              .AllowAnyHeader()
+              .AllowAnyMethod();
     });
-    options.AddPolicy("AllowAngularApp",
-        policy => {
-            policy.WithOrigins("http://localhost:8080", "https://rowmark-vzla.vercel.app").AllowAnyHeader() .AllowAnyMethod();
-        });
 });
 
 builder.Services.AddOpenApi(options => {
@@ -72,8 +74,7 @@ if (app.Environment.IsDevelopment()) {
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AllowAngularDev");
-app.UseCors("AllowAngularApp"); 
+app.UseCors("ProdCorsPolicy"); 
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
