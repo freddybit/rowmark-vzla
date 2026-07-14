@@ -18,4 +18,4 @@ COPY --from=build-stage /app/publish .
 
 EXPOSE 8080
 
-ENTRYPOINT ["dotnet", "rowmark.dll"]
+ENTRYPOINT dotnet rowmark.dll --urls "http://0.0.0.0:$PORT"
