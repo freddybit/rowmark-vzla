@@ -89,7 +89,7 @@ export class UserManagementComponent implements OnInit {
       this.authService.deleteProfile(profileKey).subscribe({
         next: () => {
           // Filtramos la tabla localmente sacando el ID eliminado
-          this.data.update((users) => users.filter((u) => u.profileKey !== profileKey));
+          this.data.update((users) => users.filter((u) => u.id !== profileKey));
           alert('Usuario eliminado correctamente.');
         },
         error: (err) => {
