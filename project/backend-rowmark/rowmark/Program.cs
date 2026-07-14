@@ -35,7 +35,7 @@ builder.Services.AddCors(options => {
     });
     options.AddPolicy("AllowAngularApp",
         policy => {
-            policy.WithOrigins("http://localhost:8080").AllowAnyHeader() .AllowAnyMethod();
+            policy.WithOrigins("http://localhost:8080", "https://rowmark-vzla.vercel.app").AllowAnyHeader() .AllowAnyMethod();
         });
 });
 
